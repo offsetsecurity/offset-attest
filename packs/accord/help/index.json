@@ -1,0 +1,74 @@
+{
+  "note": "Everything here ships with the product. Nothing is downloaded, and nothing you read here leaves this server.",
+  "help": [
+    {
+      "file": "first-hour.md",
+      "title": "Your first hour",
+      "about": "What to do straight after installing, in order."
+    },
+    {
+      "file": "what-each-screen-is-for.md",
+      "title": "What each screen is for",
+      "about": "One line on every item in the menu."
+    },
+    {
+      "file": "who-can-do-what.md",
+      "title": "Who can do what",
+      "about": "Roles, passwords, and getting back in."
+    },
+    {
+      "file": "where-your-data-lives.md",
+      "title": "Where your data lives",
+      "about": "Storage, backups, updates and privacy."
+    },
+    {
+      "file": "common-questions.md",
+      "title": "Common questions",
+      "about": "The ones that come up in the first week."
+    }
+  ],
+  "guides": [
+    {
+      "file": "quick-start.md",
+      "title": "Quick start",
+      "about": "Fifteen minutes from a fresh install to knowing what to do next.",
+      "group": "Using the product"
+    },
+    {
+      "file": "using-it.md",
+      "title": "Using it day to day",
+      "about": "The working habits that keep the records true.",
+      "group": "Using the product"
+    },
+    {
+      "file": "administrator-guide.md",
+      "title": "Administrator guide",
+      "about": "Installing, HTTPS, backups, updates and getting back in.",
+      "group": "Using the product"
+    },
+    {
+      "file": "evidence-in-the-cloud.md",
+      "title": "Collecting evidence from the cloud",
+      "about": "Where to find proof in AWS, Azure, Microsoft 365 and Google Workspace.",
+      "group": "Using the product"
+    },
+    {
+      "file": "gdpr-basics.md",
+      "title": "GDPR in plain words",
+      "about": "Personal data, the seven principles, lawful bases, rights and breaches.",
+      "group": "GDPR"
+    },
+    {
+      "file": "dpia-guide.md",
+      "title": "Doing a DPIA",
+      "about": "Screening, scoring the risks, and deciding.",
+      "group": "GDPR"
+    },
+    {
+      "file": "requests-and-breaches.md",
+      "title": "Requests and breaches",
+      "about": "The one-month and 72-hour deadlines, step by step.",
+      "group": "GDPR"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "accord",
+  "product": "Offset Accord",
+  "edition": "",
+  "framework": "EU GDPR",
+  "frameworkShort": "GDPR",
+  "source": "Article numbers from Regulation (EU) 2016/679 (the General Data Protection Regulation). Guidance wording is original to Offset Security; it is not the text of the Regulation and it is not legal advice.",
+  "disclaimer": "Offset Accord is not affiliated with or endorsed by the European Union or any data protection authority. It helps you keep records; it is not legal advice.",
+  "contact": "info@offsetsecurity.net",
+  "themeLabel": "Area",
+  "itemLabel": "Duty",
+  "features": {
+    "privacy": true,
+    "journey": true,
+    "calendar": true,
+    "help": true,
+    "gapAnalysis": true,
+    "csv": true,
+    "statementOfApplicability": false,
+    "certificationTracking": false,
+    "ismsRegisters": false,
+    "ismsScreen": false,
+    "isoClauses": false,
+    "policyTemplates": false,
+    "controlTesting": false,
+    "boardReport": false,
+    "demoData": false
+  },
+  "counts": {
+    "themes": 5,
+    "controls": 37,
+    "withGuidance": 37
+  }
+}
