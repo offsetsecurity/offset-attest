@@ -27,6 +27,7 @@ import {
 import {
   activityRoutes, dpiaRoutes, requestRoutes, breachRoutes, consentRoutes, privacyRoutes,
 } from "./routes/privacy.js";
+import { engagementRoutes } from "./routes/soc.js";
 import { calendarRoutes } from "./routes/calendar.js";
 import { attachmentRoutes } from "./routes/attachments.js";
 import { demoRoutes } from "./routes/demo.js";
@@ -211,6 +212,7 @@ export async function buildApp(options: BuildOptions = {}): Promise<FastifyInsta
   await app.register(objectiveRoutes);
   await app.register(partyRoutes);
   await app.register(reviewRoutes);
+  await app.register(engagementRoutes);
   await app.register(communicationRoutes);
   await app.register(activityRoutes);
   await app.register(dpiaRoutes);

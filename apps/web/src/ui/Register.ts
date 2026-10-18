@@ -306,6 +306,10 @@ function Attachments({ register, recordId, canEdit, onChange }: {
   </>`;
 }
 
+/** A register's name mid-sentence: "Add supplier", but "Add SOC report". */
+const midSentence = (name: string): string =>
+  name.replace(/\b([A-Z][a-z]+)\b/g, (w) => w.toLowerCase());
+
 export function Register<T extends RegisterRow>({ spec, canEdit, links, csv }: {
   spec: RegisterSpec<T>;
   canEdit: boolean;
@@ -631,7 +635,7 @@ export function Register<T extends RegisterRow>({ spec, canEdit, links, csv }: {
 
     <div class="card pad">
       <div class="toolbar">
-        <input type="search" placeholder=${`Search ${spec.plural.toLowerCase()}…`} value=${q}
+        <input type="search" placeholder=${`Search ${midSentence(spec.plural)}…`} value=${q}
                onInput=${(e: Event) => setQ((e.target as HTMLInputElement).value)} />
         ${(spec.filters ?? []).map((f) => html`
           <select value=${picked[f.key] ?? ""}
@@ -660,7 +664,7 @@ export function Register<T extends RegisterRow>({ spec, canEdit, links, csv }: {
             </>`
           : null}
         ${canEdit
-          ? html`<button class="btn primary" onClick=${() => open(null)}>Add ${spec.singular.toLowerCase()}</button>`
+          ? html`<button class="btn primary" onClick=${() => open(null)}>Add ${midSentence(spec.singular)}</button>`
           : null}
       </div>
 
@@ -681,7 +685,7 @@ export function Register<T extends RegisterRow>({ spec, canEdit, links, csv }: {
                 onClick=${() => setImporting(null)}>Cancel</button>
               <button type="button" class="btn small primary" disabled=${importBusy}
                 onClick=${() => void runImport()}>
-                ${importBusy ? "Adding…" : `Add ${importing.rows.length} to ${spec.plural.toLowerCase()}`}
+                ${importBusy ? "Adding…" : `Add ${importing.rows.length} to ${midSentence(spec.plural)}`}
               </button>
             </div>
           </div>`
@@ -719,15 +723,15 @@ export function Register<T extends RegisterRow>({ spec, canEdit, links, csv }: {
 
       ${shown.length === 0
         ? html`<p class="muted" style="padding:16px 4px">
-            ${rows.length ? "Nothing matches those filters." : `No ${spec.plural.toLowerCase()} recorded yet.`}
+            ${rows.length ? "Nothing matches those filters." : `No ${midSentence(spec.plural)} recorded yet.`}
           </p>`
         : null}
     </div>
 
     ${draft
       ? html`<${Modal}
-          title=${editing ? `${spec.singular} ${editing.seq}` : `Add ${spec.singular.toLowerCase()}`}
-          submitLabel=${editing ? "Save changes" : `Add ${spec.singular.toLowerCase()}`}
+          title=${editing ? `${spec.singular} ${editing.seq}` : `Add ${midSentence(spec.singular)}`}
+          submitLabel=${editing ? "Save changes" : `Add ${midSentence(spec.singular)}`}
           busy=${busy}
           error=${formError}
           onClose=${close}

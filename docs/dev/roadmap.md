@@ -1,25 +1,34 @@
 # Roadmap
 
-## Offset Accord (GDPR)
+## Offset Attest (SOC 1, SOC 2 and SOC 3)
 
-Accord was copied from Offset Assure 0.2.44 on 2026-10-16. Version 1 is
-manual record-keeping: the data map, DPIAs, requests, breaches, processors and
-transfers, consent and notices, with owners, reminders and an overdue
-dashboard. Nothing connects to or scans other systems.
+Attest was copied from Offset Accord 0.1.0 on 2026-10-18; Accord had been
+copied from Offset Assure 0.2.44 on 2026-10-16. Version 1 is manual
+readiness: scope, the 61 SOC 2 criteria and 12 starter SOC 1 objectives,
+evidence, self-testing, vendors, the SOC reports register, and the SOC 2/SOC 1
+matrices and SOC 3 draft. Nothing connects to or scans other systems.
 
-Later, not committed to:
+Next, not committed to:
 
-- **Data discovery** — an optional on-premises scan that suggests data map
-  entries from file shares and databases, for a person to confirm
-- **India's DPDP Act** — a second checklist and wording beside GDPR
-- **Example data** — a GDPR set to load and remove, as Assure has for ISO 27001
+- **Board paper for SOC** — the executive summary assumes four themes and runs
+  to three pages with fourteen; `boardReport` is off until it fits
+- **Example data** — a SOC set to load and remove, as Assure has for ISO 27001
+  (`demoData` is off)
+- **Policy templates** — starter SOC 2 policies to fill in (`policyTemplates`
+  is off; the pack ships no templates yet)
+- **Complementary user entity controls** — a register of the controls
+  customers must run, printed in the system description
+- **Population sampling** — draw a Type II sample from a population and record
+  the result of each item, rather than one result per test
+- **Crosswalk** — show where an ISO 27001 control already meets a SOC 2
+  criterion, for customers with both
 
 ---
 
 > **Below is the history of the engine**, from when one codebase built every
 > Offset product. Written about Assure (ISO 27001) and kept because it
-> explains why things are the way they are. References to "Accord" below
-> were "Assure" before the copy.
+> explains why things are the way they are. References to "Attest" below
+> were "Assure" before the copies.
 
 Where the product is, what is left, and the order to build it in.
 
@@ -127,13 +136,13 @@ requirement that a closed finding says what closed it. 29 tests, bundle at
 
 ## Phase 4 — What makes each product different ✅ done 2026-09-09
 
-Everything above is shared. This is where Accord, Align and Anchor stop being
+Everything above is shared. This is where Attest, Align and Anchor stop being
 the same app:
 
 - **Align:** CSF Tiers, Current and Target profiles, the function radar.
 - **Anchor:** baseline picker (Low/Moderate/High), the ODP editor for the 679
   controls with parameters, the family heatmap.
-- **Accord:** Statement of Applicability, ISMS scope.
+- **Attest:** Statement of Applicability, ISMS scope.
 - **All three:** the `programme` and `settings` tables, which exist but have no
   routes.
 
@@ -142,7 +151,7 @@ with three logos. **Met.**
 
 **Result:** the pack's `features` flags decide which screens and fields appear,
 so each product is a configuration rather than a fork. Align gets Profile &
-Tiers, Accord gets the Statement of Applicability, Anchor gets System &
+Tiers, Attest gets the Statement of Applicability, Anchor gets System &
 Baseline with the parameter editor. Verified by running all three against
 their own databases: Anchor seeded 1,014 controls across 20 families and
 applied the moderate baseline — exactly the 287 SP 800-53B specifies — in
@@ -429,7 +438,7 @@ No item counts as finished until all of it is true:
 
 ## Decisions needed
 
-1. **Which product ships first.** Align is currently the default. Accord
+1. **Which product ships first.** Align is currently the default. Attest
    (ISO 27001) is the strongest fit for the author's own expertise, which
    usually matters more than technical readiness.
 2. *(resolved 2026-09-11: Inno Setup 6.7.3 installed at user scope, no
@@ -459,7 +468,7 @@ only Irtiqa.
 It is the feature that changes who can use this. Everything else assumes
 somebody already knows what a control programme looks like; Get ready is the
 part that takes an administrator with no security team from a fresh install to
-an assessed, evidenced programme. A customer buying Accord or Anchor needs that
+an assessed, evidenced programme. A customer buying Attest or Anchor needs that
 every bit as much as one buying Irtiqa — arguably more, since 800-53 is 1,014
 controls to stare at.
 
@@ -470,7 +479,7 @@ needs is `packs/<product>/journey.json` and `"journey": true` in its
 
 | Product | Framework | Status |
 |---|---|---|
-| Offset Accord | ISO 27001 | done 2026-09-17, 8 stages, 36 steps |
+| Offset Attest | ISO 27001 | done 2026-09-17, 8 stages, 36 steps |
 
 Copy `packs/ascend/journey.json` for the shape. The checks it names live in
 `apps/api/src/journey/checks.ts` and none of them are framework-specific, so

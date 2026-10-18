@@ -7,7 +7,7 @@ import { resolve } from "node:path";
  * Help and Documentation, in every product that switches them on.
  *
  * The pages are plain Markdown in each pack, and most of them started life as
- * a copy of Accord's. The risk with a copy is that it keeps pointing at things
+ * a copy of Attest's. The risk with a copy is that it keeps pointing at things
  * the product does not have: a Calendar in Irtiqa, a Statement of
  * Applicability in Anchor. A reader told to open a screen that is not in their
  * menu stops trusting the rest of the page, so that is checked here, not left
@@ -58,6 +58,8 @@ const GATED_NAMES: Record<string, string> = {
   "Breaches": "privacy",
   "Consent records": "privacy",
   "Processors and suppliers": "privacy",
+  "SOC reports": "soc",
+  "Scope": "statementOfApplicability",
   "Notices and policies": "privacy",
 };
 

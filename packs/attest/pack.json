@@ -1,0 +1,43 @@
+{
+  "id": "attest",
+  "product": "Offset Attest",
+  "edition": "",
+  "framework": "SOC 1, SOC 2 and SOC 3",
+  "frameworkShort": "SOC",
+  "source": "Criterion references follow the AICPA 2017 Trust Services Criteria (with revised points of focus, 2022) used for SOC 2 and SOC 3 reports. SOC 1 control objectives are a starting set written by Offset Security; a service organisation writes its own. All wording is original to Offset Security; it is not the AICPA's text and it is not an audit opinion.",
+  "disclaimer": "Offset Attest is not affiliated with or endorsed by the AICPA. SOC 1, SOC 2 and SOC 3 reports can only be issued by an independent CPA firm. Attest helps you prepare; it is not an audit.",
+  "contact": "info@offsetsecurity.net",
+  "themeLabel": "Category",
+  "itemLabel": "Criterion",
+  "features": {
+    "soc": true,
+    "journey": true,
+    "calendar": true,
+    "help": true,
+    "gapAnalysis": true,
+    "csv": true,
+    "statementOfApplicability": true,
+    "controlTesting": true,
+    "ismsRegisters": true,
+    "boardReport": false,
+    "privacy": false,
+    "certificationTracking": false,
+    "ismsScreen": false,
+    "isoClauses": false,
+    "policyTemplates": false,
+    "demoData": false
+  },
+  "labels": {
+    "soa": { "nav": "Scope", "h1": "Scope", "sub": "Which Trust Services categories and SOC 1 objectives are in the report, and why the rest are not" },
+    "vendors": { "nav": "Vendors", "h1": "Vendors and subservice organisations", "sub": "Who you rely on, the SOC report or other assurance they gave, and when you last reviewed it" },
+    "policies": { "nav": "Policies", "h1": "Policies and system description", "sub": "The system description, your policies, their versions and reviews" },
+    "findings": { "nav": "Exceptions", "h1": "Exceptions and findings", "sub": "Test exceptions, auditor findings, and what closed them" },
+    "reviews": { "nav": "Internal audits", "h1": "Internal audits and reviews", "sub": "Internal control reviews and management reviews, planned and held" },
+    "parties": { "nav": "Report users", "h1": "Report users and interested parties", "sub": "Customers, prospects and others who rely on your SOC reports, and what they need" }
+  },
+  "counts": {
+    "themes": 14,
+    "controls": 73,
+    "withGuidance": 73
+  }
+}

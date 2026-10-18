@@ -1,4 +1,4 @@
-# What Offset Accord is built with
+# What Offset Attest is built with
 
 One page, for the questions that come up in a demonstration, a security review
 or a procurement form. Every version below is what ships today, not a plan.
@@ -79,12 +79,12 @@ no external dependencies at runtime and no database server to operate.
 
 ## What the product is
 
-The framework content lives in `packs/accord/` and is compiled into the build, so
+The framework content lives in `packs/attest/` and is compiled into the build, so
 changing the wording of a requirement never means touching the application.
 
 | | |
 |---|---|
-| Framework | EU GDPR (Regulation (EU) 2016/679) |
+| Framework | AICPA SOC 2 and SOC 3 (2017 Trust Services Criteria, revised points of focus 2022), with SOC 1 control objectives |
 | What you work through | 93 controls, in 4 themes |
 | Called | Control / Theme |
 | Guidance per item | Plain English: what it means, what to do, what an assessor looks for, what proof to keep |
@@ -99,7 +99,7 @@ findings), the PDF reports, and Help and Documentation in the menu: 11 pages,
 including a playbook for its framework. Every installer and
 image also carries the documents in a `docs` folder.
 
-**The pack decides what appears.** Feature flags in `packs/accord/pack.json` switch
+**The pack decides what appears.** Feature flags in `packs/attest/pack.json` switch
 screens on and off, so the framework content and the application stay separate:
 changing the wording of a control never means touching the code.
 

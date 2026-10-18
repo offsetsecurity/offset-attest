@@ -77,7 +77,7 @@ One image per framework. `PRODUCT` in `.env` selects it and is baked in at
 build time:
 
 ```ini
-PRODUCT=accord   # EU GDPR
+PRODUCT=attest   # SOC 1, SOC 2 and SOC 3
 PRODUCT=align    # NIST Cybersecurity Framework 2.0
 PRODUCT=anchor   # NIST SP 800-53 Rev. 5
 PRODUCT=ascend   # SAMA Cyber Security Framework (Offset Irtiqa)

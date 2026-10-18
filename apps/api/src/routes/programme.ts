@@ -10,7 +10,7 @@ import { audit } from "../audit/audit.js";
  *
  * A single row, id 1. What lives in `attrs` depends on the product: CSF Tiers
  * for Align, the system description and chosen baseline for Anchor. `scope` and
- * `methodology` are shared, and are what Accord's ISMS scope is written into.
+ * `methodology` are shared, and are what Attest's ISMS scope is written into.
  */
 
 const patchBody = z

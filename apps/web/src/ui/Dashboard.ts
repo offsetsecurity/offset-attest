@@ -159,7 +159,7 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
                 : "nothing scored yet",
               "#4338ca", "controls")}
           </>`
-        : kpi(pack.features?.["privacy"] ? "Duties in place" : "Profile readiness", `${cs.readinessPct}%`,
+        : kpi(pack.features?.["privacy"] ? "Duties in place" : pack.features?.["soc"] ? "Criteria in place" : "Profile readiness", `${cs.readinessPct}%`,
             `${cs.implemented} of ${cs.applicable} in-scope ${plural(itemLabel).toLowerCase()} implemented`,
             "#1e3a8a", "controls")}
       ${kpi("Open risks", openRisks,

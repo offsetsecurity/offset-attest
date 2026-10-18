@@ -36,7 +36,7 @@ pnpm dev         # API on http://localhost:8080
 The server migrates and seeds on boot when the database is empty, so `pnpm dev`
 alone is enough on a fresh clone.
 
-`PRODUCT` in `.env` is `accord`, and this repository carries no other pack.
+`PRODUCT` in `.env` is `attest`, and this repository carries no other pack.
 
 One thing to know:
 

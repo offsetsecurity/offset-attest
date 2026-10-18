@@ -26,6 +26,7 @@ export const ATTACHABLE: Record<string, { table: string; label: string }> = {
   objectives: { table: "objectives", label: "Objective" },
   parties: { table: "parties", label: "Interested party" },
   reviews: { table: "reviews", label: "Audit or review" },
+  engagements: { table: "engagements", label: "SOC report" },
   communications: { table: "communications", label: "Communication" },
   tasks: { table: "tasks", label: "Task" },
   incidents: { table: "incidents", label: "Incident" },

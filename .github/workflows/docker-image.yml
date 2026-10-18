@@ -14,7 +14,7 @@ on:
       product:
         description: Which product (ascend is Offset Irtiqa)
         type: choice
-        options: [accord]
+        options: [attest]
         default: ascend
       version:
         description: Version to stamp on it, x.y.z

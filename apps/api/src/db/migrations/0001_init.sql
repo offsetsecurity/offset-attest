@@ -6,7 +6,7 @@
 --  * Timestamps are ISO-8601 text in UTC. SQLite has no date type; text sorts
 --    and compares correctly in this format.
 --  * Booleans are 0/1 integers.
---  * The ~80% of the model that is identical across Accord / Align / Anchor gets
+--  * The ~80% of the model that is identical across Attest / Align / Anchor gets
 --    real columns. Framework-specific fields (CSF Tiers and profile statements,
 --    800-53 parameter values, origination, baseline membership) live in a JSON
 --    `attrs` column so the three products share one schema.

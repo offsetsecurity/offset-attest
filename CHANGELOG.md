@@ -4,7 +4,7 @@ All notable changes to this project are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
 this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-Offset Assure is versioned on its own, independently of the other Offset
+Offset Attest is versioned on its own, independently of the other Offset
 products.
 
 Every release is numbered x.y.z, for example 1.4.2:
@@ -16,6 +16,44 @@ Every release is numbered x.y.z, for example 1.4.2:
 | First number | 1.5.0 → 2.0.0 | Something works differently. This file says what, and what to do |
 
 ## [Unreleased]
+
+### Added
+- **Offset Attest: SOC 1, SOC 2 and SOC 3.** A new product, copied from Offset
+  Accord 0.1.0 with the GDPR pack replaced by a SOC pack.
+- **The SOC pack** (`packs/attest`): all 61 SOC 2 Trust Services Criteria and
+  12 starter SOC 1 control objectives, each explained in original wording
+  (what it is, what to do, what the auditor tests, the records to keep); an
+  eight-stage Get ready plan from install to an issued report; 80 sample
+  assets and 50 sample risks covering every criterion; help pages on SOC
+  reports, Type I and Type II, and working with your auditor.
+- **SOC reports register** (migration `0017_soc_engagements.sql`): SOC 1, 2 or
+  3, Type I or II, CPA firm, categories, period, report date, opinion,
+  exceptions and next report due, with reminders and a calendar entry.
+  Refuses a SOC 3 marked Type I, a period that ends before it starts, and an
+  issued report with no date or opinion.
+- **Three SOC reports**: SOC 2 criteria matrix, SOC 1 control objectives
+  matrix, and a SOC 3 draft with management's assertion, the system
+  description and a checklist of what must be done before it is published.
+- **Get ready checks** for SOC: scope decided, every criterion tested, last
+  tests passing, high-criticality vendors reviewed, internal review held, CPA
+  firm booked, report issued.
+- **Pack labels**: `pack.json` can rename screens (`labels`), so Attest says
+  Scope, Vendors, Exceptions and Internal audits.
+
+### Changed
+- Vendors are a register in their own right: shown when either `privacy` or
+  `ismsRegisters` is on, with GDPR's processor fields only under `privacy`.
+- Criteria are listed in the framework's own category order (CC1 to CC9, then
+  Availability and the rest), not alphabetically.
+- A register's name keeps its acronyms mid-sentence: "Add SOC report".
+- "Criterion" is pluralised as "criteria" everywhere.
+
+---
+
+The history below is Offset Accord's and Offset Assure's, kept because it
+explains the engine.
+
+## Accord [Unreleased]
 
 ### Removed
 - **The offline Docker bundle.** It packed the image into a 133 MB folder for a

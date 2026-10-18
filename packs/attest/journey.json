@@ -1,0 +1,275 @@
+{
+  "title": "Getting SOC ready",
+  "intro": "Eight stages, from a fresh install to a SOC report in your customers' hands. You do not have to follow the order. A stage turns green when everything in it is done or marked as not applying to you. A SOC 2 Type II is the usual goal: your CPA firm tests that your controls worked over a period of three to twelve months, so the earlier the controls are running, the earlier the period can start. A SOC 3 is the public summary issued alongside it. A SOC 1 is a different report, for services that affect your customers' financial statements.",
+  "stages": [
+    {
+      "id": "setup",
+      "name": "Set the product up",
+      "aim": "Get the tool ready and the right people into it. About an hour.",
+      "tasks": [
+        {
+          "id": "setup.people",
+          "title": "Add the people who own controls",
+          "do": "Go to Users and add the people who run controls day to day: engineering, IT, HR, security, finance. Give each the smallest role that lets them do their job, and give your CPA firm an Auditor account when fieldwork starts.",
+          "why": "A SOC report tests controls the whole company runs. The people who run them should record their own evidence.",
+          "check": "users.beyondAdmin",
+          "goto": "people"
+        },
+        {
+          "id": "setup.email",
+          "title": "Turn on email",
+          "do": "In Settings, put in your mail server details and send yourself a test message.",
+          "why": "Reminders are how owners hear that an access review, a vendor review or a policy review is due. Missed recurring controls are the most common Type II exception.",
+          "check": "settings.smtp",
+          "goto": "settings"
+        },
+        {
+          "id": "setup.branding",
+          "title": "Put your name and logo on reports",
+          "do": "In Reports, set the organisation name and upload your logo.",
+          "why": "The SOC 3 draft and the matrices go to your auditor and, later, to customers. They should carry your name.",
+          "check": "settings.logo",
+          "goto": "reports"
+        },
+        {
+          "id": "setup.backup",
+          "title": "Keep a copy of the backup somewhere else",
+          "do": "A backup runs every night. Open Backups, press Download on the newest one, and keep that file somewhere other than this server.",
+          "why": "This is your audit evidence for the whole period. A backup on the same machine protects you from very little.",
+          "check": "jobs.backupRan",
+          "goto": "backups"
+        }
+      ]
+    },
+    {
+      "id": "scope",
+      "name": "Decide what the report covers",
+      "aim": "Choose the report, the system and the Trust Services categories. Everything else follows from this.",
+      "tasks": [
+        {
+          "id": "scope.report",
+          "title": "Decide which SOC report you need",
+          "do": "Ask the customers who are asking for it. SOC 2 is for security and trust in your service. SOC 1 is for services that affect a customer's financial reporting, such as payroll or billing. SOC 3 is a public summary you can publish once you have a SOC 2 Type II. Record the report you are aiming for in SOC reports.",
+          "why": "SOC 1 and SOC 2 are different examinations with different criteria. Building for the wrong one wastes months.",
+          "goto": "engagements"
+        },
+        {
+          "id": "scope.system",
+          "title": "Describe the system and its boundaries",
+          "do": "Open Scope and fill in The system and its boundaries: the service customers buy, and the infrastructure, software, people, procedures and data behind it. Name what is out, such as internal tools that never touch customer data.",
+          "why": "The auditor tests only what is inside the boundary. A tight, honest boundary is a smaller audit.",
+          "check": "programme.scope",
+          "goto": "soa"
+        },
+        {
+          "id": "scope.commitments",
+          "title": "Write your service commitments and system requirements",
+          "do": "On Scope, fill in Service commitments and system requirements: what you promise customers in contracts and on your website (uptime, data protection, support) and what the system must do to keep those promises.",
+          "why": "A SOC 2 opinion is about whether your controls achieved your own commitments. Without them written down there is nothing to judge against.",
+          "check": "programme.methodology",
+          "goto": "soa"
+        },
+        {
+          "id": "scope.categories",
+          "title": "Choose the Trust Services categories",
+          "do": "Open Scope. Security is always in. For Availability, Processing integrity, Confidentiality and Privacy, keep a category only if customers need it or your contracts promise it, and mark the rest out of scope with a one-line reason. Rule out the SOC 1 objectives too if you are not doing a SOC 1.",
+          "why": "Every category you add is more criteria to meet and test. Most first reports are Security only, or Security and Availability.",
+          "check": "soc.scoped",
+          "goto": "soa"
+        }
+      ]
+    },
+    {
+      "id": "risk",
+      "name": "Assess your risks",
+      "aim": "Write down what you depend on and what could go wrong. CC3 asks for this every year.",
+      "tasks": [
+        {
+          "id": "risk.assets",
+          "title": "List the systems inside the boundary",
+          "do": "In Assets, add the cloud accounts, applications, databases, laptops and SaaS tools inside the system. The Sample library tab has starting points.",
+          "why": "Access reviews, vulnerability scans and change management all start from knowing what is in scope.",
+          "check": "registers.assets",
+          "goto": "assets"
+        },
+        {
+          "id": "risk.register",
+          "title": "Run your risk assessment",
+          "do": "In Risks, record what could stop you meeting your commitments, including fraud. Score each one, decide how to treat it, and link the criteria that treat it.",
+          "why": "The auditor will ask for the risk assessment for the period and check that it covers fraud (CC3.3) and changes (CC3.4).",
+          "check": "risks.linked",
+          "goto": "risks"
+        },
+        {
+          "id": "risk.vendors",
+          "title": "List your vendors and subservice organisations",
+          "do": "In Vendors, add every supplier that touches the system or its data. Mark your hosting provider and anything else you rely on for controls as High. For each, write the assurance they gave you, usually their own SOC 2 report.",
+          "why": "Vendors that run controls for you are subservice organisations. Your report either includes them or carves them out, and either way you must review them (CC9.2).",
+          "check": "registers.vendors",
+          "goto": "vendors"
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "name": "Put the controls in place",
+      "aim": "Make every criterion in scope true, give it an owner, and write the policies behind it.",
+      "tasks": [
+        {
+          "id": "controls.owners",
+          "title": "Give every criterion an owner",
+          "do": "Go through Criteria and set an owner on everything in scope. One person per criterion, even if a team does the work.",
+          "why": "During fieldwork the auditor asks the owner. A criterion nobody owns is one nobody can explain.",
+          "check": "controls.owned",
+          "goto": "controls"
+        },
+        {
+          "id": "controls.policies",
+          "title": "Write and approve your policies",
+          "do": "In Policies, record your information security policy and the policies under it: access control, change management, incident response, business continuity, vendor management, data classification and retention, acceptable use, and a code of conduct. Have management approve each one.",
+          "why": "CC5.3 asks for controls to be deployed through policies, and the auditor checks each policy was approved and reviewed in the period.",
+          "check": "policies.approved",
+          "goto": "policies"
+        },
+        {
+          "id": "controls.reviewDates",
+          "title": "Set a review date on every policy",
+          "do": "Give each policy a review date no more than a year out. Owners are reminded before it comes.",
+          "why": "A policy last reviewed two years ago is an exception in a Type II.",
+          "check": "policies.reviewDates",
+          "goto": "policies"
+        },
+        {
+          "id": "controls.training",
+          "title": "Train everyone on security",
+          "do": "Run security awareness training and record who completed it in Training. New starters do it in their first month, and everyone does it every year.",
+          "why": "CC1.4 and CC2.2 are tested by sampling people and asking for their training record.",
+          "check": "registers.training",
+          "goto": "training"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "name": "Collect the evidence",
+      "aim": "Proof for every criterion, dated and linked. This is what the auditor samples.",
+      "tasks": [
+        {
+          "id": "evidence.linked",
+          "title": "Link evidence to the criteria it proves",
+          "do": "In Evidence, add screenshots, exports, tickets and documents, and link each to the criteria it supports. Each criterion's explanation lists the records to keep.",
+          "why": "An auditor's request list is a list of evidence by criterion. Linking it now turns fieldwork into a download.",
+          "check": "evidence.linked",
+          "goto": "evidence"
+        },
+        {
+          "id": "evidence.dated",
+          "title": "Date your evidence",
+          "do": "Put the date each piece of evidence was produced. Recurring controls, such as quarterly access reviews, need one piece per occurrence.",
+          "why": "For a Type II the auditor checks that evidence falls inside the period, every time the control was meant to run.",
+          "check": "evidence.dated",
+          "goto": "evidence"
+        },
+        {
+          "id": "evidence.vendors",
+          "title": "Review your critical vendors' SOC reports",
+          "do": "For each High vendor, read their latest SOC report, note any exceptions and the complementary user entity controls they expect from you, and set the date you assessed them.",
+          "why": "Auditors ask for your review of each subservice organisation's report. Having their report is not the same as reviewing it.",
+          "check": "soc.vendorsReviewed",
+          "goto": "vendors"
+        }
+      ]
+    },
+    {
+      "id": "test",
+      "name": "Test your own controls",
+      "aim": "Find the exceptions before the auditor does.",
+      "tasks": [
+        {
+          "id": "test.all",
+          "title": "Test every criterion in scope",
+          "do": "Open each criterion and record a test: pick a sample, check the control worked, and record Pass, Partial or Fail with what you looked at.",
+          "why": "This is what the auditor will do. Doing it first means no surprises in the report.",
+          "check": "soc.tested",
+          "goto": "controls"
+        },
+        {
+          "id": "test.fix",
+          "title": "Fix what failed",
+          "do": "For every Partial or Fail, raise an Exception with an owner and a due date, fix the cause, and test again.",
+          "why": "An exception found and fixed before the period starts never appears in the report.",
+          "check": "soc.passing",
+          "goto": "findings"
+        },
+        {
+          "id": "test.review",
+          "title": "Hold an internal review",
+          "do": "Have someone independent of the control owners review the programme, or bring in a consultant for a readiness assessment. Record it in Internal audits.",
+          "why": "CC4.1 asks for separate evaluations of controls, and a readiness assessment tells you if you are ready for a Type I.",
+          "check": "soc.internalReview",
+          "goto": "reviews"
+        },
+        {
+          "id": "test.exceptions",
+          "title": "Give every open exception an owner and a date",
+          "do": "In Exceptions, make sure nothing open is left without somebody and a due date.",
+          "why": "CC4.2 is tested by sampling deficiencies and checking they were fixed on time.",
+          "check": "findings.owned",
+          "goto": "findings"
+        }
+      ]
+    },
+    {
+      "id": "audit",
+      "name": "Go through the audit",
+      "aim": "Book the CPA firm, agree the period and get through fieldwork.",
+      "tasks": [
+        {
+          "id": "audit.book",
+          "title": "Book a CPA firm and agree the period",
+          "do": "Only a licensed CPA firm can issue a SOC report. Agree the report type and period with them, and record it in SOC reports. A common path is a Type I first, then a Type II with a three- to six-month period.",
+          "why": "Every control has to run throughout the period, so the date it starts is the date your controls must be working by.",
+          "check": "soc.engaged",
+          "goto": "engagements"
+        },
+        {
+          "id": "audit.matrix",
+          "title": "Send the auditor your control matrix",
+          "do": "In Reports, export the SOC 2 criteria matrix, and the SOC 1 objectives matrix if you are doing a SOC 1. Send them with your system description before fieldwork.",
+          "why": "The matrix is how the auditor plans testing. A clear one shortens fieldwork.",
+          "check": "reports.exported",
+          "goto": "reports"
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "name": "Get the report and keep it current",
+      "aim": "Receive the report, publish the SOC 3, and start the next period without a gap.",
+      "tasks": [
+        {
+          "id": "report.issued",
+          "title": "Record the issued report",
+          "do": "When the CPA firm issues the report, record the date, the opinion and any exceptions in SOC reports. Raise each exception in Exceptions.",
+          "why": "Customers will ask for the report and its date. Exceptions in this report are the first thing the auditor checks next time.",
+          "check": "soc.issued",
+          "goto": "engagements"
+        },
+        {
+          "id": "report.soc3",
+          "title": "Prepare your SOC 3",
+          "do": "In Reports, export the SOC 3 draft. Work through the list on its first page, agree the wording with your CPA firm, and publish it once they have issued it.",
+          "why": "A SOC 3 can go on your website. Prospects can read it without an NDA, which saves your sales team a security questionnaire or two.",
+          "goto": "reports"
+        },
+        {
+          "id": "report.next",
+          "title": "Set the date the next report is due",
+          "do": "On the issued report, set Next report due so there is no gap between periods. Most companies renew every twelve months.",
+          "why": "A gap between periods means a bridge letter at best and an awkward conversation with customers at worst.",
+          "goto": "engagements"
+        }
+      ]
+    }
+  ]
+}

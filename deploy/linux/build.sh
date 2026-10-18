@@ -44,8 +44,8 @@ set -euo pipefail
 
 product="${1:-}"
 case "$product" in
-  accord) ;;
-  *) echo "Usage: $0 accord" >&2; exit 1 ;;
+  attest) ;;
+  *) echo "Usage: $0 attest" >&2; exit 1 ;;
 esac
 
 die() { printf '\n  %s\n\n' "$1" >&2; exit 1; }

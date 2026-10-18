@@ -18,11 +18,11 @@
 ; One product per repository, so there is nothing to choose. Product stays
 ; a definition because the release workflow passes /DProduct.
 #ifndef Product
-  #define Product "accord"
+  #define Product "attest"
 #endif
 
-#define Display "Offset Accord"
-#define Framework "EU GDPR"
+#define Display "Offset Attest"
+#define Framework "SOC 1, SOC 2 and SOC 3"
 
 #define Folder StringChange(Display, " ", "")
 ; A release passes its own: ISCC /DAppVersion=0.2.0

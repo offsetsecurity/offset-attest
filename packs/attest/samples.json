@@ -1,0 +1,1687 @@
+{
+  "note": "Starting points, not an inventory. Take what fits, change the wording, and delete the rest. Scores are a first guess to argue with. The criteria shown against each one are the ones it usually relates to.",
+  "assets": [
+    {
+      "id": "cloud",
+      "name": "Cloud and production",
+      "items": [
+        {
+          "name": "Production cloud account",
+          "type": "Cloud Provider",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud",
+          "refs": [
+            "CC6.1",
+            "CC6.6",
+            "A1.2"
+          ]
+        },
+        {
+          "name": "Production database",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud",
+          "refs": [
+            "CC6.1",
+            "C1.1",
+            "A1.2"
+          ]
+        },
+        {
+          "name": "Customer-facing application",
+          "type": "Software",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC8.1",
+            "CC7.1",
+            "PI1.3"
+          ]
+        },
+        {
+          "name": "Public API",
+          "type": "Software",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC6.6",
+            "CC6.7",
+            "PI1.2"
+          ]
+        },
+        {
+          "name": "Backups and snapshots",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud, separate region",
+          "refs": [
+            "A1.2",
+            "A1.3",
+            "CC6.5"
+          ]
+        },
+        {
+          "name": "Encryption keys and secrets manager",
+          "type": "Software",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud",
+          "refs": [
+            "CC6.1",
+            "CC6.7"
+          ]
+        },
+        {
+          "name": "Content delivery network and WAF",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC6.6",
+            "A1.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "items": [
+        {
+          "name": "Source code repository",
+          "type": "SaaS",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC8.1",
+            "CC6.3"
+          ]
+        },
+        {
+          "name": "CI/CD pipeline",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC8.1",
+            "CC5.2"
+          ]
+        },
+        {
+          "name": "Ticketing and change tracking",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC8.1",
+            "CC4.2"
+          ]
+        },
+        {
+          "name": "Staging and test environments",
+          "type": "Cloud Provider",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC8.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security and monitoring",
+      "items": [
+        {
+          "name": "Identity provider (SSO and MFA)",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC6.1",
+            "CC6.2",
+            "CC6.3"
+          ]
+        },
+        {
+          "name": "Logging and SIEM",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC7.2",
+            "CC7.3"
+          ]
+        },
+        {
+          "name": "Endpoint protection (EDR)",
+          "type": "Software",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Internal",
+          "location": "Laptops and servers",
+          "refs": [
+            "CC6.8"
+          ]
+        },
+        {
+          "name": "Vulnerability scanner",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC7.1"
+          ]
+        },
+        {
+          "name": "Device management (MDM)",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC6.7",
+            "CC6.8"
+          ]
+        },
+        {
+          "name": "Uptime and performance monitoring",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "A1.1",
+            "CC7.2"
+          ]
+        },
+        {
+          "name": "Cloud security posture management",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC7.1",
+            "CC4.1"
+          ]
+        },
+        {
+          "name": "Penetration testing service",
+          "type": "Service",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Supplier",
+          "refs": [
+            "CC4.1",
+            "CC7.1"
+          ]
+        },
+        {
+          "name": "Email security gateway",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC6.8",
+            "CC6.6"
+          ]
+        },
+        {
+          "name": "Data loss prevention",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC6.7",
+            "C1.1"
+          ]
+        },
+        {
+          "name": "On-call and alerting",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC7.2",
+            "CC7.4"
+          ]
+        },
+        {
+          "name": "Status page",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Low",
+          "classification": "Public",
+          "location": "Cloud",
+          "refs": [
+            "CC2.3",
+            "A1.1"
+          ]
+        },
+        {
+          "name": "Compliance and GRC tool",
+          "type": "Software",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "On premises",
+          "refs": [
+            "CC4.1",
+            "CC4.2"
+          ]
+        },
+        {
+          "name": "Disaster recovery environment",
+          "type": "Cloud Provider",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud, separate region",
+          "refs": [
+            "A1.2",
+            "A1.3",
+            "CC9.1"
+          ]
+        },
+        {
+          "name": "Whistleblowing channel",
+          "type": "Service",
+          "category": "Supporting asset",
+          "criticality": "Low",
+          "classification": "Confidential",
+          "location": "Supplier",
+          "refs": [
+            "CC2.2",
+            "CC1.1"
+          ]
+        },
+        {
+          "name": "Cyber insurance policy",
+          "type": "Document",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Document storage",
+          "refs": [
+            "CC9.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "business",
+      "name": "People and business systems",
+      "items": [
+        {
+          "name": "Laptops",
+          "type": "Hardware",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "With staff",
+          "refs": [
+            "CC6.7",
+            "CC6.8",
+            "CC6.5"
+          ]
+        },
+        {
+          "name": "HR system",
+          "type": "SaaS",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Restricted",
+          "location": "Cloud",
+          "refs": [
+            "CC1.4",
+            "CC6.2"
+          ]
+        },
+        {
+          "name": "Email and office suite",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC2.2",
+            "CC6.1"
+          ]
+        },
+        {
+          "name": "Customer support system",
+          "type": "SaaS",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC2.3",
+            "C1.1"
+          ]
+        },
+        {
+          "name": "Billing system",
+          "type": "SaaS",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud",
+          "refs": [
+            "CO8",
+            "CO9",
+            "CO10"
+          ]
+        },
+        {
+          "name": "Mobile phones",
+          "type": "Hardware",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "With staff",
+          "refs": [
+            "CC6.7",
+            "CC6.8"
+          ]
+        },
+        {
+          "name": "Password manager",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Cloud",
+          "refs": [
+            "CC6.1"
+          ]
+        },
+        {
+          "name": "Video calling and chat",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC2.2"
+          ]
+        },
+        {
+          "name": "Intranet and policy portal",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC2.2",
+            "CC5.3"
+          ]
+        },
+        {
+          "name": "Learning platform",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "Low",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CC1.4"
+          ]
+        },
+        {
+          "name": "Background screening service",
+          "type": "Service",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Restricted",
+          "location": "Supplier",
+          "refs": [
+            "CC1.4"
+          ]
+        },
+        {
+          "name": "CRM",
+          "type": "SaaS",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "C1.1",
+            "P4.1"
+          ]
+        },
+        {
+          "name": "Accounting system",
+          "type": "SaaS",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC3.3",
+            "CO11"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "name": "Information",
+      "items": [
+        {
+          "name": "Customer data",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Production database",
+          "refs": [
+            "C1.1",
+            "CC6.1"
+          ]
+        },
+        {
+          "name": "Customer personal information",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Production database",
+          "refs": [
+            "P4.1",
+            "P4.2"
+          ]
+        },
+        {
+          "name": "Customer contracts and SLAs",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Document storage",
+          "refs": [
+            "CC2.3",
+            "CC3.1"
+          ]
+        },
+        {
+          "name": "System description",
+          "type": "Document",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Document storage",
+          "refs": [
+            "CC2.3",
+            "CC3.1"
+          ]
+        },
+        {
+          "name": "Security policies",
+          "type": "Document",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Policy portal",
+          "refs": [
+            "CC5.3"
+          ]
+        },
+        {
+          "name": "Risk register",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Offset Attest",
+          "refs": [
+            "CC3.2"
+          ]
+        },
+        {
+          "name": "Audit logs",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Log platform",
+          "refs": [
+            "CC7.2",
+            "CC4.1"
+          ]
+        },
+        {
+          "name": "Access review records",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Offset Attest",
+          "refs": [
+            "CC6.3"
+          ]
+        },
+        {
+          "name": "Change records",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Ticketing system",
+          "refs": [
+            "CC8.1"
+          ]
+        },
+        {
+          "name": "Incident records",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Ticketing system",
+          "refs": [
+            "CC7.3",
+            "CC7.4"
+          ]
+        },
+        {
+          "name": "Vendor SOC reports",
+          "type": "Document",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Document storage",
+          "refs": [
+            "CC9.2",
+            "CO12"
+          ]
+        },
+        {
+          "name": "Employee records",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Restricted",
+          "location": "HR system",
+          "refs": [
+            "CC1.4",
+            "CC6.2"
+          ]
+        },
+        {
+          "name": "Source code",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Source code repository",
+          "refs": [
+            "CC8.1",
+            "C1.1"
+          ]
+        },
+        {
+          "name": "Encryption keys",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Secrets manager",
+          "refs": [
+            "CC6.1",
+            "CC6.7"
+          ]
+        },
+        {
+          "name": "Client financial transaction data",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Production database",
+          "refs": [
+            "CO8",
+            "CO9"
+          ]
+        },
+        {
+          "name": "Client reports",
+          "type": "Document",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Customer portal",
+          "refs": [
+            "CO10",
+            "PI1.4"
+          ]
+        },
+        {
+          "name": "Client standing data",
+          "type": "Data / Information",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Production database",
+          "refs": [
+            "CO7"
+          ]
+        },
+        {
+          "name": "Consent and preference records",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Production database",
+          "refs": [
+            "P2.1"
+          ]
+        },
+        {
+          "name": "Data subject request log",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Low",
+          "classification": "Confidential",
+          "location": "Ticketing system",
+          "refs": [
+            "P5.1",
+            "P5.2"
+          ]
+        },
+        {
+          "name": "Disclosure and breach log",
+          "type": "Record",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Restricted",
+          "location": "Offset Attest",
+          "refs": [
+            "P6.2",
+            "P6.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "processes",
+      "name": "Business processes",
+      "items": [
+        {
+          "name": "Customer onboarding",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Operations",
+          "refs": [
+            "CO7",
+            "CC2.3"
+          ]
+        },
+        {
+          "name": "Transaction processing",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Production",
+          "refs": [
+            "CO9",
+            "PI1.3"
+          ]
+        },
+        {
+          "name": "Client reporting",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Operations",
+          "refs": [
+            "CO10",
+            "PI1.4"
+          ]
+        },
+        {
+          "name": "Month-end reconciliation",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Finance",
+          "refs": [
+            "CO11"
+          ]
+        },
+        {
+          "name": "Software release",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Internal",
+          "location": "Engineering",
+          "refs": [
+            "CC8.1",
+            "CO2"
+          ]
+        },
+        {
+          "name": "Joiners, movers and leavers",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "HR and IT",
+          "refs": [
+            "CC6.2",
+            "CC6.3",
+            "CO1"
+          ]
+        },
+        {
+          "name": "Incident response",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Security",
+          "refs": [
+            "CC7.3",
+            "CC7.4",
+            "CC7.5"
+          ]
+        },
+        {
+          "name": "Vendor onboarding and review",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Procurement",
+          "refs": [
+            "CC9.2"
+          ]
+        },
+        {
+          "name": "Customer support",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Support",
+          "refs": [
+            "CC2.3",
+            "P8.1"
+          ]
+        },
+        {
+          "name": "Backup and restore",
+          "type": "Business Process",
+          "category": "Primary asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Engineering",
+          "refs": [
+            "A1.2",
+            "A1.3",
+            "CO4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "facilities",
+      "name": "Facilities and infrastructure",
+      "items": [
+        {
+          "name": "Office",
+          "type": "Facility",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Head office",
+          "refs": [
+            "CC6.4"
+          ]
+        },
+        {
+          "name": "Badge access system",
+          "type": "Hardware",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Head office",
+          "refs": [
+            "CC6.4",
+            "CO5"
+          ]
+        },
+        {
+          "name": "Office network and Wi-Fi",
+          "type": "Hardware",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Internal",
+          "location": "Head office",
+          "refs": [
+            "CC6.6"
+          ]
+        },
+        {
+          "name": "VPN or zero-trust access",
+          "type": "SaaS",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC6.6",
+            "CC6.1"
+          ]
+        },
+        {
+          "name": "Firewalls and security groups",
+          "type": "Software",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "CC6.6"
+          ]
+        },
+        {
+          "name": "Data centre (via hosting provider)",
+          "type": "Facility",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Restricted",
+          "location": "Hosting provider",
+          "refs": [
+            "CC6.4",
+            "A1.2"
+          ]
+        },
+        {
+          "name": "Secure disposal bins",
+          "type": "Service",
+          "category": "Supporting asset",
+          "criticality": "Low",
+          "classification": "Confidential",
+          "location": "Head office",
+          "refs": [
+            "CC6.5",
+            "C1.2"
+          ]
+        },
+        {
+          "name": "Removable media",
+          "type": "Hardware",
+          "category": "Supporting asset",
+          "criticality": "Low",
+          "classification": "Confidential",
+          "location": "Office",
+          "refs": [
+            "CC6.7"
+          ]
+        },
+        {
+          "name": "Job scheduler",
+          "type": "Software",
+          "category": "Supporting asset",
+          "criticality": "High",
+          "classification": "Internal",
+          "location": "Cloud",
+          "refs": [
+            "CO3",
+            "PI1.3"
+          ]
+        },
+        {
+          "name": "Data warehouse",
+          "type": "Cloud Provider",
+          "category": "Supporting asset",
+          "criticality": "Medium",
+          "classification": "Confidential",
+          "location": "Cloud",
+          "refs": [
+            "PI1.5",
+            "C1.1"
+          ]
+        }
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "access",
+      "name": "Access",
+      "items": [
+        {
+          "title": "Leaver keeps access",
+          "description": "Someone leaves and their accounts stay active in production or SaaS tools.",
+          "category": "Security",
+          "likelihood": 3,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CC6.2",
+            "CC6.3"
+          ]
+        },
+        {
+          "title": "Too many people with admin rights",
+          "description": "Engineers keep broad production access they no longer need, so one stolen laptop reaches everything.",
+          "category": "Security",
+          "likelihood": 3,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "CC6.3",
+            "CC6.1"
+          ]
+        },
+        {
+          "title": "Account takeover without MFA",
+          "description": "A password is phished and an account without multi-factor authentication is taken over.",
+          "category": "Security",
+          "likelihood": 3,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CC6.1"
+          ]
+        },
+        {
+          "title": "Access reviews missed",
+          "description": "Quarterly access reviews slip, which a Type II report shows as an exception.",
+          "category": "Compliance",
+          "likelihood": 4,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Security lead",
+          "refs": [
+            "CC6.3",
+            "CC4.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "change",
+      "name": "Change and operations",
+      "items": [
+        {
+          "title": "Unreviewed code reaches production",
+          "description": "A change is deployed without review or testing and causes an outage or a security hole.",
+          "category": "Operational",
+          "likelihood": 3,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "CC8.1"
+          ]
+        },
+        {
+          "title": "Unpatched vulnerability exploited",
+          "description": "A known vulnerability in a dependency or server is exploited before it is fixed.",
+          "category": "Security",
+          "likelihood": 3,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Security lead",
+          "refs": [
+            "CC7.1"
+          ]
+        },
+        {
+          "title": "Attack goes unnoticed",
+          "description": "An intruder is in the environment for weeks because nobody watches the logs.",
+          "category": "Security",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Security lead",
+          "refs": [
+            "CC7.2",
+            "CC7.3"
+          ]
+        },
+        {
+          "title": "Incident handled badly",
+          "description": "An incident is contained late and customers are told late or not at all.",
+          "category": "Security",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Security lead",
+          "refs": [
+            "CC7.4",
+            "CC7.5",
+            "CC2.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "availability",
+      "name": "Availability and recovery",
+      "items": [
+        {
+          "title": "Cloud region outage",
+          "description": "The hosting region fails and the service is down beyond its uptime commitment.",
+          "category": "Operational",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "A1.2",
+            "CC9.1"
+          ]
+        },
+        {
+          "title": "Backups cannot be restored",
+          "description": "Backups run but have never been restored, and fail when they are needed.",
+          "category": "Operational",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "A1.2",
+            "A1.3"
+          ]
+        },
+        {
+          "title": "Capacity runs out",
+          "description": "Growth or a traffic spike exhausts capacity and the service slows or fails.",
+          "category": "Operational",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "A1.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vendors",
+      "name": "Vendors",
+      "items": [
+        {
+          "title": "Critical vendor has a breach",
+          "description": "A subservice organisation is breached and customer data is exposed through them.",
+          "category": "Third party",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Security lead",
+          "refs": [
+            "CC9.2",
+            "P6.5"
+          ]
+        },
+        {
+          "title": "Vendor SOC report not reviewed",
+          "description": "Vendor reports are collected but nobody reads the exceptions or the controls they expect from you.",
+          "category": "Compliance",
+          "likelihood": 4,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC9.2",
+            "CO12"
+          ]
+        },
+        {
+          "title": "Unknown SaaS tools hold customer data",
+          "description": "Teams sign up for tools that hold customer data without anyone assessing them.",
+          "category": "Third party",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CC9.2",
+            "C1.1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "governance",
+      "name": "People and governance",
+      "items": [
+        {
+          "title": "Staff fall for phishing",
+          "description": "Untrained staff hand over credentials or install malware.",
+          "category": "People",
+          "likelihood": 4,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of People",
+          "refs": [
+            "CC1.4",
+            "CC2.2"
+          ]
+        },
+        {
+          "title": "Insider misuses access",
+          "description": "Someone with legitimate access copies or alters customer data for their own ends.",
+          "category": "Fraud",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "CEO",
+          "refs": [
+            "CC3.3",
+            "CC6.3"
+          ]
+        },
+        {
+          "title": "Commitments outrun controls",
+          "description": "Sales promise customers more than the controls deliver, for example an uptime figure nobody measures.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "CEO",
+          "refs": [
+            "CC3.1",
+            "CC2.3"
+          ]
+        },
+        {
+          "title": "Control owner leaves mid-period",
+          "description": "A control owner leaves during the observation period and the control stops running.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC1.3",
+            "CC1.5"
+          ]
+        },
+        {
+          "title": "Client figures processed wrongly",
+          "description": "A calculation or interface error misstates figures customers use in their financial statements.",
+          "category": "Financial",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of Finance",
+          "refs": [
+            "CO9",
+            "CO10",
+            "CO11"
+          ]
+        },
+        {
+          "title": "Weak tone at the top",
+          "description": "Leadership treats security as paperwork for the audit, so staff learn to cut corners.",
+          "category": "People",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "CEO",
+          "refs": [
+            "CC1.1",
+            "CC1.5"
+          ]
+        },
+        {
+          "title": "No independent oversight",
+          "description": "Nobody above management looks at security or audit results, so problems are never challenged.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "CEO",
+          "refs": [
+            "CC1.2"
+          ]
+        },
+        {
+          "title": "Risk assessment goes stale",
+          "description": "The annual risk assessment is skipped or copied forward, and new risks are never looked at.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC3.2",
+            "CC3.4"
+          ]
+        },
+        {
+          "title": "Controls rely on bad reports",
+          "description": "A control uses a system report that is incomplete, so the review passes things it never saw.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC2.1",
+            "CC5.2"
+          ]
+        },
+        {
+          "title": "Significant risks left without controls",
+          "description": "A risk is scored high but no control is assigned, and nobody notices until the audit.",
+          "category": "Compliance",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC5.1"
+          ]
+        },
+        {
+          "title": "Policies nobody follows",
+          "description": "Policies exist on paper but procedures do not match them, and staff do not know they exist.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC5.3",
+            "CC2.2"
+          ]
+        },
+        {
+          "title": "Deficiencies never fixed",
+          "description": "Weaknesses found in reviews are noted but nobody owns them, so they appear again next year.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CC4.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure and data",
+      "items": [
+        {
+          "title": "Unauthorised person enters the office",
+          "description": "A visitor or former employee walks into the office and reaches equipment or paper records.",
+          "category": "Physical",
+          "likelihood": 2,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Office manager",
+          "refs": [
+            "CC6.4"
+          ]
+        },
+        {
+          "title": "Old laptop sold with data on it",
+          "description": "Disposed laptops or drives still hold customer data that can be recovered.",
+          "category": "Security",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CC6.5",
+            "C1.2"
+          ]
+        },
+        {
+          "title": "Exposed admin interface",
+          "description": "A management port or admin panel is open to the internet and is attacked.",
+          "category": "Security",
+          "likelihood": 3,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "CC6.6"
+          ]
+        },
+        {
+          "title": "Data sent unencrypted",
+          "description": "Customer data travels without TLS or leaves on an unencrypted laptop or USB stick.",
+          "category": "Security",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CC6.7"
+          ]
+        },
+        {
+          "title": "Ransomware on a laptop",
+          "description": "Malware lands on a laptop without endpoint protection and spreads to shared systems.",
+          "category": "Security",
+          "likelihood": 3,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CC6.8"
+          ]
+        },
+        {
+          "title": "Confidential data kept forever",
+          "description": "Customer data that should have been deleted at contract end is kept and later exposed.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "C1.2",
+            "P4.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "processing",
+      "name": "Processing integrity and SOC 1",
+      "items": [
+        {
+          "title": "Nobody agrees what correct output is",
+          "description": "Processing specifications are not written down, so errors cannot be told from intended behaviour.",
+          "category": "Operational",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Head of Product",
+          "refs": [
+            "PI1.1"
+          ]
+        },
+        {
+          "title": "Bad input accepted",
+          "description": "Malformed or duplicate records are accepted at input and flow through to customer reports.",
+          "category": "Operational",
+          "likelihood": 3,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "PI1.2",
+            "CO8"
+          ]
+        },
+        {
+          "title": "Batch job fails silently",
+          "description": "A scheduled job fails overnight and nobody notices until a customer complains.",
+          "category": "Operational",
+          "likelihood": 3,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "PI1.3",
+            "CO3"
+          ]
+        },
+        {
+          "title": "Report sent to the wrong customer",
+          "description": "An output file or report is delivered to the wrong recipient.",
+          "category": "Operational",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of Operations",
+          "refs": [
+            "PI1.4",
+            "CO10"
+          ]
+        },
+        {
+          "title": "Stored data altered or lost",
+          "description": "Data at rest during processing is corrupted or lost and the output is wrong.",
+          "category": "Operational",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "PI1.5",
+            "CO4"
+          ]
+        },
+        {
+          "title": "Excessive access to financial systems",
+          "description": "Staff can change client transaction data without approval, with no review of who has access.",
+          "category": "Fraud",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of IT",
+          "refs": [
+            "CO1"
+          ]
+        },
+        {
+          "title": "Untested change to a calculation",
+          "description": "A change to a fee or interest calculation goes live untested and misstates every client's figures.",
+          "category": "Financial",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Head of Engineering",
+          "refs": [
+            "CO2",
+            "CO6"
+          ]
+        },
+        {
+          "title": "Hosting provider's controls fail",
+          "description": "Physical or environmental controls at the hosting provider fail and you relied on them without checking.",
+          "category": "Third party",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Compliance lead",
+          "refs": [
+            "CO5",
+            "CO12"
+          ]
+        },
+        {
+          "title": "Client set up with wrong terms",
+          "description": "A new client is set up with the wrong rates or settings and every transaction is wrong from day one.",
+          "category": "Financial",
+          "likelihood": 3,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Head of Operations",
+          "refs": [
+            "CO7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "name": "Privacy",
+      "items": [
+        {
+          "title": "Privacy notice out of date",
+          "description": "The privacy notice no longer matches what the service does with personal information.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P1.1"
+          ]
+        },
+        {
+          "title": "Consent not recorded",
+          "description": "Marketing or optional processing relies on consent that was never recorded or cannot be withdrawn.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P2.1",
+            "P3.2"
+          ]
+        },
+        {
+          "title": "Collecting more than needed",
+          "description": "Forms and integrations collect personal information that no stated purpose needs.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 2,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P3.1",
+            "P4.1"
+          ]
+        },
+        {
+          "title": "Personal information not deleted",
+          "description": "Data is kept past its retention period or deleted in a way that can be recovered.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P4.2",
+            "P4.3"
+          ]
+        },
+        {
+          "title": "Access or correction request missed",
+          "description": "A request from a person to see or correct their information is lost or answered late.",
+          "category": "Compliance",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P5.1",
+            "P5.2",
+            "P8.1"
+          ]
+        },
+        {
+          "title": "Personal information shared without basis",
+          "description": "Personal information is passed to a third party that was never disclosed, and no record is kept.",
+          "category": "Compliance",
+          "likelihood": 2,
+          "impact": 4,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P6.1",
+            "P6.2",
+            "P6.7"
+          ]
+        },
+        {
+          "title": "Breach not recorded or notified",
+          "description": "A privacy breach is handled informally, never logged, and the people affected are not told.",
+          "category": "Compliance",
+          "likelihood": 2,
+          "impact": 5,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P6.3",
+            "P6.6"
+          ]
+        },
+        {
+          "title": "Vendor contract lacks privacy terms",
+          "description": "A vendor handling personal information has no contractual duty to protect it to your standard.",
+          "category": "Third party",
+          "likelihood": 3,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P6.4",
+            "P6.5"
+          ]
+        },
+        {
+          "title": "Inaccurate personal information",
+          "description": "Wrong personal details lead to decisions or messages that harm the person.",
+          "category": "Compliance",
+          "likelihood": 2,
+          "impact": 3,
+          "treatment": "Mitigate",
+          "owner": "Privacy lead",
+          "refs": [
+            "P7.1"
+          ]
+        }
+      ]
+    }
+  ]
+}

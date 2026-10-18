@@ -59,7 +59,7 @@ latest release" and get this product. Five products once shared a downloads
 repository for exactly that reason - they could not each have a latest of
 their own while one repository built them all. They can now, so that
 repository is gone, and with it the cross-repository token a release used to
-need: `offsetsecurity/offset-accord` publishes to itself with the workflow's own GITHUB_TOKEN.
+need: `offsetsecurity/offset-attest` publishes to itself with the workflow's own GITHUB_TOKEN.
 
 `grc-suite-releases`, the old single page, stays where it is. Copies installed
 before this change still ask it for updates, and will until they are
@@ -119,8 +119,8 @@ GitHub creates the container images as private. Customers' servers pull them
 without logging in, so each one has to be made public, once:
 
 GitHub → `offsetsecurity` profile → **Packages** → for each of
-`offset-accord`, `offset-accord-updater`, `offset-align`, `offset-align-updater`,
-`offset-accord`, `offset-accord-updater`, `offset-anchor`, `offset-anchor-updater`
+`offset-attest`, `offset-attest-updater`, `offset-align`, `offset-align-updater`,
+`offset-attest`, `offset-attest-updater`, `offset-anchor`, `offset-anchor-updater`
 → **Package settings → Change visibility → Public**.
 
 ## How installs trust a release
@@ -160,8 +160,8 @@ nothing to customers.
 2. Pick a version such as `0.1.0`.
    Press **Run workflow**. It takes a few minutes.
 3. The images are stored, private, as
-   `ghcr.io/offsetsecurity/offset-accord:<version>` and
-   `ghcr.io/offsetsecurity/offset-accord-updater:<version>`, each also
+   `ghcr.io/offsetsecurity/offset-attest:<version>` and
+   `ghcr.io/offsetsecurity/offset-attest-updater:<version>`, each also
    tagged `latest`.
 
 To download them, the machine needs a GitHub token that can read packages:
@@ -170,16 +170,16 @@ GitHub → **Settings → Developer settings → Personal access tokens → Toke
 
 ```bash
 docker login ghcr.io -u <your GitHub username>
-docker pull ghcr.io/offsetsecurity/offset-accord:<version>
-docker pull ghcr.io/offsetsecurity/offset-accord-updater:<version>
+docker pull ghcr.io/offsetsecurity/offset-attest:<version>
+docker pull ghcr.io/offsetsecurity/offset-attest-updater:<version>
 ```
 
 Paste the token when it asks for a password. Nothing appears as you paste;
 press Enter. Then, in the install folder's `.env`, point the stack at them:
 
 ```
-OFFSET_IMAGE=ghcr.io/offsetsecurity/offset-accord:<version>
-OFFSET_UPDATER_IMAGE=ghcr.io/offsetsecurity/offset-accord-updater:<version>
+OFFSET_IMAGE=ghcr.io/offsetsecurity/offset-attest:<version>
+OFFSET_UPDATER_IMAGE=ghcr.io/offsetsecurity/offset-attest-updater:<version>
 ```
 
 and run `docker compose up -d`. Customers do not install this way: they get
@@ -191,9 +191,9 @@ Point a test install at your own channel instead of GitHub:
 
 - **Docker:** in its `.env`, set `UPDATE_URL`, `UPDATE_TRUSTED_KEYS` (your test
   public key) and, for a plain-HTTP test server, `UPDATE_ALLOW_HTTP=true`.
-- **Linux:** create `/etc/offset-accord/updater.json` as root, with
+- **Linux:** create `/etc/offset-attest/updater.json` as root, with
   `{"url": "...", "trustedKeys": ["..."], "allowHttp": true}`, and set the same
-  three `UPDATE_*` values in `/var/lib/offset-accord/.env` for the screen.
+  three `UPDATE_*` values in `/var/lib/offset-attest/.env` for the screen.
 - **Windows:** the same JSON in `updater.json` beside `node.exe` in the install
   folder.
 

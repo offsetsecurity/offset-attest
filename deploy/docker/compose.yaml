@@ -14,7 +14,7 @@
 # on). With one fixed name, a second product on the same machine opened the
 # first one's database, found it already seeded, and showed the wrong framework
 # under its own name.
-name: offset-${PRODUCT:-accord}
+name: offset-${PRODUCT:-attest}
 
 services:
   # ── the application ────────────────────────────────────────────────────────
@@ -24,10 +24,10 @@ services:
       dockerfile: deploy/docker/Dockerfile
       target: runtime
       args:
-        PRODUCT: ${PRODUCT:-accord}
+        PRODUCT: ${PRODUCT:-attest}
     # OFFSET_IMAGE is written by the updater, naming the new release by digest.
     # Until the first update it is unset and the locally built image is used.
-    image: ${OFFSET_IMAGE:-offset-${PRODUCT:-accord}:${APP_VERSION:-0.1.0}}
+    image: ${OFFSET_IMAGE:-offset-${PRODUCT:-attest}:${APP_VERSION:-0.1.0}}
     restart: unless-stopped
     env_file: [.env]
     environment:
@@ -72,7 +72,7 @@ services:
     # buildx to produce one tag twice in the same run fails with
     # "image ... already exists". `up --build` builds it once, for app, and
     # this picks up the result.
-    image: ${OFFSET_IMAGE:-offset-${PRODUCT:-accord}:${APP_VERSION:-0.1.0}}
+    image: ${OFFSET_IMAGE:-offset-${PRODUCT:-attest}:${APP_VERSION:-0.1.0}}
     command: ["node", "dist/worker.js"]
     restart: unless-stopped
     env_file: [.env]
@@ -111,11 +111,11 @@ services:
       dockerfile: deploy/docker/Dockerfile
       target: updater
       args:
-        PRODUCT: ${PRODUCT:-accord}
-    image: ${OFFSET_UPDATER_IMAGE:-offset-${PRODUCT:-accord}-updater:${APP_VERSION:-0.1.0}}
+        PRODUCT: ${PRODUCT:-attest}
+    image: ${OFFSET_UPDATER_IMAGE:-offset-${PRODUCT:-attest}-updater:${APP_VERSION:-0.1.0}}
     restart: unless-stopped
     environment:
-      PRODUCT: ${PRODUCT:-accord}
+      PRODUCT: ${PRODUCT:-attest}
       UPDATE_URL: ${UPDATE_URL:-}
       UPDATE_TRUSTED_KEYS: ${UPDATE_TRUSTED_KEYS:-}
       UPDATE_ALLOW_HTTP: ${UPDATE_ALLOW_HTTP:-false}

@@ -5,7 +5,7 @@ how long it stays. For a customer's data protection officer, and for
 questionnaires under GDPR, the Saudi Personal Data Protection Law (PDPL) and
 similar laws.
 
-Applies to Offset Accord.
+Applies to Offset Attest.
 
 ## Who is responsible for the data
 
@@ -69,7 +69,7 @@ including the addresses people signed in from, is shown to administrators
 and auditors only, on the Audit trail screen.
 
 Anyone with access to the server, or to a backup file, can read everything.
-Protect both accordingly.
+Protect both attestingly.
 
 ## How long it is kept
 

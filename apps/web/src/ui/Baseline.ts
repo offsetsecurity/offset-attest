@@ -10,7 +10,7 @@ import { pct } from "./format.js";
  *
  * SP 800-53 starts from an impact level and the baseline that goes with it, so
  * this is the screen someone visits first: describe the system, pick the
- * baseline, and the 1,014 controls are scoped accordingly in one operation.
+ * baseline, and the 1,014 controls are scoped attestingly in one operation.
  */
 
 const LEVELS = [

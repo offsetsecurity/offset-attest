@@ -68,7 +68,8 @@ export const themeColor = (key: string): string => THEME_COLOR[key] ?? "#334155"
 
 /** "Subcategory" -> "Subcategories", "Control" -> "Controls". */
 export const plural = (word: string): string =>
-  /[^aeiou]y$/i.test(word) ? `${word.slice(0, -1)}ies` : `${word}s`;
+  /criterion$/i.test(word) ? `${word.slice(0, -2)}a`
+    : /[^aeiou]y$/i.test(word) ? `${word.slice(0, -1)}ies` : `${word}s`;
 
 export const pct = (part: number, whole: number): number =>
   whole > 0 ? Math.round((part / whole) * 100) : 0;

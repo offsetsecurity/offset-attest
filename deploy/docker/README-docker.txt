@@ -1,4 +1,4 @@
-Offset Accord on Docker
+Offset Attest on Docker
 ==========================
 
 Everything you need is in this folder: compose.yaml describes what to run,

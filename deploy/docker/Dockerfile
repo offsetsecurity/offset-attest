@@ -104,7 +104,7 @@ LABEL org.opencontainers.image.title="Offset GRC (${PRODUCT})" \
       org.opencontainers.image.description="Free to use, closed source." \
       org.opencontainers.image.vendor="Offset Security" \
       org.opencontainers.image.version="${APP_VERSION}" \
-      org.opencontainers.image.source="https://github.com/offsetsecurity/offset-accord" \
+      org.opencontainers.image.source="https://github.com/offsetsecurity/offset-attest" \
       org.opencontainers.image.licenses="LicenseRef-Offset-Community-Edition"
 
 # Only meaningful for the API. The worker listens on nothing, so compose

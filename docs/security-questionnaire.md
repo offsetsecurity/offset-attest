@@ -5,7 +5,7 @@ usually asks. Copy them into their form. Every answer describes the product as
 it is today. The explanations behind them are in the
 [security overview](security-overview.md).
 
-Applies to Offset Accord.
+Applies to Offset Attest.
 
 ## Hosting and data location
 

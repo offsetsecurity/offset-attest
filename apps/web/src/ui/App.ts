@@ -42,6 +42,8 @@ import {
   reviewRegister,
   communicationRegister,
   findingRegisterWithCorrectiveAction,
+  vendorRegister,
+  engagementRegister,
 } from "./registers.js";
 import { plural } from "./format.js";
 import {
@@ -61,7 +63,7 @@ const ROUTES = [
   // product not knowing what to do, and the plan is the answer to that.
   "getready", "thread", "dashboard",
   "datamap", "dpias", "consents", "requests", "breaches",
-  "isms", "profile", "soa", "system", "controls", "evidence",
+  "isms", "profile", "soa", "system", "controls", "evidence", "engagements",
   "risks", "assets", "policies", "tasks", "incidents", "findings", "reports",
   "gaps", "vendors", "training", "objectives", "parties", "reviews", "communications",
   "escalation", "calendar",
@@ -91,25 +93,26 @@ interface NavSection {
  */
 const NAV_SECTIONS: readonly NavSection[] = [
   { id: "start", title: "Start", routes: ["getready", "dashboard", "calendar"] },
-  // The GDPR records come first: GDPR is about the data, and these are the data.
-  { id: "records", title: "Privacy records", routes: ["datamap", "dpias", "vendors", "consents", "policies"] },
-  { id: "events", title: "Requests and breaches", routes: ["requests", "breaches"] },
+  // The work a SOC report is made of: what is in scope, the criteria, the
+  // evidence behind them, and the reports themselves.
   {
-    id: "compliance", title: "Compliance",
-    routes: ["isms", "profile", "soa", "system", "controls", "evidence"],
+    id: "compliance", title: "SOC readiness",
+    routes: ["isms", "profile", "soa", "system", "controls", "evidence", "engagements"],
   },
+  { id: "records", title: "Privacy records", routes: ["datamap", "dpias", "consents"] },
+  { id: "events", title: "Requests and breaches", routes: ["requests", "breaches"] },
   { id: "risk", title: "Risk and assets", routes: ["risks", "assets"] },
   { id: "work", title: "Work", routes: ["tasks", "incidents", "findings"] },
   {
-    id: "management", title: "Management system",
-    routes: ["training", "objectives", "parties", "reviews", "communications"],
+    id: "management", title: "Governance",
+    routes: ["policies", "vendors", "training", "objectives", "parties", "reviews", "communications"],
   },
   { id: "reports", title: "Reports", routes: ["reports", "gaps"] },
   { id: "admin", title: "Administration", routes: ["people", "escalation", "audit", "backups"] },
 ];
 
-/** Which sections are open by default: Start, and the GDPR records people use every week. */
-const OPEN_BY_DEFAULT = new Set(["start", "records", "events"]);
+/** Which sections are open by default: Start, and the SOC work people use every week. */
+const OPEN_BY_DEFAULT = new Set(["start", "compliance"]);
 const SECTIONS_KEY = "offset.nav.sections";
 function readSections(): Record<string, boolean> {
   try {
@@ -187,6 +190,7 @@ const REGISTERS = {
   parties: partyRegister,
   reviews: reviewRegister,
   communications: communicationRegister,
+  engagements: engagementRegister,
   datamap: activityRegister,
   dpias: dpiaRegister,
   requests: requestRegister,
@@ -414,7 +418,7 @@ export function App(): VNode {
     profile: "tiers",
     soa: "statementOfApplicability",
     system: "baselines",
-    vendors: "privacy",
+    engagements: "soc",
     datamap: "privacy",
     dpias: "privacy",
     requests: "privacy",
@@ -436,6 +440,8 @@ export function App(): VNode {
     if (r === "people" || r === "backups" || r === "settings" || r === "escalation") return user.role === "admin";
     // The trail is for the people who review it: administrators and auditors.
     if (r === "audit") return user.role === "admin" || user.role === "auditor";
+    // Suppliers are a register in their own right; GDPR adds fields to it, it does not own it.
+    if (r === "vendors") return Boolean(features["privacy"] || features["ismsRegisters"]);
     const flag = GATED[r];
     return flag ? Boolean(features[flag]) : true;
   });
@@ -468,6 +474,7 @@ export function App(): VNode {
     parties: { h1: "Interested parties", sub: "Who cares about your security, and what they need" },
     reviews: { h1: "Audits and reviews", sub: "Internal audits and management reviews, planned and held" },
     communications: { h1: "Communications", sub: "Who is told what about security, when, and by whom" },
+    engagements: { h1: "SOC reports", sub: "Each SOC 1, SOC 2 and SOC 3 report: type, period, auditor, opinion and when the next is due" },
     escalation: { h1: "Escalation", sub: "Automatic reminders, and who is told when something is overdue" },
     gaps: { h1: "Gap analysis", sub: "What is left, and what is claimed without proof" },
     calendar: { h1: "Calendar", sub: "Everything with a date on it, in one place" },
@@ -507,6 +514,7 @@ export function App(): VNode {
     parties: "Interested parties",
     reviews: "Audits & reviews",
     communications: "Communications",
+    engagements: "SOC reports",
     escalation: "Escalation",
     gaps: "Gap analysis",
     calendar: "Calendar",
@@ -517,6 +525,18 @@ export function App(): VNode {
     backups: "Backups",
     settings: "Settings",
   };
+
+  // The pack's own words win: "Scope" rather than "Applicability", "Vendors"
+  // rather than "Processors". Wording is content, so it lives with the content.
+  for (const [r, l] of Object.entries(meta.pack.labels ?? {})) {
+    if (!(r in NAV_LABEL)) continue;
+    const key = r as Route;
+    if (l.nav) NAV_LABEL[key] = l.nav;
+    TITLE[key] = { h1: l.h1 ?? TITLE[key].h1, sub: l.sub ?? TITLE[key].sub };
+  }
+  /** Without GDPR switched on, a supplier is a supplier: no processor fields. */
+  const specFor = <K extends keyof typeof REGISTERS>(r: K) =>
+    r === "vendors" && !features["privacy"] ? vendorRegister : REGISTERS[r];
 
   return html`
     <div class=${`app${iconsOnly ? " nav-collapsed" : ""}`}>
@@ -707,7 +727,7 @@ export function App(): VNode {
                 ${features["ismsScreen"]
                   // Scope has its own home on the ISMS screen in a product that has one.
                   ? null
-                  : html`<${Programme} canEdit=${canEdit} />`}
+                  : html`<${Programme} canEdit=${canEdit} soc=${Boolean(features["soc"])} />`}
                 ${features["policyTemplates"]
                   // Starter documents are a way of filling in the register,
                   // like the sample library, so they sit beside it rather than
@@ -741,12 +761,12 @@ export function App(): VNode {
                     onClick=${() => pickTab("samples")}>Sample library</button>
                 </div>
                 ${subTab === "samples"
-                  ? html`<${RegisterSamples} kind=${route} spec=${REGISTERS[route as keyof typeof REGISTERS]}
+                  ? html`<${RegisterSamples} kind=${route} spec=${specFor(route as keyof typeof REGISTERS)}
                            canEdit=${canEdit} onAdded=${() => setAddedCount((n) => n + 1)} />`
                   : html`<${Register} csv=${Boolean(features["csv"])} key=${addedCount}
-                           spec=${REGISTERS[route as keyof typeof REGISTERS]} canEdit=${canEdit} links=${linkOptions} />`}
+                           spec=${specFor(route as keyof typeof REGISTERS)} canEdit=${canEdit} links=${linkOptions} />`}
               </>`
-            : html`<${Register} csv=${Boolean(features["csv"])} spec=${REGISTERS[route]} canEdit=${canEdit} links=${linkOptions} />`}
+            : html`<${Register} csv=${Boolean(features["csv"])} spec=${specFor(route)} canEdit=${canEdit} links=${linkOptions} />`}
         </main>
       </div>
     </div>`;

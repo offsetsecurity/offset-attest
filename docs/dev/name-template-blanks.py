@@ -5,7 +5,7 @@
 The ISMS document set (00 to 13) is built with its blanks already named, by a generator that
 is not in this repository. The seven starter policies were made another way, so this
 reads their finished Word files, wraps every yellow <placeholder> in a content control
-tagged with its name, and adds the seven to packs/accord/templates/fields.json.
+tagged with its name, and adds the seven to packs/attest/templates/fields.json.
 
 It can be run again: a blank that already has a name is left alone, and the seven's entries
 in fields.json are replaced, not added to.
@@ -23,7 +23,7 @@ import sys
 import zipfile
 from pathlib import Path
 
-PACK = Path(__file__).resolve().parents[2] / "packs" / "accord" / "templates"
+PACK = Path(__file__).resolve().parents[2] / "packs" / "attest" / "templates"
 FILES = [
     ("Master_Information_Security_Policy.docx", "P1"),
     ("Acceptable_Use_Policy.docx", "P2"),

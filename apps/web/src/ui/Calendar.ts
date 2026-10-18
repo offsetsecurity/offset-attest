@@ -13,9 +13,9 @@ import { calendar, type Calendar as CalendarData, type CalendarItem } from "../p
  */
 
 const KIND_SCREEN: Record<string, string> = {
-  policies: "Notices and policies", tasks: "Tasks", findings: "Findings", evidence: "Evidence",
-  vendors: "Processors and suppliers", objectives: "Objectives", training: "Training",
-  reviews: "Audits and reviews", controls: "Duties", isms: "ISMS",
+  policies: "Policies", tasks: "Tasks", findings: "Exceptions", evidence: "Evidence",
+  vendors: "Vendors", objectives: "Objectives", training: "Training",
+  reviews: "Internal audits", controls: "Criteria", isms: "ISMS", engagements: "SOC reports",
   requests: "Requests", breaches: "Breaches", datamap: "Data map", dpias: "DPIAs", consents: "Consent records",
 };
 

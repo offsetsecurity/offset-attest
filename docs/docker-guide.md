@@ -1,4 +1,4 @@
-# Offset Accord on Docker, step by step
+# Offset Attest on Docker, step by step
 
 This guide assumes you have never used Docker. Every step says what to type
 and what you should see afterwards. If what you see does not match, stop and
@@ -84,21 +84,21 @@ You should now see a version number. If you do, Docker is installed.
 
 ---
 
-# Part 3. Getting Offset Accord
+# Part 3. Getting Offset Attest
 
 **3.1** Download this file from the release page:
 
-    offset-accord-0.2.3-docker.zip
+    offset-attest-0.2.3-docker.zip
 
 It is small, about 6 KB. It is not the product - it is the instructions
 Docker needs to fetch the product for you.
 
 **3.2** Make a folder for it. In File Explorer, go to your C: drive and make
-a folder called `Offset`, and inside that one called `Accord`.
+a folder called `Offset`, and inside that one called `Attest`.
 
 So you end up with:
 
-    C:\Offset\Accord
+    C:\Offset\Attest
 
 **3.3** Right-click the zip file you downloaded, choose **Extract All**,
 and extract it into that folder.
@@ -120,11 +120,11 @@ files up one level.
 
 **4.2** Tell it to work in your new folder. Type this and press Enter:
 
-    cd C:\Offset\Accord
+    cd C:\Offset\Attest
 
 `cd` means "change directory" - it is how you tell the black window which
 folder to work in. The text at the left of the window changes to show the
-folder you are now in. It should end with `Accord>`.
+folder you are now in. It should end with `Attest>`.
 
 **4.3** Make your own copy of the settings file:
 
@@ -233,9 +233,9 @@ Save with Ctrl+S and close Notepad.
 left.
 
 **6.2** In Command Prompt, make sure you are still in your folder. The text
-at the left should end with `Accord>`. If not:
+at the left should end with `Attest>`. If not:
 
-    cd C:\Offset\Accord
+    cd C:\Offset\Attest
 
 **6.3** Type this and press Enter:
 
@@ -248,9 +248,9 @@ bars scrolling past.
 **6.5** When it finishes you see three lines ending in **Started**, something
 like:
 
-    Container offset-accord-app-1      Started
-    Container offset-accord-worker-1   Started
-    Container offset-accord-updater-1  Started
+    Container offset-attest-app-1      Started
+    Container offset-attest-worker-1   Started
+    Container offset-attest-updater-1  Started
 
 That is it. The product is running.
 
@@ -282,7 +282,7 @@ create it instead of you.
 
 # Part 8. The five commands you will use
 
-All of these must be typed in your folder - `cd C:\Offset\Accord` first.
+All of these must be typed in your folder - `cd C:\Offset\Attest` first.
 
 **Is it running?**
 
@@ -338,7 +338,7 @@ Start menu and wait until the bottom left says **Running**.
 You are in the wrong folder. The black window must be in the folder holding
 `compose.yaml`. Type:
 
-    cd C:\Offset\Accord
+    cd C:\Offset\Attest
 
 and try again.
 
@@ -352,8 +352,8 @@ remembering to change both lines.
 Your `.env` is naming an image that cannot be reached. Open it and check
 these two lines are exactly as shipped:
 
-    OFFSET_IMAGE=ghcr.io/offsetsecurity/offset-accord:latest
-    OFFSET_UPDATER_IMAGE=ghcr.io/offsetsecurity/offset-accord-updater:latest
+    OFFSET_IMAGE=ghcr.io/offsetsecurity/offset-attest:latest
+    OFFSET_UPDATER_IMAGE=ghcr.io/offsetsecurity/offset-attest-updater:latest
 
 **The page will not load in the browser**
 

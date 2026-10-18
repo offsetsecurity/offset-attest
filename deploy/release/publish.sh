@@ -18,11 +18,11 @@ version=${1:?usage: publish.sh <version> <tag> <files-dir> <notes-file>}
 tag=${2:?}
 files=${3:?}
 notes=${4:?}
-repo="${GITHUB_REPOSITORY:-offsetsecurity/offset-accord}"
+repo="${GITHUB_REPOSITORY:-offsetsecurity/offset-attest}"
 
-id=accord
-winname=OffsetAccord
-display="Offset Accord"
+id=attest
+winname=OffsetAttest
+display="Offset Attest"
 
 out="$files/$id"
 mkdir -p "$out"

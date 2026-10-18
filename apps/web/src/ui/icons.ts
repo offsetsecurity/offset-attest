@@ -119,6 +119,13 @@ export const ICON_SHAPES = {
     ["rect", { x: 5, y: 4, width: 14, height: 17, rx: 2 }],
     ["path", { d: "M9 4V3h6v1M9 10h6M9 14h6M9 18h3" }],
   ],
+  // SOC reports: a document with a seal
+  engagements: [
+    ["path", { d: "M6 3h9l4 4v6M6 3a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h6" }],
+    ["path", { d: "M9 9h6M9 13h4" }],
+    ["circle", { cx: 17, cy: 17, r: 3 }],
+    ["path", { d: "m15.5 19.5-.5 2.5 2-1 2 1-.5-2.5" }],
+  ],
   // Communications: a speech bubble with lines
   communications: [
     ["path", { d: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-5 4V6Z" }],

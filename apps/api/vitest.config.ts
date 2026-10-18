@@ -20,7 +20,7 @@ export default defineConfig({
     fileParallelism: false,
     env: {
       NODE_ENV: "test",
-      PRODUCT: "accord",
+      PRODUCT: "attest",
       LOG_LEVEL: "error",
       SESSION_SECRET: "0".repeat(64),
       FIELD_ENC_KEY: "1".repeat(64),

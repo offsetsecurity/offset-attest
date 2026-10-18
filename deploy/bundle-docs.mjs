@@ -42,7 +42,7 @@ export const DOCS = {
   // What the product claims to do, in one page. A customer who installed
   // from the .exe could not read it without going to a repository they
   // have no access to.
-  "docs/datasheets/offset-accord.md": "datasheet.md",
+  "docs/datasheets/offset-attest.md": "datasheet.md",
 };
 
 /** Every bundle ships the licence as LICENSE.txt, one level above docs/. */

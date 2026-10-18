@@ -9,7 +9,7 @@ const PRODUCT = import.meta.env.PRODUCT as unknown as string;
 // The same marks as the product menu on offsetsecurity.net.
 const MARKS: Record<string, string> = {
   // A person inside a shield: personal data, protected.
-  accord: '<path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><circle cx="12" cy="10" r="2.3"/><path d="M8.3 16.2a4 4 0 0 1 7.4 0"/>',
+  attest: '<path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><circle cx="12" cy="10" r="2.3"/><path d="M8.3 16.2a4 4 0 0 1 7.4 0"/>',
   align: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8"/>',
   anchor: '<circle cx="12" cy="5.5" r="2.5"/><path d="M12 8v13M8 12h8M4.5 13.5a7.5 7.5 0 0 0 15 0"/>',
   ascend: '<path d="M3.5 17.5 9 12l4 4 7.5-7.5"/><path d="M15 8.5h5.5V14"/>',
@@ -20,7 +20,7 @@ const MARKS: Record<string, string> = {
 export function ProductMark({ cls = "pmark" }: { cls?: string } = {}): VNode {
   return html`<svg class=${cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-    dangerouslySetInnerHTML=${{ __html: MARKS[PRODUCT] ?? MARKS["accord"] }}></svg>`;
+    dangerouslySetInnerHTML=${{ __html: MARKS[PRODUCT] ?? MARKS["attest"] }}></svg>`;
 }
 
 /**

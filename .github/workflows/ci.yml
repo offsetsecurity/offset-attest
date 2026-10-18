@@ -42,7 +42,7 @@ jobs:
       # CI-only throwaway values. Production refuses to start without real ones.
       SESSION_SECRET: "0000000000000000000000000000000000000000000000000000000000000000"
       FIELD_ENC_KEY: "1111111111111111111111111111111111111111111111111111111111111111"
-      PRODUCT: accord
+      PRODUCT: attest
       # Turns on the end-to-end suite, which needs a real database. The suite
       # opens its own file so a failed run leaves the migration check alone.
       E2E_DATABASE_URL: file:./.ci/e2e.db
@@ -62,7 +62,7 @@ jobs:
     name: Screen tests (real browser)
     runs-on: ubuntu-latest
     env:
-      PRODUCT: accord
+      PRODUCT: attest
       CI: "true"
     steps:
       - uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        product: [accord]
+        product: [attest]
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3

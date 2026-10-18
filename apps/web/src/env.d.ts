@@ -3,7 +3,7 @@
  * This is how one codebase becomes three products.
  */
 interface ImportMetaEnv {
-  /** 'accord' */
+  /** 'attest' */
   readonly PRODUCT: string;
   /** e.g. 'Offset Align'. Latin, always: this is what the PDFs print. */
   readonly PRODUCT_NAME: string;

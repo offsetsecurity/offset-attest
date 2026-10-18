@@ -36,7 +36,7 @@ if (!/^\d+\.\d+\.\d+$/.test(args.version)) {
 }
 
 /** Folder names for the Windows installers, as build.ps1 and offset.iss name them. */
-const WINDOWS_NAME = { accord: "OffsetAccord" };
+const WINDOWS_NAME = { attest: "OffsetAttest" };
 
 const sha256 = (file) => createHash("sha256").update(readFileSync(file)).digest("hex");
 const artifact = (name) => {

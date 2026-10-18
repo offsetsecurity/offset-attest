@@ -180,8 +180,8 @@ export function TemplateFillScreen({ data, start, canEdit, onClose, onSaved }: {
       return html`<div class="wide tpl-source" key=${n}>
         <b>${(it.header ?? []).slice(0, 3).join(", ")}${(it.header?.length ?? 0) > 3 ? "…" : ""}</b>
         ${count
-          ? html` are filled from ${count} record${count === 1 ? "" : "s"} in ${src?.label ?? "Accord"}.`
-          : html` will be filled from ${src?.label ?? "Accord"} once you add some. Until then the example rows stay.`}
+          ? html` are filled from ${count} record${count === 1 ? "" : "s"} in ${src?.label ?? "Attest"}.`
+          : html` will be filled from ${src?.label ?? "Attest"} once you add some. Until then the example rows stay.`}
         ${src ? html` <a href=${`#/${src.route}`}>Open ${src.label}</a>` : null}
       </div>`;
     }

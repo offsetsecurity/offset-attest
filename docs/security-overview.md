@@ -4,7 +4,7 @@ How the Offset products protect the data you put in them. Written for a
 customer's security team. Everything here describes what the product does
 today; where something is not built yet, it says so.
 
-Applies to Offset Accord.
+Applies to Offset Attest.
 They are one codebase and share every control on this page.
 
 ## In one paragraph

@@ -40,7 +40,8 @@ const plural = (n: number, one: string, many = one + "s"): string =>
 
 /** "control" -> "controls", "subcategory" -> "subcategories". */
 const plurals = (word: string): string =>
-  word.endsWith("y") ? `${word.slice(0, -1)}ies` : `${word}s`;
+  /criterion$/i.test(word) ? `${word.slice(0, -2)}a`
+    : word.endsWith("y") ? `${word.slice(0, -1)}ies` : `${word}s`;
 
 const CHECKS: Record<string, Check> = {
   /**
@@ -559,6 +560,105 @@ const CHECKS: Record<string, Check> = {
           ? `${plural(loose, "open finding")} with no owner or due date`
           : `${plural(open, "open finding")}, all with an owner and a due date`,
     };
+  },
+
+  // ── SOC ───────────────────────────────────────────────────────────────────
+
+  /**
+   * Scope is decided: something has been ruled out, and everything ruled out
+   * says why. Unlike an ISO Statement of Applicability, a SOC report does not
+   * justify what is in; it is the exclusions a CPA firm asks about. Keeping
+   * every category in is possible but rare, so a fresh install is not green.
+   */
+  "soc.scoped": async () => {
+    const excluded = await count("select count(*) as n from controls where status = 'not_applicable'");
+    const bare = await count(
+      "select count(*) as n from controls where status = 'not_applicable' and trim(justification) = ''",
+    );
+    return {
+      done: excluded > 0 && bare === 0,
+      detail: excluded === 0
+        ? "nothing ruled out yet: decide which categories are in the report"
+        : bare
+        ? `${plural(bare, "item")} ruled out with no reason`
+        : `${plural(excluded, "item")} ruled out, each with a reason`,
+    };
+  },
+
+  /** Every criterion in scope has been tested at least once. Type II is all about this. */
+  "soc.tested": async () => {
+    const total = await count("select count(*) as n from controls where status <> 'not_applicable'");
+    const tested = await count(
+      `select count(*) as n from controls c where c.status <> 'not_applicable'
+          and exists (select 1 from control_tests t where t.control_id = c.id)`,
+    );
+    return { done: total > 0 && tested === total, detail: `${tested} of ${total} in scope tested` };
+  },
+
+  /** No criterion in scope whose most recent test failed. An auditor would call it an exception. */
+  "soc.passing": async () => {
+    const tested = await count(
+      `select count(*) as n from controls c where c.status <> 'not_applicable'
+          and exists (select 1 from control_tests t where t.control_id = c.id)`,
+    );
+    const failing = await count(
+      `select count(*) as n from controls c where c.status <> 'not_applicable'
+          and (select t.result from control_tests t where t.control_id = c.id
+                order by t.tested_on desc, t.created_at desc limit 1) in ('Fail', 'Partial')`,
+    );
+    return {
+      done: tested > 0 && failing === 0,
+      detail: tested === 0 ? "nothing tested yet" : failing ? `${plural(failing, "criterion", "criteria")} failing their last test` : "every last test passed",
+    };
+  },
+
+  "registers.vendors": async () => {
+    const n = await count("select count(*) as n from vendors where status <> 'Exited'");
+    return { done: n > 0, detail: n ? `${plural(n, "vendor")} recorded` : "nothing recorded yet" };
+  },
+
+  /**
+   * Every high-criticality vendor reviewed in the last year, with the
+   * assurance it gave written down (CC9.2). Subservice organisations are here.
+   */
+  "soc.vendorsReviewed": async () => {
+    const total = await count("select count(*) as n from vendors where status <> 'Exited' and criticality = 'High'");
+    const done = await count(
+      `select count(*) as n from vendors where status <> 'Exited' and criticality = 'High'
+          and trim(assurance) <> '' and assessed_date >= date('now', '-12 months')`,
+    );
+    return {
+      done: total > 0 && done === total,
+      detail: total ? `${done} of ${total} high-criticality vendors reviewed in the last 12 months` : "no high-criticality vendors recorded",
+    };
+  },
+
+  "registers.training": async () => {
+    const n = await count("select count(*) as n from training where result = 'Completed'");
+    return { done: n > 0, detail: n ? `${plural(n, "completed training record")}` : "no completed training recorded" };
+  },
+
+  /** An internal review of the controls has been held (CC4.1). */
+  "soc.internalReview": async () => {
+    const n = await count("select count(*) as n from reviews where status = 'Completed'");
+    return { done: n > 0, detail: n ? `${plural(n, "review")} completed` : "none held yet" };
+  },
+
+  /** The audit is booked: a SOC report recorded with a CPA firm and a period. */
+  "soc.engaged": async () => {
+    const n = await count(
+      `select count(*) as n from engagements where status <> 'Cancelled'
+          and trim(auditor) <> '' and period_end is not null`,
+    );
+    return { done: n > 0, detail: n ? `${plural(n, "SOC report")} with a CPA firm and a period` : "no SOC report booked yet" };
+  },
+
+  "soc.issued": async () => {
+    const { rows } = await query<{ title: string; report_date: string }>(
+      `select title, report_date from engagements where status = 'Report issued' order by report_date desc limit 1`,
+    );
+    const last = rows[0];
+    return { done: Boolean(last), detail: last ? `${last.title}, issued ${last.report_date}` : "no report issued yet" };
   },
 
   /**

@@ -19,7 +19,7 @@ import { seedControls } from "../src/db/seed.js";
  * documents a pack ships are really in it.
  */
 /**
- * A pack with the registers and example data this suite drives. Accord's while
+ * A pack with the registers and example data this suite drives. Attest's while
  * every product shared a repository; this product's own where it has them, and
  * the suite is skipped where it does not - the feature is covered in the
  * repository of a product that has it.
@@ -28,7 +28,7 @@ const ownPack = resolve(process.cwd(), "../../packs", process.env["PRODUCT"] ?? 
 const ownFeatures = (JSON.parse(readFileSync(join(ownPack, "pack.json"), "utf8")) as {
   features?: Record<string, boolean>;
 }).features ?? {};
-const ACCORD_PACK = ownPack;
+const ATTEST_PACK = ownPack;
 
 const DB = process.env["E2E_DATABASE_URL"];
 // Also skipped where this product has no management-system registers.
@@ -48,7 +48,7 @@ maybe("the management-system registers", () => {
     app.inject({ method: "POST", url, headers: write(), payload });
 
   beforeAll(async () => {
-    process.env["PACK_DIR"] = ACCORD_PACK;
+    process.env["PACK_DIR"] = ATTEST_PACK;
     await migrate();
     for (const t of [
       "audit_log", "sessions", "users", "vendor_controls", "vendor_risks", "training_controls",
@@ -300,14 +300,14 @@ maybe("the management-system registers", () => {
 
   (ownFeatures["policyTemplates"] === true ? it : it.skip)("ships the document templates it offers", async () => {
     const index = JSON.parse(
-      await readFile(resolve(ACCORD_PACK, "templates/index.json"), "utf8"),
+      await readFile(resolve(ATTEST_PACK, "templates/index.json"), "utf8"),
     ) as { note: string; documents: { file: string; title: string; about: string }[] };
 
     expect(index.documents.length).toBeGreaterThanOrEqual(8);
     for (const doc of index.documents) {
       expect(doc.title.length).toBeGreaterThan(3);
       expect(doc.about.length).toBeGreaterThan(20);
-      const bytes = await readFile(resolve(ACCORD_PACK, "templates", doc.file));
+      const bytes = await readFile(resolve(ATTEST_PACK, "templates", doc.file));
       // A .docx is a zip, and an empty one helps nobody.
       expect(bytes.subarray(0, 2).toString()).toBe("PK");
       expect(bytes.length).toBeGreaterThan(10_000);

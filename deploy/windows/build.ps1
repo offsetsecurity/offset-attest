@@ -11,7 +11,7 @@
   drift: build this first, then compile offset.iss against its output.
 
 .PARAMETER Product
-  accord. Kept as a parameter so the scripts stay the shape they had when
+  attest. Kept as a parameter so the scripts stay the shape they had when
   every product came from one repository.
 
 .PARAMETER NodeExe
@@ -26,8 +26,8 @@
 [CmdletBinding()]
 param(
   [Parameter(Mandatory = $false)]
-  [ValidateSet("accord")]
-  [string]$Product = "accord",
+  [ValidateSet("attest")]
+  [string]$Product = "attest",
 
   [string]$NodeExe = (Get-Command node).Source,
 
@@ -52,7 +52,7 @@ if ($bundled -ne $pinned) {
   throw "This would bundle Node $bundled, but .nvmrc pins $pinned. Pass -NodeExe with the path to an official node-v$pinned-win-x64\node.exe."
 }
 
-$names = @{ accord = "Offset Accord" }
+$names = @{ attest = "Offset Attest" }
 $display = $names[$Product]
 $folder = $display -replace " ", ""
 

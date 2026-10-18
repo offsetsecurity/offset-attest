@@ -18,7 +18,7 @@ const maybe = DB ? describe : describe.skip;
  * A pack belonging to another product, when this repository has it.
  *
  * Some behaviour only appears for a framework that switches it on - baselines
- * for Anchor, maturity for Irtiqa, the Statement of Applicability for Accord -
+ * for Anchor, maturity for Irtiqa, the Statement of Applicability for Attest -
  * so those tests borrow that pack. A repository that holds one product has
  * only its own, and skips the rest: the feature is still covered, in the
  * repository whose product actually has it.
@@ -28,7 +28,7 @@ const packIfPresent = (id: string): string | null => {
   return existsSync(join(dir, "pack.json")) ? dir : null;
 };
 
-const ACCORD_PACK = packIfPresent("assure");
+const ATTEST_PACK = packIfPresent("assure");
 
 /** What this product's own framework switches on. */
 const OWN_FEATURES = (JSON.parse(
@@ -82,7 +82,7 @@ maybe("reports", () => {
     // Align has neither a Statement of Applicability nor 800-53B baselines.
     expect(ids).toContain("executive-summary");
     expect(ids).toContain("gap-report");
-    // Only where the framework has one. Accord does; CSF does not.
+    // Only where the framework has one. Attest does; CSF does not.
     if (hasSoa) expect(ids).toContain("statement-of-applicability");
     else expect(ids).not.toContain("statement-of-applicability");
     const hasBaselines = OWN_FEATURES["baselines"] === true;
@@ -90,8 +90,8 @@ maybe("reports", () => {
     else expect(ids).not.toContain("baseline-tailoring");
   });
 
-  (ACCORD_PACK ? it : it.skip)("offers the Statement of Applicability when the pack declares it", async () => {
-    process.env["PACK_DIR"] = ACCORD_PACK!;
+  (ATTEST_PACK ? it : it.skip)("offers the Statement of Applicability when the pack declares it", async () => {
+    process.env["PACK_DIR"] = ATTEST_PACK!;
     const res = await app.inject({ url: "/api/v1/reports", headers: read() });
     const ids = res.json().reports.map((r: { id: string }) => r.id);
     expect(ids).toContain("statement-of-applicability");

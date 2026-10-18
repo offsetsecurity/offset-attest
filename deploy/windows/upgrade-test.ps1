@@ -6,7 +6,7 @@
   throwaway machine: the "Upgrade test" workflow runs it on a fresh GitHub
   Windows runner. Do not run it on a computer that has the product installed.
 
-    upgrade-test.ps1 -Old OffsetAccord-0.2.36-setup.exe -New OffsetAccord-0.2.37-setup.exe -Version 0.2.37
+    upgrade-test.ps1 -Old OffsetAttest-0.2.36-setup.exe -New OffsetAttest-0.2.37-setup.exe -Version 0.2.37
 #>
 param(
   [Parameter(Mandatory)] [string]$Old,

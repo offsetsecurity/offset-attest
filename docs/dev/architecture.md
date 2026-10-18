@@ -2,12 +2,12 @@
 
 ## One product, one repository
 
-This repository is **Offset Accord** (EU GDPR) and nothing else: the
+This repository is **Offset Attest** (SOC 1, SOC 2 and SOC 3) and nothing else: the
 application and the framework pack it is built with. There is no shared engine
 and nothing is fetched from another repository.
 
 ```
-pnpm build     →  packs/accord/*  compiled into the web bundle
+pnpm build     →  packs/attest/*  compiled into the web bundle
                   and copied into the image at /app/pack
 ```
 
@@ -20,11 +20,11 @@ flowchart TB
     api["apps/api<br/>API, worker, updater"]
     web["apps/web<br/>screens"]
   end
-  pack["packs/accord<br/>EU GDPR"]
+  pack["packs/attest<br/>SOC 1, 2 and 3"]
   build{{"pnpm build"}}
   code --> build
   pack --> build
-  build --> product["Offset Accord"]
+  build --> product["Offset Attest"]
   subgraph ship["What ships"]
     win["Windows installer<br/>.exe"]
     lin["Linux installer<br/>.tar.gz"]
@@ -41,7 +41,7 @@ appear, so changing what a screen says is a change to the pack, not to the code.
 
 | Product | Pack | Screens of its own |
 |---|---|---|
-| Offset Accord | `accord` | Data map, DPIAs, Requests, Breaches, Consent records, Processors and suppliers, Get ready, Gap analysis, Calendar |
+| Offset Attest | `attest` | Scope, SOC reports, Vendors, Training, Internal audits, Exceptions, Get ready, Gap analysis, Calendar |
 
 ## Runtime
 
@@ -137,7 +137,7 @@ flowchart LR
 ### Track C — Linux native
 
 A tarball with its own Node, installed as two systemd units,
-`offset-accord` and `offset-accord-worker`, the second `PartOf` the first.
+`offset-attest` and `offset-attest-worker`, the second `PartOf` the first.
 Application in `/opt`, data in `/var/lib`, a system account with no shell.
 
 ```mermaid
@@ -275,7 +275,7 @@ Framework-specific fields live in a JSON `attrs` column:
 
 | Product | What goes in `attrs` |
 | --- | --- |
-| Accord | — (the GDPR records have their own tables) |
+| Attest | — (SOC reports have their own table, `engagements`) |
 
 ### Maturity is a column, not an attr
 

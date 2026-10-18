@@ -5,7 +5,8 @@ import { canRead, canWrite, requireAuth, assertCanWrite } from "../auth/rbac.js"
 import { audit } from "../audit/audit.js";
 import { notFound } from "../lib/errors.js";
 import { MATURITY_DEFAULT_TARGET, MATURITY_MAX, MATURITY_MIN } from "../config.js";
-import { compareRefs } from "../lib/refs.js";
+import { byThemeThenRef } from "../lib/refs.js";
+import { themeOrder } from "../lib/pack.js";
 
 const STATUSES = ["not_started", "in_progress", "implemented", "not_applicable"] as const;
 
@@ -145,8 +146,10 @@ export async function controlRoutes(app: FastifyInstance): Promise<void> {
       params,
     );
     // Sorted here rather than in SQL, because "3.3.10" has to come after
-    // "3.3.2" and text ordering puts it before. See lib/refs.ts.
-    return { controls: rows.sort((a, b) => compareRefs(a.ref, b.ref)).map(hydrate) };
+    // "3.3.2" and text ordering puts it before, and because the framework's own
+    // order of themes (CC1 to CC9, then Availability) is not alphabetical.
+    // See lib/refs.ts.
+    return { controls: byThemeThenRef(rows, await themeOrder()).map(hydrate) };
   });
 
   /** Registered before /:id so the literal path wins. */

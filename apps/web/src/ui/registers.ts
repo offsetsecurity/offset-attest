@@ -3,7 +3,7 @@ import { html } from "./html.js";
 import type { RegisterSpec, ColumnSpec } from "./Register.js";
 import {
   assets, policies, tasks, incidents, findings, vendors, training, objectives, parties,
-  reviews, communications, type RegisterRow,
+  reviews, communications, engagements, type RegisterRow,
 } from "../persistence/apiClient.js";
 
 /**
@@ -368,7 +368,7 @@ export const findingRegisterWithCorrectiveAction: RegisterSpec<RegisterRow> = {
   ],
 };
 
-// ── the management-system registers (Offset Accord) ──────────────────────────
+// ── the management-system registers (Offset Attest) ──────────────────────────
 
 /**
  * Five registers ISO 27001 asks for by name. Each is configuration, like the
@@ -641,5 +641,82 @@ export const reviewRegister: RegisterSpec<RegisterRow> = {
   validate: (d) =>
     d["status"] === "Completed" && !String(d["heldDate"] ?? "").trim()
       ? "A completed audit or review needs the date it was held."
+      : null,
+};
+
+// ── SOC reports ─────────────────────────────────────────────────────────────
+
+const SOC_REPORTS = ["SOC 1", "SOC 2", "SOC 3"] as const;
+const SOC_TYPES = ["Type I", "Type II", "Not applicable"] as const;
+const SOC_STATUS = ["Planning", "Readiness", "Observation period", "Fieldwork", "Report issued", "Cancelled"] as const;
+const SOC_OPINIONS = ["Not yet issued", "Unmodified", "Qualified", "Adverse", "Disclaimer"] as const;
+
+/** "1 Jan 2026 to 30 Jun 2026", or "as of 30 Jun 2026" for a Type I. */
+function socPeriod(r: RegisterRow): string {
+  const start = String(r["period_start"] ?? "");
+  const end = String(r["period_end"] ?? "");
+  if (!end) return "";
+  return r["report_type"] === "Type II" && start ? `${start} to ${end}` : `as of ${end}`;
+}
+
+export const engagementRegister: RegisterSpec<RegisterRow> = {
+  api: engagements,
+  attachTo: "engagements",
+  singular: "SOC report",
+  plural: "SOC reports",
+  searchText: (r) => `${r["title"]} ${r["report"]} ${r["auditor"]} ${r["categories"]} ${r["exceptions"]}`,
+  filters: [
+    { key: "report", label: "All reports", options: SOC_REPORTS },
+    { key: "status", label: "All statuses", options: SOC_STATUS },
+  ],
+  columns: [
+    { ...titleCell((r) => r["title"], (r) => String(r["auditor"] ?? "")), header: "SOC report" },
+    { header: "Report", width: "110px", cell: (r) => plain(`${r["report"]} ${r["report_type"] === "Not applicable" ? "" : r["report_type"]}`) },
+    { header: "Status", width: "140px", cell: (r) => badge(r["status"]) },
+    { header: "Period", width: "200px", cell: (r) => plain(socPeriod(r)) },
+    { header: "Opinion", width: "120px", cell: (r) => badge(r["opinion"]) },
+    { ...dueCell("next_due", (r) => r["status"] === "Cancelled"), header: "Next due" },
+  ],
+  fields: [
+    { key: "title", label: "Name", kind: "text", wide: true, required: true,
+      hint: "For example: SOC 2 Type II, 2026." },
+    { key: "report", label: "Report", kind: "select", options: SOC_REPORTS },
+    { key: "reportType", label: "Type", kind: "select", options: SOC_TYPES,
+      hint: "Type I tests design at one date. Type II also tests that controls worked over a period, usually 3 to 12 months." },
+    { key: "status", label: "Status", kind: "select", options: SOC_STATUS },
+    { key: "auditor", label: "CPA firm", kind: "text" },
+    { key: "categories", label: "Categories in scope", kind: "text", wide: true,
+      hint: "SOC 2 and SOC 3: Security always, plus any of Availability, Processing integrity, Confidentiality, Privacy." },
+    { key: "periodStart", label: "Period starts", kind: "date", hint: "Type II only." },
+    { key: "periodEnd", label: "Period ends (Type I: as of)", kind: "date" },
+    { key: "reportDate", label: "Report issued on", kind: "date" },
+    { key: "opinion", label: "Opinion", kind: "select", options: SOC_OPINIONS },
+    { key: "nextDue", label: "Next report due", kind: "date",
+      hint: "Customers expect no gap between periods. A reminder goes out ahead of this date." },
+    { key: "owner", label: "Owner", kind: "text" },
+    { key: "ownerEmail", label: "Email reminders to", kind: "text",
+      hint: "When the date comes, this address gets a reminder. Leave empty for none." },
+    { key: "exceptions", label: "Exceptions noted", kind: "textarea", wide: true,
+      hint: "What the auditor found. Raise each one in Exceptions so it is fixed before the next period." },
+    { key: "notes", label: "Notes", kind: "textarea", wide: true },
+    { key: "controlIds", label: "Criteria covered", kind: "links", source: "controls", wide: true },
+  ],
+  blank: () => ({
+    title: "", report: "SOC 2", reportType: "Type II", status: "Planning", auditor: "",
+    categories: "Security", periodStart: null, periodEnd: null, reportDate: null,
+    opinion: "Not yet issued", exceptions: "", nextDue: null, owner: "", ownerEmail: "", notes: "", controlIds: [],
+  }),
+  toInput: (r) => ({
+    title: r["title"], report: r["report"], reportType: r["report_type"], status: r["status"],
+    auditor: r["auditor"], categories: r["categories"], periodStart: r["period_start"],
+    periodEnd: r["period_end"], reportDate: r["report_date"], opinion: r["opinion"],
+    exceptions: r["exceptions"], nextDue: r["next_due"], owner: r["owner"],
+    ownerEmail: r["owner_email"] ?? "", notes: r["notes"], controlIds: r["control_ids"] ?? [],
+  }),
+  validate: (d) =>
+    d["report"] === "SOC 3" && d["reportType"] === "Type I"
+      ? "A SOC 3 report is issued from a Type II examination."
+      : d["status"] === "Report issued" && (!d["reportDate"] || d["opinion"] === "Not yet issued")
+      ? "An issued report needs the date it was issued and the auditor's opinion."
       : null,
 };

@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..");
 
-const PRODUCT = process.env.PRODUCT ?? "accord";
+const PRODUCT = process.env.PRODUCT ?? "attest";
 
 /**
  * One folder per product.

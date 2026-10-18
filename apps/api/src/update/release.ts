@@ -61,10 +61,10 @@ export interface Release {
  * A mirror can be named instead, in updater.json or UPDATE_URL. It is verified
  * against the same keys either way.
  */
-const RELEASE_REPO = "offsetsecurity/offset-accord";
+const RELEASE_REPO = "offsetsecurity/offset-attest";
 
 export function releaseUrlFor(product: string): string {
-  if (product !== "accord") {
+  if (product !== "attest") {
     throw new ReleaseError(`No release channel is known for "${product}".`);
   }
   return `https://github.com/${RELEASE_REPO}/releases/latest/download/release.json`;

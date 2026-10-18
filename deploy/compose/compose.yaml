@@ -38,7 +38,7 @@ services:
 
   api:
     <<: *common
-    image: ghcr.io/offsetsecurity/offset-${PRODUCT:-accord}:${APP_VERSION:-latest}
+    image: ghcr.io/offsetsecurity/offset-${PRODUCT:-attest}:${APP_VERSION:-latest}
     env_file: [../../.env]
     environment:
       <<: *db
@@ -61,7 +61,7 @@ services:
 
   worker:
     <<: *common
-    image: ghcr.io/offsetsecurity/offset-${PRODUCT:-accord}:${APP_VERSION:-latest}
+    image: ghcr.io/offsetsecurity/offset-${PRODUCT:-attest}:${APP_VERSION:-latest}
     command: ["node", "dist/worker.js"]
     depends_on:
       api: { condition: service_healthy }   # so migrations have run first

@@ -149,6 +149,7 @@ export async function allItems(): Promise<DueItem[]> {
     { ref: "Objective", table: "objectives", sql: "select id, title, due_date as due, owner, owner_email from objectives where due_date is not null and status not in ('Met', 'Missed')" },
     { ref: "Interested party review", table: "parties", sql: "select id, name as title, review_date as due, owner, owner_email from parties where review_date is not null" },
     { ref: "Audit or review", table: "reviews", sql: "select id, title, planned_date as due, led_by as owner, owner_email from reviews where planned_date is not null and status in ('Planned', 'In progress')" },
+    { ref: "SOC report", table: "engagements", sql: "select id, title, next_due as due, owner, owner_email from engagements where next_due is not null and status <> 'Cancelled'" },
     // The GDPR records. A request has a legal answer date; a breach has 72
     // hours, chased by its day; everything else is the yearly review.
     { ref: "Individual request", table: "subject_requests", sql: "select id, request_type || ' request from ' || requester as title, due_date as due, owner, owner_email from subject_requests where status not in ('Done', 'Refused')" },

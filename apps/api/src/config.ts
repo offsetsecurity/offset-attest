@@ -13,7 +13,7 @@ loadDotenv(); // also allow a local .env inside apps/api
  * packs/ here - the content is maintained separately, the engine is not.
  * See docs/dev/product-parity.md.
  */
-export const PRODUCTS = ["accord"] as const;
+export const PRODUCTS = ["attest"] as const;
 export type Product = (typeof PRODUCTS)[number];
 
 /**
@@ -31,7 +31,7 @@ export type Product = (typeof PRODUCTS)[number];
 export const EDITION = "";
 
 export const PRODUCT_META: Record<Product, { name: string; framework: string }> = {
-  accord: { name: "Offset Accord", framework: "EU GDPR" },
+  attest: { name: "Offset Attest", framework: "SOC 1, SOC 2 and SOC 3" },
 };
 
 const hex32 = z
@@ -39,7 +39,7 @@ const hex32 = z
   .regex(/^[0-9a-fA-F]{64}$/, "must be 32 bytes of hex (64 chars)");
 
 const schema = z.object({
-  PRODUCT: z.enum(PRODUCTS).default("accord"),
+  PRODUCT: z.enum(PRODUCTS).default("attest"),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace"]).default("info"),
 

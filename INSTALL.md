@@ -30,7 +30,7 @@ What you download:
 
 | Framework | Windows installer | Linux installer |
 |---|---|---|
-| EU GDPR | `OffsetAccord-0.1.5-setup.exe` | `offset-accord-0.1.5-linux-x64.tar.gz` |
+| SOC 1, SOC 2 and SOC 3 | `OffsetAttest-0.1.5-setup.exe` | `offset-attest-0.1.5-linux-x64.tar.gz` |
 
 The version number in the file names changes with each release.
 
@@ -40,7 +40,7 @@ questionnaire, for whoever reviews software before you install it; a page on
 what the product is built with; the troubleshooting guide; and the release
 notes. The Windows installer adds a
 Start menu shortcut to it, and the Linux installer copies it to
-`/opt/offset-accord/docs`. The same help is inside the product,
+`/opt/offset-attest/docs`. The same help is inside the product,
 under **Help** and **Documentation**.
 
 **Two products on one machine** need different ports: `HTTP_PORT=` in each
@@ -101,7 +101,7 @@ Nothing else. No database to install, no runtime to install.
 
 ### Option A — the installer
 
-1. Run **`OffsetAccord-0.1.0-setup.exe`**.
+1. Run **`OffsetAttest-0.1.0-setup.exe`**.
 
 2. Windows will say **"Windows protected your PC"**.
 
@@ -122,12 +122,12 @@ Nothing else. No database to install, no runtime to install.
 
 | | |
 |---|---|
-| `C:\Program Files\Offset Security\Offset Accord\` | The program: the application, its own copy of Node.js, the uninstaller and the documents. Replaced whole on an upgrade. Nothing you enter is stored here |
-| `C:\ProgramData\Offset Security\Offset Accord\data\` | The database (`offset.db`) |
-| `C:\ProgramData\Offset Security\Offset Accord\evidence\` | Uploaded evidence documents |
-| `C:\ProgramData\Offset Security\Offset Accord\backups\` | Backups: the nightly one, and those taken before an update or a restore |
-| `C:\ProgramData\Offset Security\Offset Accord\logs\` | Logs. This is what support asks for |
-| `C:\ProgramData\Offset Security\Offset Accord\.env` | Settings, the port, and the two secrets |
+| `C:\Program Files\Offset Security\Offset Attest\` | The program: the application, its own copy of Node.js, the uninstaller and the documents. Replaced whole on an upgrade. Nothing you enter is stored here |
+| `C:\ProgramData\Offset Security\Offset Attest\data\` | The database (`offset.db`) |
+| `C:\ProgramData\Offset Security\Offset Attest\evidence\` | Uploaded evidence documents |
+| `C:\ProgramData\Offset Security\Offset Attest\backups\` | Backups: the nightly one, and those taken before an update or a restore |
+| `C:\ProgramData\Offset Security\Offset Attest\logs\` | Logs. This is what support asks for |
+| `C:\ProgramData\Offset Security\Offset Attest\.env` | Settings, the port, and the two secrets |
 
 The data is in ProgramData rather than Program Files because Program Files is
 read-only for ordinary users and the application has to be able to write its
@@ -149,8 +149,8 @@ be asked to create an administrator, because one already exists.
 That is what you want after a reinstall or an upgrade. If you wanted a clean
 start instead:
 
-1. Uninstall Offset Accord: Settings, then Apps, then Offset Accord, then Uninstall.
-2. Delete the folder `C:\ProgramData\Offset Security\Offset Accord`.
+1. Uninstall Offset Attest: Settings, then Apps, then Offset Attest, then Uninstall.
+2. Delete the folder `C:\ProgramData\Offset Security\Offset Attest`.
 3. Install again. It asks for a new administrator.
 
 **Deleting that folder erases the database, the evidence, the backups and the
@@ -183,7 +183,7 @@ To turn it on later:
 No installer, nothing written to the registry.
 
 1. Unzip it anywhere you can write to.
-2. Double-click **`Start Offset Accord.cmd`**.
+2. Double-click **`Start Offset Attest.cmd`**.
 3. Leave the window open.
 
 Everything lives inside that folder. To move it to another machine, copy the
@@ -237,9 +237,9 @@ Unpack the release, check it arrived intact, and run the
 installer:
 
 ```bash
-sha256sum --check offset-accord-0.1.0-linux-x64.tar.gz.sha256
-tar xzf offset-accord-0.1.0-linux-x64.tar.gz
-cd offset-accord
+sha256sum --check offset-attest-0.1.0-linux-x64.tar.gz.sha256
+tar xzf offset-attest-0.1.0-linux-x64.tar.gz
+cd offset-attest
 sudo ./install.sh
 ```
 
@@ -269,9 +269,9 @@ works and nobody is ever sent a reminder or backed up.
 Afterwards:
 
 ```bash
-systemctl status offset-accord offset-accord-worker     # are they running
-systemctl restart offset-accord offset-accord-worker    # after changing .env
-journalctl -u offset-accord -u offset-accord-worker -f  # watch the logs
+systemctl status offset-attest offset-attest-worker     # are they running
+systemctl restart offset-attest offset-attest-worker    # after changing .env
+journalctl -u offset-attest -u offset-attest-worker -f  # watch the logs
 ```
 
 **Back up `/var/lib/offset-<product>`.** It holds the database, the evidence
@@ -289,8 +289,8 @@ and your secrets are left alone.
 **Removing it:**
 
 ```bash
-sudo ./uninstall.sh accord                 # keeps the data
-sudo ./uninstall.sh accord --delete-data   # removes it. No undo
+sudo ./uninstall.sh attest                 # keeps the data
+sudo ./uninstall.sh attest --delete-data   # removes it. No undo
 ```
 
 ### Docker
@@ -302,7 +302,7 @@ cd deploy/docker
 cp env.example .env
 ```
 
-`PRODUCT=accord` is already set for you; this image carries no other product.
+`PRODUCT=attest` is already set for you; this image carries no other product.
 
 Now fill in the two secrets `.env` asks for. Generate each one with:
 
@@ -362,7 +362,7 @@ You need Docker and the Compose plugin. Pull the image and
 start it:
 
 ```bash
-docker pull ghcr.io/offsetsecurity/offset-accord:0.1.5
+docker pull ghcr.io/offsetsecurity/offset-attest:0.1.5
 ```
 
 `deploy/docker/compose.yaml` and `env.example` in this repository show the
@@ -772,13 +772,13 @@ docker compose exec app node dist/admin/reset-password.js admin
 **Linux:**
 
 ```bash
-sudo /opt/offset-accord/reset-password.sh admin
+sudo /opt/offset-attest/reset-password.sh admin
 ```
 
-**Windows:** open the Start menu, find **Reset Offset Accord administrator
+**Windows:** open the Start menu, find **Reset Offset Attest administrator
 password**, right-click it and choose **Run as administrator**. Type the
 administrator's username when it asks. The same file is in the install folder,
-`C:\Program Files\Offset Security\Offset Accord\Reset administrator password.cmd`.
+`C:\Program Files\Offset Security\Offset Attest\Reset administrator password.cmd`.
 
 It prints the temporary password. Sign in with it, and choose a new password.
 Using it is recorded in the audit log.
@@ -787,9 +787,9 @@ Using it is recorded in the audit log.
 
 ## Removing it
 
-**Windows:** Settings → Apps → Offset Accord → Uninstall.
+**Windows:** Settings → Apps → Offset Attest → Uninstall.
 
-**Linux installer:** `sudo ./uninstall.sh accord`, from the unpacked bundle.
+**Linux installer:** `sudo ./uninstall.sh attest`, from the unpacked bundle.
 
 **Docker:** `docker compose down`.
 

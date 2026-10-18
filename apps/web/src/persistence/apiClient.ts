@@ -494,6 +494,11 @@ export interface Pack {
    * `statementOfApplicability`. One codebase, three products, decided here.
    */
   features?: Record<string, boolean>;
+  /**
+   * The pack's own names for screens, by route: "Scope" for what another
+   * framework calls Applicability. Anything not named keeps the product's word.
+   */
+  labels?: Record<string, { nav?: string; h1?: string; sub?: string }>;
 }
 
 export interface Programme {
@@ -943,6 +948,7 @@ export const training = registerApi("training", "training");
 export const objectives = registerApi("objectives", "objective");
 export const parties = registerApi("parties", "party");
 export const reviews = registerApi("reviews", "review");
+export const engagements = registerApi("engagements", "engagement");
 export const communications = registerApi("communications", "communication");
 
 // ── everything with a date on it ─────────────────────────────────────────────

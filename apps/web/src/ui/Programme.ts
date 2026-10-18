@@ -17,7 +17,7 @@ import { programme, type Programme as ProgrammeRow } from "../persistence/apiCli
  * is no format to get wrong.
  */
 
-export function Programme({ canEdit }: { canEdit: boolean }): VNode {
+export function Programme({ canEdit, soc = false }: { canEdit: boolean; soc?: boolean }): VNode {
   const [row, setRow] = useState<ProgrammeRow | null>(null);
   const [scope, setScope] = useState("");
   const [methodology, setMethodology] = useState("");
@@ -65,10 +65,11 @@ export function Programme({ canEdit }: { canEdit: boolean }): VNode {
 
   return html`
     <form class="card pad" onSubmit=${save}>
-      <h2 class="section-h">Scope</h2>
+      <h2 class="section-h">${soc ? "System description" : "Scope"}</h2>
       <p class="muted section-note">
-        What this programme covers. The first thing an assessor reads, and what every
-        later question gets settled against. A paragraph is enough.
+        ${soc
+          ? "The system your SOC report covers, and what you promise customers. Both go into the SOC 3 draft and the description your CPA firm reviews."
+          : "What this programme covers. The first thing an assessor reads, and what every later question gets settled against. A paragraph is enough."}
       </p>
 
       ${note
@@ -76,16 +77,20 @@ export function Programme({ canEdit }: { canEdit: boolean }): VNode {
         : null}
 
       <div class="form-grid">
-        <${Field} label="What is in scope" wide=${true}
-                  hint="Which company, which services, which locations, which systems. Say plainly what is not covered.">
+        <${Field} label=${soc ? "The system and its boundaries" : "What is in scope"} wide=${true}
+                  hint=${soc
+                    ? "The service customers buy, and the infrastructure, software, people, procedures and data behind it. Say plainly what is outside the boundary."
+                    : "Which company, which services, which locations, which systems. Say plainly what is not covered."}>
           <textarea rows="5" disabled=${!canEdit} value=${scope}
             placeholder="This programme covers ..."
             onInput=${(e: Event) => setScope((e.target as HTMLTextAreaElement).value)}
           ></textarea>
         <//>
 
-        <${Field} label="How you assessed it" wide=${true}
-                  hint="Optional. Who did the assessment, when, and what they looked at. Worth a line so the next person knows.">
+        <${Field} label=${soc ? "Service commitments and system requirements" : "How you assessed it"} wide=${true}
+                  hint=${soc
+                    ? "What you promise customers in contracts and on your website (uptime, data protection, support), and what the system must do to keep those promises."
+                    : "Optional. Who did the assessment, when, and what they looked at. Worth a line so the next person knows."}>
           <textarea rows="4" disabled=${!canEdit} value=${methodology}
             onInput=${(e: Event) => setMethodology((e.target as HTMLTextAreaElement).value)}
           ></textarea>

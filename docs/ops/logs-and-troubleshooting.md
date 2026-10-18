@@ -85,8 +85,8 @@ by us.
 #### Checking on it
 
 ```powershell
-Get-ScheduledTask -TaskName "Offset Accord"        # registered?
-Get-ScheduledTask -TaskName "Offset Accord" | Get-ScheduledTaskInfo   # last run, last result
+Get-ScheduledTask -TaskName "Offset Attest"        # registered?
+Get-ScheduledTask -TaskName "Offset Attest" | Get-ScheduledTaskInfo   # last run, last result
 ```
 
 The installer does not just register the task and call it done. It starts the

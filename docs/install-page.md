@@ -1,6 +1,6 @@
-# Installing Offset Accord
+# Installing Offset Attest
 
-Keep the records GDPR asks for, meet its deadlines, and show a regulator everything in one report. For the **EU GDPR**, on your own server.
+Get ready for a SOC 1, SOC 2 or SOC 3 report: scope, criteria, evidence, tests and the documents your CPA firm asks for. On your own server.
 
 It runs on one machine, inside your network. No cloud account, no licence
 server, and nothing leaves the machine you install it on.
@@ -20,7 +20,7 @@ Up to about 50 users. For more, talk to us first.
 
 ## Windows
 
-1. Download **OffsetAccord-0.2.3-setup.exe**
+1. Download **OffsetAttest-0.2.3-setup.exe**
 2. Run it. Windows will warn you that the publisher is unknown - choose **More
    info**, then **Run anyway**. The installer is not code-signed yet
 3. It asks which port to use, and offers one that nothing else is using.
@@ -31,24 +31,24 @@ Up to about 50 users. For more, talk to us first.
 
 The program goes in:
 
-    C:\Program Files\Offset Security\Offset Accord
+    C:\Program Files\Offset Security\Offset Attest
 
 Your data is kept outside the program folder, in:
 
-    C:\ProgramData\Offset Security\Offset Accord
+    C:\ProgramData\Offset Security\Offset Attest
 
 That folder is hidden by default; type the path into File Explorer's address
 bar to open it. The database, the evidence documents, the backups, the logs and
 your settings are all in there. Back up that folder and you have backed up
 everything.
 
-**To remove it:** Settings, then Apps, then Offset Accord, then Uninstall. Your
+**To remove it:** Settings, then Apps, then Offset Attest, then Uninstall. Your
 data is left behind on purpose.
 
 **If you install it again,** it finds that data and uses it: the same
 administrator and password, the same records, the same port. You will not be
 asked to create an administrator. To start from nothing, uninstall, delete the
-`C:\ProgramData\Offset Security\Offset Accord` folder, then install. That erases
+`C:\ProgramData\Offset Security\Offset Attest` folder, then install. That erases
 everything in it, and there is no undo.
 
 ---
@@ -58,32 +58,32 @@ everything in it, and there is no undo.
 Ubuntu, Debian, RHEL, Amazon Linux and SUSE. It installs as two systemd
 services.
 
-1. Download **offset-accord-0.2.3-linux-x64.tar.gz**
+1. Download **offset-attest-0.2.3-linux-x64.tar.gz**
 2. Unpack it and run the installer as root:
 
 ```bash
-tar xzf offset-accord-0.2.3-linux-x64.tar.gz
-cd offset-accord
-sudo ./install.sh accord
+tar xzf offset-attest-0.2.3-linux-x64.tar.gz
+cd offset-attest
+sudo ./install.sh attest
 ```
 
 It picks a port nothing else is listening on and tells you which. To choose
 one yourself:
 
 ```bash
-sudo PORT=8085 ./install.sh accord
+sudo PORT=8085 ./install.sh attest
 ```
 
 Afterwards:
 
 ```bash
-systemctl status offset-accord          # is it running
-journalctl -u offset-accord -f          # watch the logs
+systemctl status offset-attest          # is it running
+journalctl -u offset-attest -f          # watch the logs
 ```
 
-Your data is in `/var/lib/offset-accord`.
+Your data is in `/var/lib/offset-attest`.
 
-**To remove it:** `sudo ./uninstall.sh accord` from the unpacked folder.
+**To remove it:** `sudo ./uninstall.sh attest` from the unpacked folder.
 Add `--delete-data` only if you want the records gone too. There is no undo.
 
 ---
@@ -94,12 +94,12 @@ Docker runs the product without installing anything else on the machine, and
 it is the same on Windows and Linux.
 
 **If you have never used Docker, follow the step-by-step guide instead:
-[Installing Offset Accord on Docker](docker-guide.md).** It starts with
+[Installing Offset Attest on Docker](docker-guide.md).** It starts with
 installing Docker itself and says what you should see after every command.
 
 The short version, for somebody who knows Docker already:
 
-1. Download **offset-accord-0.2.3-docker.zip** and unpack it
+1. Download **offset-attest-0.2.3-docker.zip** and unpack it
 2. `cp env.example .env`, then fill in the two secrets it asks for
 3. Change `HTTP_PORT` and `PUBLIC_URL` together if 8080 is taken
 4. `docker compose up -d`
@@ -108,8 +108,8 @@ That pulls two images - the product and its updater - and starts three
 containers.
 
 ```
-ghcr.io/offsetsecurity/offset-accord
-ghcr.io/offsetsecurity/offset-accord-updater
+ghcr.io/offsetsecurity/offset-attest
+ghcr.io/offsetsecurity/offset-attest-updater
 ```
 
 Your data lives in a Docker volume, not in that folder, so it survives

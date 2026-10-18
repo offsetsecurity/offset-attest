@@ -16,7 +16,7 @@ import { seedControls } from "../src/db/seed.js";
  * button is not safe to offer on a live install at all.
  */
 /**
- * A pack with the registers and example data this suite drives. Accord's while
+ * A pack with the registers and example data this suite drives. Attest's while
  * every product shared a repository; this product's own where it has them, and
  * the suite is skipped where it does not - the feature is covered in the
  * repository of a product that has it.
@@ -25,7 +25,7 @@ const ownPack = resolve(process.cwd(), "../../packs", process.env["PRODUCT"] ?? 
 const ownFeatures = (JSON.parse(readFileSync(join(ownPack, "pack.json"), "utf8")) as {
   features?: Record<string, boolean>;
 }).features ?? {};
-const ACCORD_PACK = ownPack;
+const ATTEST_PACK = ownPack;
 
 const DB = process.env["E2E_DATABASE_URL"];
 // Also skipped where this product ships no example data.
@@ -43,7 +43,7 @@ maybe("example data", () => {
     (await query<{ n: number }>(`select count(*) as n from ${table}`)).rows[0]?.n ?? 0;
 
   beforeAll(async () => {
-    process.env["PACK_DIR"] = ACCORD_PACK;
+    process.env["PACK_DIR"] = ATTEST_PACK;
     await migrate();
     for (const t of [
       "audit_log", "sessions", "users", "vendor_controls", "vendor_risks", "training_controls",
@@ -172,7 +172,7 @@ maybe("example data", () => {
   });
 
   it("ships every guide it offers, and offers every guide it ships", async () => {
-    const index = JSON.parse(await readFile(resolve(ACCORD_PACK, "help/index.json"), "utf8")) as {
+    const index = JSON.parse(await readFile(resolve(ATTEST_PACK, "help/index.json"), "utf8")) as {
       note: string;
       help: { file: string; title: string; about: string }[];
       guides: { file: string; title: string; about: string }[];
@@ -184,14 +184,14 @@ maybe("example data", () => {
     for (const page of listed) {
       expect(page.title.length).toBeGreaterThan(3);
       expect(page.about.length).toBeGreaterThan(15);
-      const text = await readFile(resolve(ACCORD_PACK, "help", page.file), "utf8");
+      const text = await readFile(resolve(ATTEST_PACK, "help", page.file), "utf8");
       expect(text.startsWith("# "), `${page.file} does not start with a heading`).toBe(true);
       expect(text.length, `${page.file} is too short to be a guide`).toBeGreaterThan(600);
     }
 
     // Nothing shipped but unreachable: a file nobody can open is a file nobody
     // maintains, and it goes stale where no one can see it.
-    const onDisk = (await readdir(resolve(ACCORD_PACK, "help"))).filter((f) => f.endsWith(".md"));
+    const onDisk = (await readdir(resolve(ATTEST_PACK, "help"))).filter((f) => f.endsWith(".md"));
     expect(onDisk.sort()).toEqual(listed.map((p) => p.file).sort());
   });
 });

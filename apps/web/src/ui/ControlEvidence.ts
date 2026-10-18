@@ -170,7 +170,7 @@ export function ControlEvidence({
             )}
           </div>`
         : html`<p class="muted ev-empty">
-            Anything you scored 3 or above, an assessor will ask you to show. Attach it here
+            An auditor will ask you to show that this works. Attach the proof here
             and it lands in the Evidence tab too.
           </p>`}
 

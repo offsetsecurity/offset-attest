@@ -84,6 +84,12 @@ export async function calendarRoutes(app: FastifyInstance): Promise<void> {
                   and planned_date is not null and planned_date <= $1`,
       },
       {
+        sql: `select 'SOC report due' as kind, 'engagements' as screen, id, title,
+                     report || ' ' || report_type as detail, owner, next_due as due
+                from engagements where status <> 'Cancelled'
+                  and next_due is not null and next_due <= $1`,
+      },
+      {
         sql: `select 'Communication' as kind, 'communications' as screen, id, topic as title,
                      audience as detail, owner, next_due as due
                 from communications where next_due is not null and next_due <= $1`,

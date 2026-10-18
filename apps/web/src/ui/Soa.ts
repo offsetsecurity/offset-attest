@@ -4,7 +4,7 @@ import { html } from "./html.js";
 import {
   programme, controls, risks as risksApi, type Programme, type Control, type Pack,
 } from "../persistence/apiClient.js";
-import { STATUS_LABEL, STATUS_PILL, themeColor, pct } from "./format.js";
+import { STATUS_LABEL, STATUS_PILL, themeColor, pct, plural } from "./format.js";
 import { ControlDetail } from "./ControlDetail.js";
 
 /**
@@ -28,6 +28,27 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
   pack: Pack;
 }): VNode {
   const [prog, setProg] = useState<Programme | null>(null);
+  // A SOC report has a system and service commitments where ISO has an ISMS
+  // scope and a risk method, and things are in or out of scope rather than
+  // applicable or excluded. Same two fields, same table, its own words.
+  const soc = Boolean(pack.features?.["soc"]);
+  const W = soc
+    ? {
+        scopeTitle: "The system", scope: "The system and its boundaries",
+        scopeHint: "The service customers buy, and the infrastructure, software, people, procedures and data behind it. Say plainly what is outside the boundary.",
+        method: "Service commitments and system requirements",
+        methodHint: "What you promise customers (uptime, data protection, support) and what the system must do to keep those promises.",
+        summary: "Scope", included: "In scope", excluded: "Out of scope", applies: "In", out: "Out",
+        whyOut: "Why is this out of scope?", whyIn: "Optional: why it is in",
+      }
+    : {
+        scopeTitle: "ISMS scope", scope: "What the management system covers",
+        scopeHint: "Sites, services, people and systems that are in scope — and anything deliberately outside it.",
+        method: "Risk assessment methodology",
+        methodHint: "How risk is identified, scored and accepted, and who decides.",
+        summary: "Statement completeness", included: "Applicable", excluded: "Excluded", applies: "Applies", out: "Excluded",
+        whyOut: "Why does this not apply?", whyIn: "Why it applies: a risk, law, contract or need",
+      };
   // Where the product has an ISMS screen, scope and method are written there;
   // otherwise this page is the only place to write them.
   const ismsElsewhere = pack.features?.["ismsScreen"] === true;
@@ -118,11 +139,11 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
   return html`<>
     <div class=${ismsElsewhere ? "" : "grid two"} style="margin-bottom:16px">
       ${ismsElsewhere ? null : html`<div class="card pad">
-        <div class="section-title"><h2>ISMS scope</h2></div>
+        <div class="section-title"><h2>${W.scopeTitle}</h2></div>
         <label class="fld">
-          <span>What the management system covers</span>
+          <span>${W.scope}</span>
           <textarea rows="3" disabled=${!canEdit} value=${prog.scope}
-            placeholder="Sites, services, people and systems that are in scope — and anything deliberately outside it."
+            placeholder=${W.scopeHint}
             onBlur=${(e: Event) => {
               const value = (e.target as HTMLTextAreaElement).value;
               if (value !== prog.scope) void saveProgramme({ scope: value });
@@ -130,9 +151,9 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
           ></textarea>
         </label>
         <label class="fld" style="margin:0">
-          <span>Risk assessment methodology</span>
+          <span>${W.method}</span>
           <textarea rows="3" disabled=${!canEdit} value=${prog.methodology}
-            placeholder="How risk is identified, scored and accepted, and who decides."
+            placeholder=${W.methodHint}
             onBlur=${(e: Event) => {
               const value = (e.target as HTMLTextAreaElement).value;
               if (value !== prog.methodology) void saveProgramme({ methodology: value });
@@ -142,20 +163,20 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
       </div>`}
 
       <div class="card pad">
-        <div class="section-title"><h2>Statement completeness</h2>
+        <div class="section-title"><h2>${W.summary}</h2>
           ${ismsElsewhere
             ? html`<span class="muted" style="font-size:12px">ISMS scope and risk method are written on the${" "}<a href="#/isms">ISMS</a>${" "}screen, and print at the top of this statement.</span>`
             : null}</div>
         <div class="grid cards" style="grid-template-columns:1fr 1fr;gap:10px">
           <div class="card pad stat" style="border-left:3px solid #1e3a8a;box-shadow:none">
-            <div class="lbl">Applicable</div>
+            <div class="lbl">${W.included}</div>
             <div class="val">${included}</div>
-            <div class="delta">of ${rows.length} ${itemLabel.toLowerCase()}s</div>
+            <div class="delta">of ${rows.length} ${plural(itemLabel).toLowerCase()}</div>
           </div>
           <div class="card pad stat" style="border-left:3px solid #0f766e;box-shadow:none">
             <div class="lbl">Implemented</div>
             <div class="val">${pct(implemented, included)}%</div>
-            <div class="delta">${implemented} of ${included} applicable</div>
+            <div class="delta">${implemented} of ${included} ${W.included.toLowerCase()}</div>
           </div>
         </div>
         <div class=${`soa-gap${gaps ? " bad" : ""}`}>
@@ -190,11 +211,11 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
                onInput=${(e: Event) => setQ((e.target as HTMLInputElement).value)} />
         <select value=${filter}
                 onChange=${(e: Event) => setFilter((e.target as HTMLSelectElement).value as Filter)}>
-          <option value="all">All ${itemLabel.toLowerCase()}s</option>
-          <option value="included">Applicable only</option>
-          <option value="excluded">Excluded only</option>
-          <option value="unjustified">Excluded without a reason</option>
-          <option value="contradiction">Excluded but treating a risk</option>
+          <option value="all">All ${plural(itemLabel).toLowerCase()}</option>
+          <option value="included">${W.included} only</option>
+          <option value="excluded">${W.excluded} only</option>
+          <option value="unjustified">${W.excluded} without a reason</option>
+          <option value="contradiction">${W.excluded} but treating a risk</option>
         </select>
         <div class="toolbar-note muted">${shown.length} of ${rows.length}</div>
       </div>
@@ -206,7 +227,7 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
           <tr>
             <th style="width:90px">Ref</th>
             <th>${itemLabel}</th>
-            <th style="width:110px">Applies</th>
+            <th style="width:110px">${soc ? "In scope" : "Applies"}</th>
             <th style="width:140px">Status</th>
             <th style="width:96px">Evidence</th>
             <th>Justification</th>
@@ -237,11 +258,11 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
                               const yes = (e.target as HTMLSelectElement).value === "yes";
                               void save(c.id, { status: yes ? "not_started" : "not_applicable" });
                             }}>
-                      <option value="yes">Applies</option>
-                      <option value="no">Excluded</option>
+                      <option value="yes">${W.applies}</option>
+                      <option value="no">${W.out}</option>
                     </select>`
                   : html`<span class=${`pill ${excluded(c) ? "slate" : "green"}`}>
-                      ${excluded(c) ? "Excluded" : "Applies"}
+                      ${excluded(c) ? W.out : W.applies}
                     </span>`}
               </td>
               <td>
@@ -255,7 +276,7 @@ export function Soa({ themes, itemLabel, canEdit, pack }: {
                 ${canEdit
                   ? html`<input class=${`owner-input${unjustified(c) ? " missing" : ""}`}
                             value=${c.justification}
-                            placeholder=${excluded(c) ? "Why does this not apply?" : "Why it applies: a risk, law, contract or need"}
+                            placeholder=${excluded(c) ? W.whyOut : W.whyIn}
                             onBlur=${(e: Event) => {
                               const value = (e.target as HTMLInputElement).value;
                               if (value !== c.justification) void save(c.id, { justification: value });

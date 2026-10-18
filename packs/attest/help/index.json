@@ -53,22 +53,22 @@
       "group": "Using the product"
     },
     {
-      "file": "gdpr-basics.md",
-      "title": "GDPR in plain words",
-      "about": "Personal data, the seven principles, lawful bases, rights and breaches.",
-      "group": "GDPR"
+      "file": "soc-basics.md",
+      "title": "SOC reports in plain words",
+      "about": "SOC 1, SOC 2 and SOC 3, the Trust Services Criteria, and who is in the report.",
+      "group": "SOC"
     },
     {
-      "file": "dpia-guide.md",
-      "title": "Doing a DPIA",
-      "about": "Screening, scoring the risks, and deciding.",
-      "group": "GDPR"
+      "file": "type-1-and-type-2.md",
+      "title": "Type I and Type II",
+      "about": "What each one tests, a common path through them, and bridge letters.",
+      "group": "SOC"
     },
     {
-      "file": "requests-and-breaches.md",
-      "title": "Requests and breaches",
-      "about": "The one-month and 72-hour deadlines, step by step.",
-      "group": "GDPR"
+      "file": "working-with-your-auditor.md",
+      "title": "Working with your auditor",
+      "about": "Choosing a CPA firm, fieldwork, request lists and exceptions.",
+      "group": "SOC"
     }
   ]
 }

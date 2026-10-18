@@ -8,6 +8,7 @@ import { loadBranding } from "../routes/settings.js";
 import { buildDocument, renderPdf, kpiRow, table, safe, barChart, stackedBar, radar, heatMap } from "./pdf.js";
 import { readPack } from "../lib/pack.js";
 import { boardPdf } from "./board.js";
+import { soc2Matrix, soc1Matrix, soc3Report } from "./soc.js";
 
 /**
  * The report catalogue.
@@ -1065,7 +1066,7 @@ const managementReviewPack: ReportSpec = {
         ["*", 58, 66, 150, 62],
       ),
 
-      { text: `Where the ${item.toLowerCase()}s stand`, style: "h2" },
+      { text: `Where the ${/criterion$/i.test(item) ? "criteria" : `${item.toLowerCase()}s`} stand`, style: "h2" },
       m
         ? table(
             [...MATURITY_LEVELS.map((lv) => `${lv.level} ${lv.name}`), "Not assessed"],
@@ -1376,6 +1377,9 @@ const accountabilityReport: ReportSpec = {
 };
 
 export const REPORTS: ReportSpec[] = [
+  soc3Report,
+  soc2Matrix,
+  soc1Matrix,
   accountabilityReport,
   recordOfProcessing,
   readinessPlan,

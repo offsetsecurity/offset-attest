@@ -154,7 +154,7 @@ export function ControlFix({ controlId, controlRef, refresh = 0, canEdit = true,
       checks.push({ level: "ok", text: `${fresh} piece${fresh === 1 ? "" : "s"} of recent evidence.` });
     }
 
-    if (features["statementOfApplicability"] && !draft.justification.trim()) {
+    if (features["statementOfApplicability"] && !features["soc"] && !draft.justification.trim()) {
       checks.push({ level: "weak", text: "No reason given for including it in the Statement of Applicability.", fix: "Write why it applies", target: "justification" });
     }
     if (features["controlTesting"]) {
