@@ -37,6 +37,8 @@ export interface PackMeta {
   /** Where a reader is told to write. Same address for all three products. */
   contact: string;
   features?: Record<string, boolean>;
+  /** Theme -> the group the board paper reports it under, where themes are too many to list. */
+  boardGroups?: Record<string, string>;
 }
 
 /**

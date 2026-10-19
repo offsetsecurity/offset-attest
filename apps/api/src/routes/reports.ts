@@ -21,7 +21,7 @@ const idParam = z.object({ id: z.string().max(60) });
 /** Only offer what this product's framework actually has. */
 async function available(): Promise<typeof REPORTS> {
   const features = (await packMeta()).features ?? {};
-  return REPORTS.filter((r) => !r.requires || features[r.requires]);
+  return REPORTS.filter((r) => (!r.requires || features[r.requires]) && !(r.replacedBy && features[r.replacedBy]));
 }
 
 export async function reportRoutes(app: FastifyInstance): Promise<void> {

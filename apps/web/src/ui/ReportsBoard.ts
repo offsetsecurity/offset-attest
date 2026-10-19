@@ -20,13 +20,18 @@ import { zipFiles } from "./zip.js";
 const FEATURED: Record<string, { kicker: string; thumb: "board" | "plan" }> = {
   "executive-summary": { kicker: "For the board", thumb: "board" },
   "readiness-plan": { kicker: "For management", thumb: "plan" },
+  // SOC: the public summary customers read, beside the two papers above.
+  "soc3-report": { kicker: "For customers", thumb: "plan" },
 };
 const MANAGEMENT = new Set(["management-review-pack", "document-control-list"]);
 const ORDER = [
+  "soc2-criteria-matrix", "soc1-objectives-matrix",
   "statement-of-applicability", "maturity-assessment", "gap-report", "baseline-tailoring",
   "evidence-register", "risk-register", "management-review-pack", "document-control-list",
 ];
 const ICON: Record<string, IconName> = {
+  "soc2-criteria-matrix": "controls",
+  "soc1-objectives-matrix": "controls",
   "statement-of-applicability": "soa",
   "maturity-assessment": "profile",
   "gap-report": "gaps",

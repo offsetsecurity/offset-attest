@@ -97,7 +97,7 @@ const NAV_SECTIONS: readonly NavSection[] = [
   // evidence behind them, and the reports themselves.
   {
     id: "compliance", title: "SOC readiness",
-    routes: ["isms", "profile", "soa", "system", "controls", "evidence", "engagements"],
+    routes: ["isms", "profile", "soa", "system", "controls", "evidence", "policies", "engagements"],
   },
   { id: "records", title: "Privacy records", routes: ["datamap", "dpias", "consents"] },
   { id: "events", title: "Requests and breaches", routes: ["requests", "breaches"] },
@@ -105,7 +105,7 @@ const NAV_SECTIONS: readonly NavSection[] = [
   { id: "work", title: "Work", routes: ["tasks", "incidents", "findings"] },
   {
     id: "management", title: "Governance",
-    routes: ["policies", "vendors", "training", "objectives", "parties", "reviews", "communications"],
+    routes: ["vendors", "training", "objectives", "parties", "reviews", "communications"],
   },
   { id: "reports", title: "Reports", routes: ["reports", "gaps"] },
   { id: "admin", title: "Administration", routes: ["people", "escalation", "audit", "backups"] },
@@ -637,7 +637,7 @@ export function App(): VNode {
             : route === "system"
             ? html`<${Baseline} canEdit=${canEdit} itemLabel=${itemLabel} />`
             : route === "reports"
-            ? html`<${Reports} isAdmin=${user.role === "admin"} board=${Boolean(features["boardReport"])}
+            ? html`<${Reports} isAdmin=${user.role === "admin"} board=${Boolean(features["boardReport"] || features["soc"])}
                              scored=${Boolean(features["maturity"])} />`
             : route === "people"
             ? html`<${Users} me=${user} />`

@@ -160,7 +160,7 @@ export function TemplateFillScreen({ data, start, canEdit, onClose, onSaved }: {
       return html`<label class=${`fld${f?.long ? " wide" : ""}`} key=${n}>
         <span>${fieldLabel(it.name, doc)}</span>
         ${input(it.name, { long: f?.long, doc })}
-        ${known && !values[it.name] ? html`<em class="hint">Taken from your ISMS screen. Type here to use different wording.</em>` : null}
+        ${known && !values[it.name] ? html`<em class="hint">Taken from what you have already written in the product. Type here to use different wording.</em>` : null}
         ${f?.label && f.context.replace(/\.\.\./g, "").trim().length > 8 ? html`<em class="hint">${f.context}</em>` : null}
         ${!known && f?.hint && f.hint !== f.default ? html`<em class="hint">${f.hint}</em>` : null}
       </label>`;
@@ -304,7 +304,7 @@ export function TemplateFillScreen({ data, start, canEdit, onClose, onSaved }: {
             ${busy ? "Saving…" : dirty ? "Save" : "Saved"}
           </button>
           ${next ? html`<button type="button" class="btn" disabled=${busy} onClick=${() => void go(next.id)}>Save and go to next</button>` : null}
-          <a class="btn" href=${templates.allFilledUrl} download="ISMS_documents.zip">Download all filled (zip)</a>
+          <a class="btn" href=${templates.allFilledUrl} download="Policy_documents.zip">Download all filled (zip)</a>
         </div>` : null}
       </div>
     </div>

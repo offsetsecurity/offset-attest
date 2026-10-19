@@ -1,0 +1,70 @@
+{
+  "note": "Starter policies for a SOC 2 report, written in plain language. Each one says only what most service organisations do; change it to match what you really do before it is approved.",
+  "documents": [
+    {
+      "file": "00_System_Description.docx",
+      "title": "System Description",
+      "about": "The description of the system your CPA firm reviews and publishes in the report. Filled from Scope, Assets and Vendors."
+    },
+    {
+      "file": "01_Information_Security_Policy.docx",
+      "title": "Information Security Policy",
+      "about": "The top-level policy: who is responsible, what every other policy covers, and how they are kept current."
+    },
+    {
+      "file": "02_Code_of_Conduct_and_Acceptable_Use.docx",
+      "title": "Code of Conduct and Acceptable Use Policy",
+      "about": "How people are expected to behave, and how they may use company systems and data. Everyone signs it."
+    },
+    {
+      "file": "03_Access_Control_Policy.docx",
+      "title": "Access Control Policy",
+      "about": "Who gets access to what, how it is approved, reviewed and removed, and how accounts are protected."
+    },
+    {
+      "file": "04_Change_Management_Policy.docx",
+      "title": "Change Management Policy",
+      "about": "How changes to code, infrastructure and configuration are requested, reviewed, tested, approved and released."
+    },
+    {
+      "file": "05_Operations_and_Vulnerability_Management.docx",
+      "title": "Operations and Vulnerability Management Policy",
+      "about": "Network protection, encryption, malware protection, vulnerability scanning, patching and monitoring."
+    },
+    {
+      "file": "06_Incident_Response_Plan.docx",
+      "title": "Incident Response Plan",
+      "about": "How security events are triaged, incidents handled, customers told, and lessons learned."
+    },
+    {
+      "file": "07_Business_Continuity_and_Disaster_Recovery_Plan.docx",
+      "title": "Business Continuity and Disaster Recovery Plan",
+      "about": "Recovery objectives, backups, redundancy, and how recovery is tested."
+    },
+    {
+      "file": "08_Risk_Assessment_Policy.docx",
+      "title": "Risk Assessment Policy",
+      "about": "How risks to the service commitments are found, scored, treated and reviewed, including fraud. The register is filled from Risks."
+    },
+    {
+      "file": "09_Vendor_Management_Policy.docx",
+      "title": "Vendor Management Policy",
+      "about": "How vendors and subservice organisations are assessed, contracted and reviewed. The list is filled from Vendors."
+    },
+    {
+      "file": "10_Data_Classification_and_Retention_Policy.docx",
+      "title": "Data Classification and Retention Policy",
+      "about": "How information is classified and handled, how long it is kept, and how it is destroyed."
+    },
+    {
+      "file": "11_Security_Awareness_and_Training_Policy.docx",
+      "title": "Security Awareness and Training Policy",
+      "about": "Background checks, security training at joining and every year, and the training record. Filled from Training."
+    },
+    {
+      "file": "12_Monitoring_and_Internal_Review_Procedure.docx",
+      "title": "Monitoring and Internal Review Procedure",
+      "about": "How controls are checked between audits, and how weaknesses are reported and fixed. Filled from Internal audits and Exceptions."
+    }
+  ]
+}

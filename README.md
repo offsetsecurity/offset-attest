@@ -25,9 +25,13 @@ ready for one and keep it current:
 - **Vendors**: subservice organisations and the SOC reports they gave you
 - **Risks, assets, policies, training, internal audits and exceptions**: the
   records CC1 to CC9 are tested against
-- **Reports**: the SOC 2 criteria matrix and SOC 1 objectives matrix for your
-  CPA firm, and a SOC 3 draft (management's assertion, the system description
-  and the categories covered) for publishing once the report is issued
+- **Policy templates**: 13 Word documents, the system description and the
+  policies a SOC 2 auditor expects, filled in on screen from answers given
+  once and from the registers (risks, vendors, training, assets, audits)
+- **Reports**: an executive summary for the board, the SOC 2 criteria matrix
+  and SOC 1 objectives matrix for your CPA firm, and a SOC 3 draft
+  (management's assertion, the system description and the categories covered)
+  for publishing once the report is issued
 
 Every entry has an owner. Owners are emailed as reviews and reports come due.
 **Get ready** walks from a fresh install to an issued report in eight stages,
@@ -99,7 +103,8 @@ docs/           what it is, how it works, how to install it
 which screens appear and what they are called, so changing the wording of a
 criterion never means touching the application.
 
-The SOC-specific code is small: the SOC reports register
+The policy templates are built by `docs/dev/build-soc-templates.py`; change a
+document there and run it again. The SOC-specific code is small: the SOC reports register
 (`apps/api/src/routes/soc.ts`, migration `0017`), the three SOC PDFs
 (`apps/api/src/reports/soc.ts`) and the Get ready checks marked SOC in
 `apps/api/src/journey/checks.ts`.

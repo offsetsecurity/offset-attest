@@ -14,11 +14,11 @@
 | **Tasks** | Work outstanding, with owners and dates |
 | **Incidents** | Security incidents, how bad, and where they stand |
 | **Exceptions** | Failed tests and auditor findings, and what fixed them |
-| **Policies** | Your policies with versions, approvals and review dates. The system description is repeated at the top |
+| **Policies** | Your policies with versions, approvals and review dates. The **Templates** tab has 13 starter documents (the system description and the policies a SOC 2 auditor expects) that you fill in here and download as Word files |
 | **Vendors** | Suppliers and subservice organisations, the SOC report or other assurance they gave, and when you last reviewed it |
 | **Training** | Who completed security training and when it is due again |
 | **Internal audits** | Readiness assessments, internal control reviews and management reviews |
-| **Reports** | Your organisation name and logo, and the PDFs: the SOC 3 draft, the SOC 2 criteria matrix, the SOC 1 objectives matrix, the gap report and more |
+| **Reports** | Your organisation name and logo, and the PDFs: the executive summary for the board, the readiness plan, the SOC 3 draft, the SOC 2 criteria matrix, the SOC 1 objectives matrix and more |
 | **Gap analysis** | What is not done yet, and what is claimed without proof |
 | **Users** | Who can sign in, and their role |
 | **Audit trail** | Who changed what, and when. Nothing here can be changed |

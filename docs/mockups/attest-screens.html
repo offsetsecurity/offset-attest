@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attest screens concept — Offset Attest</title>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--ink:#0f172a;--muted:#64748b;--line:#e6eaf2;--brand:#2457D6;--sidebar:#16203A;
+  --green:#16a34a;--green-soft:#dcfce7;--amber:#d97706;--amber-soft:#fef3c7;--red:#dc2626;--red-soft:#fee2e2;--slate-soft:#f1f5f9;
+  --violet:#5b4bd6;--violet-soft:#ede9fe;--shadow:0 1px 2px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter','Segoe UI',Roboto,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.side{background:var(--sidebar);color:#cbd5e1;padding:20px 14px}
+.brand{text-align:center;margin-bottom:18px}.brand b{display:block;color:#fff;font-size:17px}.brand small{color:#8a96ab;font-size:11.5px}
+.sec{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#7d8aa3;padding:12px 10px 6px}
+.nav a{display:block;padding:8px 12px;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:13.5px}
+.nav a.on{background:rgba(36,87,214,.28);color:#fff;box-shadow:inset 3px 0 0 #5b8cff}
+main{padding:24px 28px 60px;max-width:1240px}
+h1{font-size:22px;margin:0}.sub{color:var(--muted);margin:2px 0 18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;display:flex;gap:6px;align-items:center}
+.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin-top:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.big{font-size:30px;font-weight:700;letter-spacing:-.01em;margin:0}
+.muted{color:var(--muted)}
+.btn{font:inherit;font-size:13px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 14px;cursor:pointer;font-weight:600}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn:hover{filter:brightness(.97)}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 9px}
+.p-red{background:var(--red-soft);color:#991b1b}.p-amber{background:var(--amber-soft);color:#92400e}.p-green{background:var(--green-soft);color:#166534}.p-grey{background:var(--slate-soft);color:#475569}
+.hero{display:grid;grid-template-columns:1fr 210px;gap:20px;align-items:center}
+.ring{position:relative;width:170px;height:170px;margin:auto}
+.ring svg{transform:rotate(-90deg)}.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .c b{font-size:34px}.ring .c span{font-size:12px;color:var(--muted)}
+textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical}
+.move{border:2px solid var(--brand)}
+.why{background:#f4f7ff;border-radius:10px;padding:10px 12px;font-size:12.5px;margin:10px 0}
+.exc{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13px}
+.tl{display:grid;grid-template-columns:200px repeat(6,1fr);gap:6px;align-items:center;font-size:13px}
+.tl .h{font-size:11.5px;color:var(--muted);text-align:center}
+.cell{height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:default}
+.c-in{background:#86efac;color:#14532d}.c-miss{background:#fca5a5;color:#7f1d1d}.c-due{background:#e2e8f0;color:#475569}.c-now{background:#fde68a;color:#78350f;outline:2px solid var(--amber)}
+.stage{display:flex;gap:6px;margin-top:14px}
+.stage div{flex:1;height:8px;border-radius:99px;background:#e2e8f0;position:relative}
+.stage div i{position:absolute;inset:0;border-radius:99px;background:var(--green)}
+.stages-l{display:flex;gap:6px;margin-top:6px;font-size:11px;color:var(--muted)}.stages-l span{flex:1;text-align:center}
+.team{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
+.av{width:28px;height:28px;border-radius:50%;background:#dbe5ff;color:#1e3a8a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.bar{flex:1;height:6px;background:#eef2f7;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand)}
+.toast{position:fixed;right:24px;bottom:24px;background:#0f172a;color:#fff;padding:12px 16px;border-radius:12px;font-size:13px;display:none;box-shadow:var(--shadow)}
+.note{margin-top:22px;font-size:12px;color:var(--muted);text-align:center}
+.fix{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:13px}
+.fix .n{font-size:18px;font-weight:800;color:var(--green);text-align:center;background:var(--green-soft);border-radius:10px;padding:6px 0}
+.req{display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
+.req i{font-style:normal;display:inline-block;width:18px;height:18px;border-radius:50%;text-align:center;font-size:11px;font-weight:800;margin-right:8px;line-height:18px}
+.req .ok{background:var(--green-soft);color:#166534}.req .no{background:var(--red-soft);color:#991b1b}
+.exc.click{cursor:pointer;border-radius:8px}.exc.click:hover{background:#f8faff}.exc.sel{background:#f4f7ff}
+.chev{display:inline-block;width:14px;color:var(--muted);font-size:11px}
+.howto{background:#f8faff;border:1px solid #dbe5ff;border-radius:10px;padding:10px 12px;margin:2px 0 8px;font-size:12.5px}.howto p{margin:0 0 8px}
+.fixwrap{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.fixbox{background:#fff;border-radius:16px;padding:20px 22px;width:min(640px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.ft{width:100%;border-collapse:collapse;font-size:13px}.ft th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:6px 4px;border-bottom:1px solid var(--line)}
+.ft td{padding:9px 4px;border-bottom:1px solid var(--line)}.ft tr.done td{color:var(--muted);text-decoration:line-through}.ft tr.done td:last-child{text-decoration:none}
+.drop{display:block;border:2px dashed #c7d2fe;border-radius:12px;padding:22px;text-align:center;cursor:pointer;background:#f8faff;font-size:13px}.drop:hover{background:#eef2ff}
+.stp{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:13px;cursor:pointer}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.mvform{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.mvform label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);font-weight:600}
+.mvform input,.mvform select,.ft input,.ft select{font:inherit;font-size:13px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 9px;width:100%}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;font-size:13px;cursor:pointer}
+.dl{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;margin-bottom:6px}
+.linkbtn{background:none;border:0;padding:8px 0 0;font:inherit;font-size:13px;font-weight:600;color:var(--brand);cursor:pointer}
+.pill.new{background:#ede9fe;color:#3730a3}
+.ovl{display:grid;grid-template-columns:140px 1fr 40px;gap:10px;align-items:center;font-size:13px;padding:5px 0}.ovl b{text-align:right}
+.qw{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
+.tick{width:18px;height:18px;border:2px solid #cbd5e1;border-radius:6px;cursor:pointer}.tick.on{background:var(--green);border-color:var(--green)}
+.blk{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:13px;flex-wrap:wrap}.blk select{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:7px 9px;flex:1}
+.mail{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fcfdff}
+.cele{border-radius:12px;padding:16px;text-align:center;background:var(--slate-soft);color:var(--muted);transition:all .4s}
+.cele.go{background:linear-gradient(135deg,#dcfce7,#ede9fe);color:#14532d;transform:scale(1.03)}
+.lens{display:none;margin-top:16px}.lens.on{display:block}
+.lcol{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lcol div{border-radius:12px;padding:12px 14px}.lcol b{font-size:26px;display:block}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;user-select:none}
+.switch i{width:38px;height:22px;border-radius:99px;background:#cbd5e1;position:relative;transition:.2s}.switch i:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+.switch.on i{background:var(--violet)}.switch.on i:after{left:19px}
+@media (max-width:1100px){.app{grid-template-columns:1fr}.side{display:none}.grid2,.grid3{grid-template-columns:1fr}.hero{grid-template-columns:1fr}main{padding:18px 16px 40px}.tl{grid-template-columns:150px repeat(6,1fr)}}
+.trust{border:1px dashed #c7d2fe;background:#f8faff;border-radius:12px;padding:12px 14px}
+.planhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.stepper{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:14px}
+.stp8{text-align:center;cursor:pointer;font-size:11.5px;color:var(--muted)}
+.stp8 .dot{width:30px;height:30px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;border:2px solid #cbd5e1;background:#fff;color:#64748b}
+.stp8 .bar8{height:5px;border-radius:99px;background:#e2e8f0;overflow:hidden;margin:6px 4px 0}.stp8 .bar8 i{display:block;height:100%;background:var(--green)}
+.stp8.done .dot{background:var(--green);border-color:var(--green);color:#fff}
+.stp8.now .dot{border-color:var(--brand);color:var(--brand);box-shadow:0 0 0 4px #dbe5ff}
+.stp8.now{color:var(--ink);font-weight:600}
+.pstage{border-top:1px solid var(--line);padding:10px 0}
+.pstage h4{margin:0 0 6px;font-size:13px;display:flex;justify-content:space-between}
+.ptask{display:flex;gap:10px;align-items:center;padding:6px 8px;border-radius:8px;font-size:13px;cursor:pointer}
+.ptask:hover{background:#f4f7ff}.ptask.cur{background:#eef3ff;font-weight:600}
+.ptask .ic{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex:none}
+.ic.d{background:var(--green);color:#fff}.ic.c{background:var(--brand);color:#fff}.ic.t{border:2px solid #cbd5e1}.ic.s{background:var(--amber-soft);color:#92400e}
+@media (max-width:700px){.stepper{grid-template-columns:repeat(4,1fr)}}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:4px}
+.kpi{display:flex;flex-direction:column;gap:2px;background:#fff;border:1px solid var(--line);border-left:4px solid;border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);cursor:pointer;color:var(--ink);text-decoration:none}
+.kpi b{font-size:28px}.kpi .lbl{margin:0}
+.cr{display:grid;grid-template-columns:40px 1fr 110px 40px;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:12.5px}
+.cr-k{font-weight:700;color:var(--muted)}.cr b{text-align:right}
+.leg{display:flex;align-items:center;gap:8px}.leg i{width:10px;height:10px;border-radius:3px}.leg b{margin-left:auto}
+.covs{display:grid;grid-template-columns:repeat(14,1fr);gap:6px;align-items:end;margin-top:8px}
+.cov{text-align:center;font-size:11px;color:var(--muted)}.cov b{display:block;color:var(--ink);font-size:11px}
+.cov-b{height:90px;background:#f1f5f9;border-radius:6px;display:flex;align-items:flex-end;overflow:hidden;margin-bottom:4px}.cov-b i{display:block;width:100%;border-radius:6px 6px 0 0}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.covs{grid-template-columns:repeat(7,1fr)}}
+.view{display:none}.view.on{display:block}
+.view > .card,.view > section{margin-top:16px}
+.strip{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:13px;margin-bottom:4px}
+.strip a{color:var(--brand);font-weight:600;text-decoration:none}
+.nav a.off{opacity:.45;pointer-events:none}
+.note a{color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><b>Offset Attest</b><small>SOC 1, SOC 2 and SOC 3</small></div>
+    <div class="sec">Start</div>
+    <nav class="nav"><a href="#" data-v="getready">Get ready</a><a href="#" data-v="dashboard">Dashboard</a><a href="#" class="off">Calendar</a></nav>
+    <div class="sec">SOC readiness</div>
+    <nav class="nav"><a href="#" class="off">Scope</a><a href="#" class="off">Criteria</a><a href="#" class="off">Evidence</a><a href="#" class="off">Policies</a><a href="#" data-v="reports">SOC reports</a></nav>
+    <div class="sec">Administration</div>
+    <nav class="nav"><a href="#" data-v="settings">Settings</a></nav>
+  </aside>
+
+  <main>
+    <div class="view" id="v-getready">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap"><div><h1>Get ready</h1><p class="sub">What to do next, and what an auditor would find today</p></div></div>
+      <div class="strip"><span><b id="stripPct">38% ready</b> · 164 days to your SOC 2 Type II · 14 likely exceptions</span><a href="#" onclick="go('dashboard');return false">View dashboard →</a></div>
+      <section class="card" id="plan" style="margin-top:12px">
+        <div class="planhead">
+          <div>
+            <p class="lbl" style="margin:0 0 4px">Getting SOC ready</p>
+            <p style="margin:0;font-size:13px" class="muted"><b id="planDone" style="color:var(--ink)"></b> · you are on <b id="planStage" style="color:var(--brand)"></b></p>
+          </div>
+          <div style="text-align:right"><p class="big" id="planPct" style="color:var(--green)"></p><p class="muted" style="margin:0;font-size:12px" id="planLeft"></p></div>
+        </div>
+        <div class="stepper" id="stepper"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap">
+          <span class="muted" style="font-size:12.5px" id="planNow"></span>
+          <button class="linkbtn" style="padding:0" onclick="togglePlan()" id="planBtn">See the whole plan ▾</button>
+        </div>
+        <div id="planList" style="display:none;margin-top:12px"></div>
+      </section>
+      <div class="grid2" style="align-items:start">
+            <section class="card move" id="moveCard">
+        <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
+          <p class="lbl" style="color:var(--brand);margin:0" id="moveLbl">Your next move · step 6 of 27</p>
+          <span class="pill" id="moveKind"></span>
+        </div>
+        <p class="muted" style="font-size:12px;margin:4px 0 6px" id="moveStage"></p>
+        <h2 style="margin:0;font-size:19px" id="moveTitle"></h2>
+        <p class="muted" style="margin:4px 0 0;font-size:13px" id="moveMeta"></p>
+        <div class="why"><b>Why now:</b> <span id="moveWhy"></span></div>
+        <div id="moveBody"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn primary" id="moveGo" onclick="doMove()">Save and next</button>
+          <button class="btn" onclick="toast('Assigned to Priya Naik · she gets an email now and a reminder in 3 days')">Assign to someone</button>
+          <button class="btn" onclick="notNow()">Not now</button>
+        </div>
+      </section>
+            <section class="card">
+        <p class="lbl">If the auditor came today</p>
+        <p class="big" style="color:var(--red)" id="excCount">14</p>
+        <p class="muted" style="margin:0 0 6px;font-size:13px">likely exceptions across 61 criteria</p>
+        <div id="excList"></div>
+        <button class="btn" style="margin-top:12px" onclick="mockAudit(this)">Run a mock audit</button>
+      </section>
+      </div>
+      <div class="grid2" style="align-items:start">
+            <section class="card">
+        <p class="lbl"><span class="pill" style="background:#ede9fe;color:#3730a3">New</span> Fix these first · ranked by exceptions removed</p>
+        <div class="fix"><span class="n">−5</span><span><b>Remove leavers' access within 1 day</b><br><span class="muted">CC6.2 · CC6.3 · 2 leavers late, 3 more due this quarter</span></span><button class="btn">Fix</button></div>
+        <div class="fix"><span class="n">−3</span><span><b>Upload the Q3 access review</b><br><span class="muted">CC6.3 · one file closes 3 sampled gaps</span></span><button class="btn">Upload</button></div>
+        <div class="fix"><span class="n">−2</span><span><b>Review your cloud host's SOC 2</b><br><span class="muted">CC9.2 · CO12 · 15 minutes</span></span><button class="btn">Review</button></div>
+        <p class="muted" style="font-size:12px;margin:10px 0 0">Do these three and you go from 14 likely exceptions to 4.</p>
+      </section>
+            <section class="card">
+        <p class="lbl"><span class="pill new">New</span> Got 15 minutes?</p>
+        <p class="big" style="font-size:22px">8 quick wins queued</p>
+        <div class="qw"><span class="tick" onclick="this.classList.toggle('on')"></span>Set an owner on CC7.1<span class="muted">1 min</span></div>
+        <div class="qw"><span class="tick" onclick="this.classList.toggle('on')"></span>Add a review date to the Access Control Policy<span class="muted">1 min</span></div>
+        <div class="qw"><span class="tick" onclick="this.classList.toggle('on')"></span>Mark the cloud host as a subservice organisation<span class="muted">2 min</span></div>
+        <div class="qw"><span class="tick" onclick="this.classList.toggle('on')"></span>Date 4 undated evidence files<span class="muted">3 min</span></div>
+        <button class="btn primary" style="margin-top:10px" onclick="toast('Focus mode · one card at a time · 8 to go')">Start a 15-minute session</button>
+      </section>
+      </div>
+      <div style="margin-top:16px">      <section class="card">
+        <p class="lbl"><span class="pill new">New</span> Do it in bulk</p>
+        <div class="blk"><span>Give every criterion in</span><select><option>CC6 Logical and physical access</option><option>CC7 System operations</option><option>CC8 Change management</option></select></div>
+        <div class="blk"><span>the owner</span><select><option>Priya Naik</option><option>Gurpreet S.</option><option>Farhan Khan</option></select><button class="btn" onclick="toast('8 criteria now owned by Priya Naik')">Apply</button></div>
+        <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
+        <div class="blk"><span>Mark out of scope</span><select><option>Privacy (18 criteria)</option><option>Processing integrity (5)</option><option>SOC 1 objectives (12)</option></select></div>
+        <div class="blk"><span>because</span><input type="text" value="No privacy commitments in customer contracts" style="flex:1;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:7px 9px"><button class="btn" onclick="toast('18 criteria out of scope, each with the reason')">Apply</button></div>
+      </section></div>
+    </div>
+
+    <div class="view" id="v-dashboard">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap"><div><h1>Dashboard</h1><p class="sub">SOC 1, SOC 2 and SOC 3: where you stand, and where you are heading</p></div><span class="switch" id="lensSw" onclick="lens()"><i></i>See it as your auditor would</span></div>
+          <section class="card" style="margin:4px 0 16px">
+      <div class="hero">
+        <div>
+          <p class="lbl">Your flight path · SOC 2 Type II, 2027</p>
+          <p class="big">164 days to your report</p>
+          <p class="muted" style="margin:4px 0 0">At this week's pace you're control-ready on <b style="color:var(--green)">14 December</b>, 17 days before your observation period starts on 1 January.</p>
+          <svg viewBox="0 0 760 92" width="100%" style="margin-top:14px" aria-label="Timeline from today to the report">
+            <line x1="20" y1="40" x2="740" y2="40" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+            <line x1="20" y1="40" x2="170" y2="40" stroke="#16a34a" stroke-width="6" stroke-linecap="round"/>
+            <rect x="290" y="31" width="300" height="18" rx="9" fill="#dcfce7" stroke="#86efac"/>
+            <text x="440" y="44" text-anchor="middle" font-size="11" font-weight="700" fill="#166534">Observation period · 6 months</text>
+            <circle cx="20" cy="40" r="6" fill="#16a34a"/><text x="20" y="78" font-size="11" fill="#64748b" text-anchor="start">Started 2 Sep</text>
+            <circle cx="170" cy="40" r="10" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="170" y="78" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">You are here</text>
+            <circle cx="250" cy="40" r="8" fill="#fff" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="4 3"/><text x="250" y="16" font-size="11" fill="#166534" text-anchor="middle">Ready 14 Dec</text>
+            <circle cx="290" cy="40" r="6" fill="#0f766e"/><text x="300" y="78" font-size="11" fill="#64748b" text-anchor="middle">1 Jan</text>
+            <circle cx="590" cy="40" r="6" fill="#0f766e"/><text x="590" y="78" font-size="11" fill="#64748b" text-anchor="middle">30 Jun</text>
+            <circle cx="660" cy="40" r="6" fill="#94a3b8"/><text x="660" y="16" font-size="11" fill="#64748b" text-anchor="middle">Fieldwork</text>
+            <circle cx="740" cy="40" r="10" fill="#5b4bd6"/><text x="740" y="78" font-size="12" font-weight="700" fill="#3730a3" text-anchor="end">Report · Sep</text>
+          </svg>
+        </div>
+        <div class="ring">
+          <svg width="170" height="170" viewBox="0 0 170 170">
+            <circle cx="85" cy="85" r="72" fill="none" stroke="#eef2f7" stroke-width="14"/>
+            <circle id="ringArc" cx="85" cy="85" r="72" fill="none" stroke="#16a34a" stroke-width="14" stroke-linecap="round" stroke-dasharray="452" stroke-dashoffset="280"/>
+          </svg>
+          <div class="c"><b id="pct">38%</b><span>ready for audit</span></div>
+        </div>
+      </div>
+      <div class="stage">
+        <div><i style="width:100%"></i></div><div><i style="width:75%"></i></div><div><i style="width:66%"></i></div><div><i style="width:40%"></i></div>
+        <div><i style="width:20%"></i></div><div><i style="width:0"></i></div><div><i style="width:0"></i></div><div><i style="width:0"></i></div>
+      </div>
+      <div class="stages-l"><span>Set up</span><span>Scope</span><span>Risks</span><span>Controls</span><span>Evidence</span><span>Test</span><span>Audit</span><span>Report</span></div>
+    </section>
+      <div class="kpis">
+        <a class="kpi" style="border-left-color:#2457D6" onclick="go('getready')"><span class="lbl">Criteria in place</span><b>33%</b><span class="muted">20 of 61 in-scope criteria implemented</span></a>
+        <a class="kpi" style="border-left-color:#dc2626"><span class="lbl">Open risks</span><b>19</b><span class="muted">3 above appetite</span></a>
+        <a class="kpi" style="border-left-color:#0f766e"><span class="lbl">Evidence items</span><b>42</b><span class="muted">31 collected in the last 90 days</span></a>
+        <a class="kpi" style="border-left-color:#d97706"><span class="lbl">Evidence gaps</span><b>6</b><span class="muted">implemented, but nothing to prove it</span></a>
+      </div>
+      <div class="grid2" style="align-items:start">
+        <section class="card">
+          <div style="display:flex;justify-content:space-between"><p class="lbl">Category readiness</p><span class="muted" style="font-size:12px">weakest 8 of 12 in scope</span></div>
+          <div class="cr"><span class="cr-k">CC4</span><span class="cr-n">CC4 Monitoring activities<br><span class="muted">0 of 2 in scope</span></span><span class="bar"><i style="width:0%;background:#dc2626"></i></span><b>0%</b></div><div class="cr"><span class="cr-k">CC5</span><span class="cr-n">CC5 Control activities<br><span class="muted">1 of 3 in scope</span></span><span class="bar"><i style="width:33%;background:#dc2626"></i></span><b>33%</b></div><div class="cr"><span class="cr-k">CC6</span><span class="cr-n">CC6 Logical and physical access<br><span class="muted">3 of 8 in scope</span></span><span class="bar"><i style="width:38%;background:#d97706"></i></span><b>38%</b></div><div class="cr"><span class="cr-k">CC7</span><span class="cr-n">CC7 System operations<br><span class="muted">2 of 5 in scope</span></span><span class="bar"><i style="width:40%;background:#d97706"></i></span><b>40%</b></div><div class="cr"><span class="cr-k">PI1</span><span class="cr-n">PI1 Processing integrity<br><span class="muted">2 of 5 in scope</span></span><span class="bar"><i style="width:40%;background:#d97706"></i></span><b>40%</b></div><div class="cr"><span class="cr-k">CC3</span><span class="cr-n">CC3 Risk assessment<br><span class="muted">2 of 4 in scope</span></span><span class="bar"><i style="width:50%;background:#d97706"></i></span><b>50%</b></div><div class="cr"><span class="cr-k">CC9</span><span class="cr-n">CC9 Risk mitigation<br><span class="muted">1 of 2 in scope</span></span><span class="bar"><i style="width:50%;background:#d97706"></i></span><b>50%</b></div><div class="cr"><span class="cr-k">C1</span><span class="cr-n">C1 Confidentiality<br><span class="muted">1 of 2 in scope</span></span><span class="bar"><i style="width:50%;background:#d97706"></i></span><b>50%</b></div>
+        </section>
+        <div>
+        <section class="card">
+          <p class="lbl">Criterion status</p>
+          <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <svg width="150" height="150" viewBox="0 0 42 42" aria-label="Criterion status">
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#e2e8f0" stroke-width="6"/>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#16a34a" stroke-width="6" stroke-dasharray="27 73" stroke-dashoffset="25"/>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#2457D6" stroke-width="6" stroke-dasharray="25 75" stroke-dashoffset="-2"/>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#94a3b8" stroke-width="6" stroke-dasharray="16 84" stroke-dashoffset="-27"/>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="32 68" stroke-dashoffset="-43"/>
+              <text x="21" y="21" text-anchor="middle" font-size="7" font-weight="700" fill="#0f172a">27%</text>
+              <text x="21" y="27" text-anchor="middle" font-size="3" fill="#64748b">READY</text>
+            </svg>
+            <div style="font-size:13px;display:grid;gap:6px;flex:1;min-width:150px">
+              <div class="leg"><i style="background:#16a34a"></i>Implemented<b>20</b></div>
+              <div class="leg"><i style="background:#2457D6"></i>In progress<b>18</b></div>
+              <div class="leg"><i style="background:#94a3b8"></i>Not started<b>12</b></div>
+              <div class="leg"><i style="background:#cbd5e1"></i>Out of scope<b>23</b></div>
+            </div>
+          </div>
+        </section>
+        <section class="card" style="margin-top:16px">
+          <div style="display:flex;justify-content:space-between"><p class="lbl">Coverage profile</p><span class="muted" style="font-size:12px">12 categories in scope</span></div>
+          <svg viewBox="0 0 300 300" width="100%" height="300" role="img" aria-label="Coverage by category"><polygon points="150.0,123.8 163.1,127.3 172.7,136.9 176.2,150.0 172.7,163.1 163.1,172.7 150.0,176.2 136.9,172.7 127.3,163.1 123.8,150.0 127.3,136.9 136.9,127.3" fill="none" stroke="#e6eaf2" stroke-width="1"/><polygon points="150.0,97.5 176.2,104.5 195.5,123.8 202.5,150.0 195.5,176.2 176.2,195.5 150.0,202.5 123.8,195.5 104.5,176.3 97.5,150.0 104.5,123.8 123.7,104.5" fill="none" stroke="#e6eaf2" stroke-width="1"/><polygon points="150.0,71.2 189.4,81.8 218.2,110.6 228.8,150.0 218.2,189.4 189.4,218.2 150.0,228.8 110.6,218.2 81.8,189.4 71.2,150.0 81.8,110.6 110.6,81.8" fill="none" stroke="#e6eaf2" stroke-width="1"/><polygon points="150.0,45.0 202.5,59.1 240.9,97.5 255.0,150.0 240.9,202.5 202.5,240.9 150.0,255.0 97.5,240.9 59.1,202.5 45.0,150.0 59.1,97.5 97.5,59.1" fill="none" stroke="#e6eaf2" stroke-width="1"/><line x1="150" y1="150" x2="150.0" y2="45.0" stroke="#e6eaf2"/><line x1="150" y1="150" x2="202.5" y2="59.1" stroke="#e6eaf2"/><line x1="150" y1="150" x2="240.9" y2="97.5" stroke="#e6eaf2"/><line x1="150" y1="150" x2="255.0" y2="150.0" stroke="#e6eaf2"/><line x1="150" y1="150" x2="240.9" y2="202.5" stroke="#e6eaf2"/><line x1="150" y1="150" x2="202.5" y2="240.9" stroke="#e6eaf2"/><line x1="150" y1="150" x2="150.0" y2="255.0" stroke="#e6eaf2"/><line x1="150" y1="150" x2="97.5" y2="240.9" stroke="#e6eaf2"/><line x1="150" y1="150" x2="59.1" y2="202.5" stroke="#e6eaf2"/><line x1="150" y1="150" x2="45.0" y2="150.0" stroke="#e6eaf2"/><line x1="150" y1="150" x2="59.1" y2="97.5" stroke="#e6eaf2"/><line x1="150" y1="150" x2="97.5" y2="59.1" stroke="#e6eaf2"/><polygon points="150.0,87.0 185.2,89.1 195.5,123.8 150.0,150.0 180.0,167.3 169.9,184.6 150.0,192.0 97.5,240.9 104.5,176.3 79.6,150.0 104.5,123.8 129.0,113.6" fill="rgba(36,87,214,.18)" stroke="#2457D6" stroke-width="2" stroke-linejoin="round"/><circle cx="150.0" cy="87.0" r="3.5" fill="#2457D6"><title>CC1: 60%</title></circle><circle cx="185.2" cy="89.1" r="3.5" fill="#2457D6"><title>CC2: 67%</title></circle><circle cx="195.5" cy="123.8" r="3.5" fill="#2457D6"><title>CC3: 50%</title></circle><circle cx="150.0" cy="150.0" r="3.5" fill="#2457D6"><title>CC4: 0%</title></circle><circle cx="180.0" cy="167.3" r="3.5" fill="#2457D6"><title>CC5: 33%</title></circle><circle cx="169.9" cy="184.6" r="3.5" fill="#2457D6"><title>CC6: 38%</title></circle><circle cx="150.0" cy="192.0" r="3.5" fill="#2457D6"><title>CC7: 40%</title></circle><circle cx="97.5" cy="240.9" r="3.5" fill="#2457D6"><title>CC8: 100%</title></circle><circle cx="104.5" cy="176.3" r="3.5" fill="#2457D6"><title>CC9: 50%</title></circle><circle cx="79.6" cy="150.0" r="3.5" fill="#2457D6"><title>A1: 67%</title></circle><circle cx="104.5" cy="123.8" r="3.5" fill="#2457D6"><title>C1: 50%</title></circle><circle cx="129.0" cy="113.6" r="3.5" fill="#2457D6"><title>PI1: 40%</title></circle><text x="150.0" y="25.0" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC1</text><text x="212.5" y="41.7" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC2</text><text x="258.3" y="87.5" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC3</text><text x="275.0" y="150.0" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC4</text><text x="258.3" y="212.5" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC5</text><text x="212.5" y="258.3" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC6</text><text x="150.0" y="275.0" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC7</text><text x="87.5" y="258.3" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC8</text><text x="41.7" y="212.5" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">CC9</text><text x="25.0" y="150.0" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">A1</text><text x="41.7" y="87.5" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">C1</text><text x="87.5" y="41.7" text-anchor="middle" dominant-baseline="middle" font-size="10.5" font-weight="800" fill="#334155">PI1</text></svg>
+          <p class="muted" style="font-size:12px;margin:4px 0 0;text-align:center">The blue shape is how much ground you cover. Out-of-scope categories are left off.</p>
+        </section>
+        </div>
+      </div>
+      
+      <section class="card" style="margin-top:16px">
+        <p class="lbl">Top risks</p>
+        <table class="ft">
+          <tr><th>Risk</th><th>Owner</th><th>Score</th><th>Treated by</th></tr>
+          <tr><td>Account takeover without MFA</td><td>Head of IT</td><td><span class="pill p-red">15</span></td><td>CC6.1</td></tr>
+          <tr><td>Unpatched vulnerability exploited</td><td>Security lead</td><td><span class="pill p-red">15</span></td><td>CC7.1</td></tr>
+          <tr><td>Leaver keeps access</td><td>Head of IT</td><td><span class="pill p-amber">12</span></td><td>CC6.2, CC6.3</td></tr>
+          <tr><td>Unreviewed code reaches production</td><td>Head of Engineering</td><td><span class="pill p-amber">12</span></td><td>CC8.1</td></tr>
+        </table>
+      </section>
+      <p class="lbl" style="margin:26px 0 0;color:#3730a3"><span class="pill new">New</span> Below: where you are heading</p>
+      <section class="card lens" id="lens" style="margin-bottom:16px">
+      <p class="lbl">Auditor's-eye view · 61 criteria</p>
+      <div class="lcol">
+        <div style="background:var(--green-soft);color:#14532d"><b>24</b>Ready to sample<br><span style="font-size:12px">evidence in, tested, owned</span></div>
+        <div style="background:var(--amber-soft);color:#78350f"><b>23</b>Will ask questions<br><span style="font-size:12px">evidence thin or old</span></div>
+        <div style="background:var(--red-soft);color:#7f1d1d"><b>14</b>Will write an exception<br><span style="font-size:12px">missing or failed</span></div>
+      </div>
+    </section>
+          
+      <div class="grid2" style="align-items:start">
+            <section class="card">
+        <p class="lbl"><span class="pill new">New</span> Readiness forecast</p>
+        <svg viewBox="0 0 520 170" width="100%" aria-label="Readiness so far and projected">
+          <line x1="40" y1="20" x2="510" y2="20" stroke="#eef2f7"/><line x1="40" y1="80" x2="510" y2="80" stroke="#eef2f7"/><line x1="40" y1="140" x2="510" y2="140" stroke="#e2e8f0"/>
+          <text x="32" y="24" font-size="10" fill="#64748b" text-anchor="end">100%</text><text x="32" y="84" font-size="10" fill="#64748b" text-anchor="end">50%</text><text x="32" y="144" font-size="10" fill="#64748b" text-anchor="end">0%</text>
+          <line x1="420" y1="12" x2="420" y2="140" stroke="#5b4bd6" stroke-dasharray="4 3"/><text x="420" y="160" font-size="10.5" fill="#3730a3" text-anchor="middle">Period starts 1 Jan</text>
+          <polyline points="40,140 80,132 120,126 160,118 200,108 230,94" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+          <polyline points="230,94 300,64 360,40 400,20" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-dasharray="6 5"/>
+          <polyline points="230,94 320,78 420,58 510,40" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="3 4"/>
+          <circle cx="230" cy="94" r="5" fill="#16a34a"/><text x="230" y="160" font-size="10.5" fill="#64748b" text-anchor="middle">Today</text>
+          <circle cx="400" cy="20" r="5" fill="#fff" stroke="#16a34a" stroke-width="2"/><text x="388" y="14" font-size="10.5" fill="#166534" text-anchor="end">Ready 14 Dec</text>
+        </svg>
+        <p style="font-size:12.5px;margin:4px 0 0"><span style="color:#16a34a">━</span> This week's pace: ready in time. <span style="color:#d97706">┄</span> Last month's pace: <b style="color:#b45309">3 weeks late</b>.</p>
+      </section>
+            <section class="card">
+        <p class="lbl"><span class="pill new">New</span> SOC 2 and ISO 27001, same evidence</p>
+        <p class="big">71%</p>
+        <p class="muted" style="font-size:13px;margin:0 0 10px">of your SOC 2 evidence also counts for ISO 27001</p>
+        <div class="ovl"><span>Access control</span><span class="bar"><i style="width:92%"></i></span><b>92%</b></div>
+        <div class="ovl"><span>Change management</span><span class="bar"><i style="width:85%"></i></span><b>85%</b></div>
+        <div class="ovl"><span>Incident response</span><span class="bar"><i style="width:78%"></i></span><b>78%</b></div>
+        <div class="ovl"><span>Governance</span><span class="bar"><i style="width:40%"></i></span><b>40%</b></div>
+        <button class="btn" style="margin-top:10px">See what ISO 27001 would add</button>
+      </section>
+      </div>
+      <div style="margin-top:16px">    <section class="card" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <p class="lbl" style="margin:0">Type II evidence timeline · every time a recurring control must run</p>
+        <span style="font-size:12px" class="muted"><span class="pill p-green">In</span> <span class="pill p-red">Missed</span> <span class="pill" style="background:#fde68a;color:#78350f">Due now</span> <span class="pill p-grey">Coming</span></span>
+      </div>
+      <div style="display:grid;gap:7px;margin-top:12px">
+        <div class="tl"><span></span><span class="h">Jan</span><span class="h">Feb</span><span class="h">Mar</span><span class="h">Apr</span><span class="h">May</span><span class="h">Jun</span></div>
+        <div class="tl"><span>Access review · quarterly</span><div class="cell c-in">✓</div><div></div><div></div><div class="cell c-now">Due</div><div></div><div></div></div>
+        <div class="tl"><span>Vulnerability scan · monthly</span><div class="cell c-in">✓</div><div class="cell c-in">✓</div><div class="cell c-miss">!</div><div class="cell c-now">Due</div><div class="cell c-due"></div><div class="cell c-due"></div></div>
+        <div class="tl"><span>Restore test · quarterly</span><div></div><div></div><div class="cell c-in">✓</div><div></div><div></div><div class="cell c-due"></div></div>
+        <div class="tl"><span>Firewall rule review · twice a year</span><div class="cell c-in">✓</div><div></div><div></div><div></div><div></div><div class="cell c-due"></div></div>
+        <div class="tl"><span>Security training · new starters</span><div class="cell c-in">3</div><div class="cell c-in">1</div><div class="cell c-miss">1 late</div><div class="cell c-now">2</div><div class="cell c-due"></div><div class="cell c-due"></div></div>
+      </div>
+      <p class="muted" style="font-size:12px;margin:12px 0 0">One red square is one exception in your report. Owners are reminded before each grey square is due.</p>
+    </section></div>
+          <div class="grid3">
+      <section class="card">
+        <p class="lbl">This week</p>
+        <p class="big">+6 steps</p>
+        <svg viewBox="0 0 200 50" width="100%" style="margin-top:6px"><polyline points="0,44 30,40 60,38 90,30 120,28 150,18 180,12 200,8" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/></svg>
+        <p class="muted" style="font-size:12px;margin:4px 0 0">4 weeks in a row with progress</p>
+      </section>
+      <section class="card">
+        <p class="lbl">Who's carrying it</p>
+        <div class="team"><span class="av">PN</span><span style="width:90px">Priya Naik</span><span class="bar"><i style="width:82%"></i></span><span class="muted">9</span></div>
+        <div class="team"><span class="av">GS</span><span style="width:90px">Gurpreet S.</span><span class="bar"><i style="width:55%"></i></span><span class="muted">6</span></div>
+        <div class="team"><span class="av">FK</span><span style="width:90px">Farhan Khan</span><span class="bar"><i style="width:30%"></i></span><span class="muted">3</span></div>
+      </section>
+      <section class="card">
+        <p class="lbl">Most behind</p>
+        <p class="big" style="font-size:22px">CC6 · Access</p>
+        <p class="muted" style="font-size:13px;margin:4px 0 10px">3 of 8 criteria in place. Most exceptions come from here.</p>
+        <button class="btn">Focus on access</button>
+      </section>
+    </div>
+      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Every number here opens the Get ready step that improves it. <a href="#" onclick="go('getready');return false">Go to Get ready →</a></p>
+    </div>
+
+    <div class="view" id="v-reports">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap"><div><h1>SOC reports</h1><p class="sub">Each SOC 1, SOC 2 and SOC 3 report, when the next is due, and what to share</p></div></div>
+      <section class="card">
+      <p class="lbl">Your SOC reports</p>
+      <table class="ft">
+        <tr><th>Report</th><th>Type</th><th>Status</th><th>Period</th><th>Opinion</th></tr>
+        <tr><td>SOC 3, 2027</td><td>Type II</td><td><span class="pill p-grey">Planning</span></td><td>1 Jan to 30 Jun 2027</td><td>Not yet issued</td></tr>
+        <tr><td>SOC 2 Type II, 2027</td><td>Type II</td><td><span class="pill p-amber">Observation period</span></td><td>1 Jan to 30 Jun 2027</td><td>Not yet issued</td></tr>
+        <tr><td>SOC 2 Type I, 2026</td><td>Type I</td><td><span class="pill p-green">Report issued</span></td><td>as of 30 Jun 2026</td><td>Unmodified</td></tr>
+      </table>
+    </section>
+      <div class="grid2" style="align-items:start">
+            <section class="card">
+        <p class="lbl"><span class="pill" style="background:#ede9fe;color:#3730a3">New</span> What if the period started…</p>
+        <input type="range" min="0" max="4" value="1" id="wi" style="width:100%" oninput="whatIf(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:11.5px" class="muted"><span>1 Dec</span><span>1 Jan</span><span>1 Feb</span><span>1 Mar</span><span>1 Apr</span></div>
+        <p class="big" style="font-size:22px;margin-top:10px" id="wiHead">Report in September 2027</p>
+        <p style="margin:2px 0 0;font-size:13px" id="wiNote"><span class="pill p-green">Safe</span> You're ready 17 days before it starts.</p>
+      </section>
+            <section class="card">
+        <p class="lbl"><span class="pill" style="background:#ede9fe;color:#3730a3">New</span> What your auditor will ask for</p>
+        <p class="big" style="font-size:24px">23 of 41 ready</p>
+        <div class="req"><span><i class="ok">✓</i>All production changes in the period</span><span class="muted">from Jira</span></div>
+        <div class="req"><span><i class="ok">✓</i>Everyone who joined, with training dates</span><span class="muted">Training</span></div>
+        <div class="req"><span><i class="no">!</i>Everyone who left, with access removal times</span><span class="muted">missing</span></div>
+        <div class="req"><span><i class="no">!</i>Board minutes discussing security</span><span class="muted">missing</span></div>
+        <button class="btn" style="margin-top:10px">Download the ready ones (zip)</button>
+      </section>
+      </div>
+      <div style="margin-top:16px">      <section class="card">
+        <p class="lbl"><span class="pill" style="background:#ede9fe;color:#3730a3">New</span> Your public trust page</p>
+        <div class="trust">
+          <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">Acme Payroll · Security</b><span class="pill p-green">SOC 2 Type II</span></div>
+          <p class="muted" style="font-size:12.5px;margin:6px 0">Security and Availability · Period 1 Jan to 30 Jun 2027 · Next report due Sep 2027</p>
+          <div style="display:flex;gap:8px"><span class="pill p-grey">Download SOC 3</span><span class="pill p-grey">Request SOC 2 (NDA)</span></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary">Publish page</button><button class="btn" onclick="toast('Link copied · trust.acme.com')">Copy link for sales</button></div>
+      </section></div>
+    </div>
+
+    <div class="view" id="v-settings">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap"><div><h1>Settings</h1><p class="sub">Notifications</p></div></div>
+      <div class="grid2" style="align-items:start;margin-top:0">
+            <section class="card">
+        <p class="lbl"><span class="pill new">New</span> Monday email to each owner</p>
+        <div class="mail">
+          <p class="muted" style="font-size:12px;margin:0">To: priya@acme.com · Subject: <b style="color:var(--ink)">Your 3 SOC moves this week</b></p>
+          <hr style="border:0;border-top:1px solid var(--line);margin:10px 0">
+          <p style="margin:0 0 8px;font-size:13px">Morning Priya. You're 82% through your part. This week:</p>
+          <ol style="margin:0 0 10px;padding-left:18px;font-size:13px">
+            <li>Q2 access review is due Friday (CC6.3)</li>
+            <li>Upload last month's vulnerability scan (CC7.1)</li>
+            <li>Approve the Change Management Policy</li>
+          </ol>
+          <span class="pill" style="background:#2457D6;color:#fff;padding:5px 12px">Open my moves</span>
+        </div>
+      </section>
+            <section class="card">
+        <p class="lbl"><span class="pill new">New</span> Milestone moments</p>
+        <p class="muted" style="font-size:13px;margin:0 0 12px">When a stage turns green, the period starts, or the report arrives, the team sees it, and the CEO gets a one-page update.</p>
+        <div id="cele" class="cele"><b style="font-size:18px">Scope is done</b><br><span>Stage 2 of 8 · 4 steps · finished 3 days early</span></div>
+        <button class="btn primary" style="margin-top:12px" onclick="celebrate()">Preview a milestone</button>
+        <button class="btn" style="margin-top:12px" onclick="toast('One-page update sent to the CEO')">Send CEO update</button>
+      </section>
+      </div>
+    </div>
+
+    <p class="note">Concept mockup · the numbers are examples · nothing on this page is saved</p>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<div id="fixWrap" class="fixwrap" onclick="if(event.target===this)closeFix()">
+  <div class="fixbox">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+      <div><p class="lbl" style="margin:0 0 4px">Fix this exception</p><p style="margin:0;font-size:15px" id="fixTitle"></p></div>
+      <button class="btn" onclick="closeFix()" aria-label="Close">✕</button>
+    </div>
+    <div id="fixBody" style="margin-top:14px"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button class="btn" onclick="closeFix()">Cancel</button>
+      <button class="btn primary" id="fixGo" onclick="finishFix()">Mark fixed</button>
+    </div>
+  </div>
+</div>
+<script>
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';clearTimeout(window._t);window._t=setTimeout(()=>e.style.display='none',2600)}
+// The 27 real Get ready steps, each with the way it is done inside the card.
+// kind: text · form · pick · checks · rows · upload · download · link (opens another screen)
+const STAGES=['Set the product up','Decide what the report covers','Assess your risks','Put the controls in place','Collect the evidence','Test your own controls','Go through the audit','Get the report and keep it current'];
+const S=[
+ {s:0,t:'Add the people who own controls',min:5,w:'a SOC report tests controls the whole company runs. The people who run them should record their own evidence.',k:'rows',cols:['Name','Email','Role'],rows:[['','','Contributor']],add:true,act:'Invite'},
+ {s:0,t:'Turn on email',min:5,w:'reminders are how owners hear that a review is due. A missed recurring control is the most common Type II exception.',k:'form',f:[['Mail server','smtp.office365.com'],['Port','587'],['Send from','attest@acme.com']],extra:'Send a test email'},
+ {s:0,t:'Put your name and logo on reports',min:2,w:'the SOC 3 and the matrices go to your auditor and later to customers.',k:'form',f:[['Organisation name','Acme Ltd']],upload:'Your logo (PNG or SVG)'},
+ {s:0,t:'Keep a copy of the backup somewhere else',min:3,w:'this is your audit evidence for the whole period. A backup on the same machine protects you from very little.',k:'download',file:'Newest backup · last night 02:00 · 4.2 MB',confirm:'I have stored it somewhere other than this server'},
+ {s:1,t:'Decide which SOC report you need',min:5,w:'SOC 1 and SOC 2 are different examinations. Building for the wrong one wastes months.',k:'pick',opts:[['SOC 2','Security of your service. What most customers ask for',1],['SOC 1','Your service affects customers\' financial statements',0],['SOC 3','Public summary, issued with a SOC 2 Type II',0]],multi:true},
+ {s:1,t:'Describe the system and its boundaries',min:10,w:'your auditor tests only what\'s inside the boundary you write here, and it goes straight into the SOC 3 and the system description.',k:'text',p:'Acme Payroll is a cloud service that runs payroll for UK employers. It runs on AWS eu-west-2 and is built and operated by our engineering team in London. Internal tools that never touch customer data are outside the boundary.'},
+ {s:1,t:'Write your service commitments and system requirements',min:10,w:'a SOC 2 opinion is about whether your controls kept your own promises, so the promises come first.',k:'text',p:'99.9% monthly uptime. Customer data encrypted at rest and in transit. Support answers within one business day.'},
+ {s:1,t:'Choose the Trust Services categories',min:5,w:'every category you keep is more criteria to meet and test. Most first reports are Security, or Security and Availability.',k:'checks',items:[['Security (always in)',1,1],['Availability',1],['Confidentiality',0],['Processing integrity',0],['Privacy',0],['SOC 1 control objectives',0]],note:'Anything you untick is marked out of scope with the reason "Not in our customer commitments". You can change the reason later.'},
+ {s:2,t:'List the systems inside the boundary',min:10,w:'access reviews, scans and change management all start from knowing what is in scope.',k:'checks',items:[['Production cloud account (AWS)',1],['Production database',1],['Source code repository',1],['Identity provider (SSO and MFA)',1],['Laptops',1],['Logging and SIEM',0],['CRM',0],['HR system',0]],note:'Tick what you use. Each one is added to Assets with a sensible criticality.'},
+ {s:2,t:'Run your risk assessment',min:60,w:'the auditor asks for the risk assessment for the period, and checks it covers fraud and change.',k:'link',to:'Risks',sub:'Start from 50 sample risks, each already linked to the criteria that treat it.'},
+ {s:2,t:'List your vendors and subservice organisations',min:10,w:'vendors that run controls for you are subservice organisations, and you must review them (CC9.2).',k:'checks',items:[['Cloud hosting provider · High',1],['Identity provider · High',1],['Email and office suite · High',1],['Payment processor · High',0],['Payroll provider · Medium',0],['CRM · Medium',0]],note:'Each one is added to Vendors, ready for its SOC report.'},
+ {s:3,t:'Give every criterion an owner',min:5,w:'during fieldwork the auditor asks the owner. A criterion nobody owns is one nobody can explain.',k:'rows',cols:['Category','Criteria','Owner'],rows:[['CC1–CC5 Governance','17','Farhan Khan'],['CC6 Access','8','Priya Naik'],['CC7 Operations','5','Gurpreet S.'],['CC8 Change','1','Gurpreet S.'],['CC9 Vendors and continuity','2','Priya Naik'],['Availability','3','Gurpreet S.']],sel:2},
+ {s:3,t:'Write and approve your policies',min:45,w:'CC5.3 asks for controls to be put in place through policies, and the auditor checks each was approved in the period.',k:'link',to:'Policies → Templates',sub:'13 starter documents. Answer a few questions once and download them filled in.'},
+ {s:3,t:'Set a review date on every policy',min:3,w:'a policy last reviewed two years ago is an exception in a Type II.',k:'rows',cols:['Policy','Review by'],rows:[['Information Security Policy','2027-10-01'],['Access Control Policy','2027-10-01'],['Change Management Policy','2027-10-01'],['Incident Response Plan','2027-10-01']],date:1},
+ {s:3,t:'Train everyone on security',min:5,w:'CC1.4 and CC2.2 are tested by sampling people and asking for their training record.',k:'rows',cols:['Person','Course','Completed'],rows:[['Priya Naik','Security awareness 2026',''],['Gurpreet S.','Security awareness 2026',''],['Farhan Khan','Security awareness 2026','']],date:2,act:'Mark completed'},
+ {s:4,t:'Link evidence to the criteria it proves',min:15,w:'an auditor\'s request list is a list of evidence by criterion. Linking it now turns fieldwork into a download.',k:'upload',what:'A screenshot, export, ticket or document',crit:true},
+ {s:4,t:'Date your evidence',min:3,w:'for a Type II the auditor checks evidence falls inside the period, every time the control was meant to run.',k:'rows',cols:['Evidence','Date produced'],rows:[['Okta user export.csv',''],['AWS security groups.png',''],['Change log Q1.xlsx',''],['Phishing test results.pdf','']],date:1},
+ {s:4,t:'Review your critical vendors\' SOC reports',min:15,w:'auditors ask for your review of each subservice organisation\'s report. Having it is not the same as reviewing it.',k:'rows',cols:['Vendor','Their report','Reviewed'],rows:[['Cloud hosting provider','',''],['Identity provider','','']],upl:1,date:2},
+ {s:5,t:'Test every criterion in scope',min:20,w:'this is what the auditor will do. Doing it first means no surprises in the report.',k:'form',f:[['Criterion','CC6.2 Register and authorise people before access'],['What you sampled','5 leavers from March']],result:true},
+ {s:5,t:'Fix what failed',min:20,w:'an exception found and fixed before the period starts never appears in the report.',k:'link',to:'If the auditor came today',sub:'Every failed test is listed there with what to do about it.'},
+ {s:5,t:'Hold an internal review',min:30,w:'CC4.1 asks for separate evaluations of controls.',k:'form',f:[['Held on','2026-11-20'],['Led by','External consultant'],['Outcome','Two minor findings, raised as exceptions']]},
+ {s:5,t:'Give every open exception an owner and a date',min:5,w:'CC4.2 is tested by sampling deficiencies and checking they were fixed on time.',k:'rows',cols:['Exception','Owner','Due'],rows:[['March vulnerability scan missing','Gurpreet S.',''],['1 new starter trained late','Priya Naik','']],sel:1,date:2},
+ {s:6,t:'Book a CPA firm and agree the period',min:10,w:'every control has to run throughout the period, so its start date is the date your controls must work by.',k:'form',f:[['CPA firm','Example CPA LLP'],['Report','SOC 2 Type II'],['Period starts','2027-01-01'],['Period ends','2027-06-30']]},
+ {s:6,t:'Send the auditor your control matrix',min:2,w:'the matrix is how the auditor plans testing. A clear one shortens fieldwork.',k:'download',file:'SOC 2 criteria matrix · PDF · built from live data',confirm:'Sent to the auditor'},
+ {s:7,t:'Record the issued report',min:5,w:'customers will ask for the report and its date.',k:'form',f:[['Issued on','2027-08-15'],['Opinion','Unmodified']],upload:'The signed report (PDF)'},
+ {s:7,t:'Prepare your SOC 3',min:15,w:'a SOC 3 can go on your website, and saves your sales team a security questionnaire or two.',k:'download',file:'SOC 3 draft · PDF · lists anything still missing on page 1',confirm:'Wording agreed with the CPA firm'},
+ {s:7,t:'Set the date the next report is due',min:1,w:'a gap between periods means a bridge letter at best.',k:'form',f:[['Next report due','2028-08-15']]}];
+const KIND={text:'Write it here',form:'Fill it in here',pick:'Choose here',checks:'Tick here',rows:'Do it here',upload:'Upload here',download:'Download here',link:'Opens another screen'};
+let cur=5,pct=37,doneSet=new Set([0,1,2,3,4,8,10,11,13,14]),skippedSet=new Set();
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+function people(sel){return '<select>'+['Farhan Khan','Priya Naik','Gurpreet S.'].map(p=>'<option'+(p===sel?' selected':'')+'>'+p+'</option>').join('')+'</select>'}
+function bodyOf(m){
+  if(m.k==='text')return '<textarea id="mvText" rows="4" placeholder="'+esc(m.p)+'"></textarea>';
+  if(m.k==='form')return '<div class="mvform">'+m.f.map(([l,v])=>'<label>'+l+'<input value="'+esc(v)+'"></label>').join('')+
+    (m.result?'<label>Result<select><option>Pass</option><option>Partial</option><option>Fail</option></select></label>':'')+'</div>'+
+    (m.upload?'<label class="drop" style="margin-top:8px;padding:12px"><input type="file" style="display:none" onchange="this.parentNode.querySelector(\'b\').textContent=this.files[0]?.name||\'\'"><b>'+m.upload+'</b><br><span class="muted">click to choose</span></label>':'')+
+    (m.extra?'<button class="btn" style="margin-top:8px" onclick="toast(\'Test email sent to you\')">'+m.extra+'</button>':'');
+  if(m.k==='pick')return m.opts.map(([t,d,on])=>'<label class="opt"><input type="checkbox"'+(on?' checked':'')+'><span><b>'+t+'</b><br><span class="muted">'+d+'</span></span></label>').join('');
+  if(m.k==='checks')return m.items.map(([t,on,lock])=>'<label class="stp"><input type="checkbox"'+(on?' checked':'')+(lock?' disabled':'')+'> '+t+'</label>').join('')+(m.note?'<p class="muted" style="font-size:12px;margin:8px 0 0">'+m.note+'</p>':'');
+  if(m.k==='rows')return '<table class="ft"><tr>'+m.cols.map(c=>'<th>'+c+'</th>').join('')+(m.act?'<th></th>':'')+'</tr>'+m.rows.map((r,ri)=>'<tr>'+r.map((c,ci)=>{
+      if(ci===m.sel)return '<td>'+people(c)+'</td>';
+      if(ci===m.date)return '<td><input type="date" value="'+c+'"></td>';
+      if(ci===m.upl)return '<td><label class="btn" style="padding:4px 10px">Upload<input type="file" style="display:none" onchange="this.parentNode.outerHTML=\'<span class=&quot;pill p-green&quot;>\'+this.files[0].name+\'</span>\'"></label></td>';
+      if(m.add)return '<td><input placeholder="'+(['Priya Naik','priya@acme.com',''][ci])+'" value="'+esc(c)+'"></td>';
+      return '<td>'+c+'</td>';}).join('')+(m.act?'<td style="text-align:right"><button class="btn" onclick="this.outerHTML=\'<span class=&quot;pill p-green&quot;>Done</span>\'">'+m.act+'</button></td>':'')+'</tr>').join('')+'</table>'+
+    (m.add?'<button class="linkbtn" onclick="addRow(this)">+ Add another person</button>':'');
+  if(m.k==='upload')return '<label class="drop"><input type="file" style="display:none" onchange="this.parentNode.querySelector(\'b\').textContent=this.files[0]?.name||\'\'"><b>'+m.what+'</b><br><span class="muted">drop it here or click to choose</span></label>'+
+    '<div class="mvform" style="margin-top:8px"><label>Proves<select><option>CC6.3 Access reviews</option><option>CC7.1 Vulnerability scans</option><option>CC8.1 Change management</option></select></label><label>Date produced<input type="date"></label></div>';
+  if(m.k==='download')return '<div class="dl"><span><b>'+m.file.split(' · ')[0]+'</b><br><span class="muted">'+m.file.split(' · ').slice(1).join(' · ')+'</span></span><button class="btn" onclick="toast(\'Downloading…\')">Download</button></div>'+
+    '<label class="stp"><input type="checkbox"> '+m.confirm+'</label>';
+  if(m.k==='link')return '<div class="dl"><span><b>This one needs a bigger screen: '+m.to+'</b><br><span class="muted">'+m.sub+'</span></span><button class="btn" onclick="toast(\'Opens '+m.to+'. A Back to Get ready bar brings you here.\')">Open '+m.to.split(' →')[0]+'</button></div>';
+  return '';
+}
+function addRow(b){const t=b.previousElementSibling;const tr=t.rows[1].cloneNode(true);tr.querySelectorAll('input').forEach(i=>i.value='');t.appendChild(tr)}
+const SHORT=["Set up", "Scope", "Risks", "Controls", "Evidence", "Test", "Audit", "Report"];
+let planOpen=false;
+function togglePlan(){planOpen=!planOpen;document.getElementById('planList').style.display=planOpen?'block':'none';
+  document.getElementById('planBtn').textContent=planOpen?'Hide the plan ▴':'See the whole plan ▾'}
+function jump(i){cur=i;render();document.getElementById('moveCard').scrollIntoView({behavior:'smooth',block:'center'})}
+const inStage=i=>S.map((x,k)=>[x,k]).filter(([x])=>x.s===i);
+const mins=x=>x.min>=60?(x.min/60)+' h':x.min+' min';
+function renderPlan(){
+  const n=doneSet.size,p=Math.round(n/27*100),st=S[cur].s;
+  document.getElementById('planPct').textContent=p+'%';
+  document.getElementById('planLeft').textContent=(27-n)+' steps to go';
+  document.getElementById('planDone').textContent=n+' of 27 steps done';
+  document.getElementById('planStage').textContent='stage '+(st+1)+' of 8, '+STAGES[st];
+  const sp=document.getElementById('stripPct');if(sp)sp.textContent=p+'% ready';
+  document.getElementById('stepper').innerHTML=STAGES.map((name,i)=>{
+    const t=inStage(i),d=t.filter(([,k])=>doneSet.has(k)).length,all=d===t.length,first=(t.find(([,k])=>!doneSet.has(k))||t[0])[1];
+    return '<div class="stp8'+(all?' done':'')+(i===st?' now':'')+'" onclick="jump('+first+')" title="'+name+'"><div class="dot">'+(all?'✓':i+1)+'</div>'+SHORT[i]+
+      '<div class="bar8"><i style="width:'+Math.round(d/t.length*100)+'%"></i></div><div style="font-size:10.5px;margin-top:2px">'+d+' of '+t.length+'</div></div>'}).join('');
+  const cs=inStage(st),cd=cs.filter(([,k])=>doneSet.has(k)).length;
+  document.getElementById('planNow').textContent='This stage: '+cd+' of '+cs.length+' done'+(skippedSet.size?' · '+skippedSet.size+' put off until tomorrow':'');
+  document.getElementById('planList').innerHTML=STAGES.map((name,i)=>{
+    const t=inStage(i),d=t.filter(([,k])=>doneSet.has(k)).length;
+    const badge=d===t.length?'<span class="pill p-green">'+d+' of '+t.length+'</span>':i===st?'<span class="pill" style="background:#dbe5ff;color:#1e3a8a">'+d+' of '+t.length+'</span>':'<span class="pill p-grey">'+d+' of '+t.length+'</span>';
+    return '<div class="pstage"><h4><span>'+(i+1)+'. '+name+'</span>'+badge+'</h4>'+t.map(([x,k])=>{
+      const st2=doneSet.has(k)?['d','✓','Done']:k===cur?['c','▶','Next']:skippedSet.has(k)?['s','↻','Tomorrow']:['t','','About '+mins(x)];
+      return '<div class="ptask'+(k===cur?' cur':'')+'" onclick="jump('+k+')"><span class="ic '+st2[0]+'">'+st2[1]+'</span><span style="flex:1">'+x.t+'</span><span class="muted" style="font-size:11.5px">'+st2[2]+'</span></div>'}).join('')+'</div>'}).join('');
+}
+function render(){
+  const m=S[cur];
+  document.getElementById('moveLbl').textContent='Your next move · step '+(cur+1)+' of 27'+(skipped?' · '+skipped+' skipped':'');
+  document.getElementById('moveStage').textContent='Stage '+(m.s+1)+' of 8 · '+STAGES[m.s];
+  document.getElementById('moveTitle').textContent=m.t;
+  document.getElementById('moveMeta').textContent='About '+(m.min>=60?(m.min/60)+' hour':m.min+' minute'+(m.min>1?'s':''))+' · '+doneSet.size+' of 27 done';
+  document.getElementById('moveWhy').textContent=m.w;
+  const k=document.getElementById('moveKind');k.textContent=KIND[m.k];k.className='pill '+(m.k==='link'?'p-grey':'p-green');
+  document.getElementById('moveBody').innerHTML=bodyOf(m);
+  document.getElementById('moveGo').textContent=m.k==='link'?'Mark done':'Save and next';
+  document.getElementById('moveCard').animate([{opacity:.3,transform:'translateX(12px)'},{opacity:1,transform:'none'}],{duration:280});
+  renderPlan();
+}
+function nextOpen(from){for(let i=1;i<=27;i++){const j=(from+i)%27;if(!doneSet.has(j))return j}return from}
+function doMove(){
+  const m=S[cur];
+  if(m.k==='text'&&!document.getElementById('mvText').value.trim()){toast('Write a sentence or two first, or press Not now');return}
+  doneSet.add(cur);skippedSet.delete(cur);pct=Math.min(100,Math.round(doneSet.size/27*100));document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('ringArc').setAttribute('stroke-dashoffset',452-452*pct/100);
+  toast('"'+m.t+'" done · '+doneSet.size+' of 27');
+  if(doneSet.size===27){document.getElementById('moveTitle').textContent='Everything is done';return}
+  cur=nextOpen(cur);render();
+}
+const wi=[
+ ['Report in August 2027','<span class="pill p-red">Too soon</span> Period starts before you are ready: about 9 likely exceptions.'],
+ ['Report in September 2027','<span class="pill p-green">Safe</span> You are ready 17 days before it starts.'],
+ ['Report in October 2027','<span class="pill p-green">Comfortable</span> 48 days of slack before it starts.'],
+ ['Report in November 2027','<span class="pill p-amber">Late</span> Two customers asked for a report by October.'],
+ ['Report in December 2027','<span class="pill p-amber">Late</span> Your Type I bridge letter runs out first.']];
+function whatIf(v){document.getElementById('wiHead').textContent=wi[v][0];document.getElementById('wiNote').innerHTML=wi[v][1]}
+let skipped=0;
+function notNow(){
+  const title=S[cur].t;skipped++;skippedSet.add(cur);cur=nextOpen(cur);render();
+  toast('"'+title+'" moved to tomorrow · '+skipped+' skipped today');
+}
+document.addEventListener('DOMContentLoaded',()=>{renderExc();render()});
+function lens(){document.getElementById('lensSw').classList.toggle('on');document.getElementById('lens').classList.toggle('on')}
+function celebrate(){const c=document.getElementById('cele');c.classList.add('go');toast('Stage 2 done · the team has been told');setTimeout(()=>c.classList.remove('go'),2500)}
+// Every likely exception. "fix" is the mock-audit run after which it is fixed (0 = still open at the end).
+const EXC=[
+ ['CC6.2','2 leavers still had access after 1 day','Fail','p-red',2],
+ ['CC6.3','Q3 access review has no evidence','Gap','p-red',2],
+ ['CC8.1','1 change went live with no review','Partial','p-amber',1],
+ ['CC9.2','Cloud host\'s SOC report not reviewed','Stale','p-amber',3],
+ ['CC7.1','March vulnerability scan missing','Gap','p-red',0],
+ ['CC1.4','1 new starter trained late','Partial','p-amber',0],
+ ['CC6.1','3 admin accounts without MFA','Fail','p-red',1],
+ ['CC7.3','2 alerts closed with no triage note','Partial','p-amber',3],
+ ['CC5.3','Change Management Policy not approved','Gap','p-red',2],
+ ['A1.3','No restore test this quarter','Gap','p-red',3],
+ ['CC3.2','Risk assessment older than 12 months','Stale','p-amber',1],
+ ['CC2.2','4 people have not signed the code of conduct','Partial','p-amber',0],
+ ['CC4.2','2 exceptions past their due date','Fail','p-red',3],
+ ['C1.2','No proof of deletion for 1 ended contract','Gap','p-red',0]];
+// How to fix each one: what the auditor would say, the fix, and the button that does it.
+const HOW={
+ 'CC6.2':['Two leavers kept access for 3 and 6 days. Your policy says one business day.','Remove their access now, then add a leaver checklist so HR tells IT before the last day.','Open the 2 leavers'],
+ 'CC6.3':['There is no evidence the Q3 access review happened.','Upload the review export and the sign-off. If it was not done, do it now and note why it was late.','Upload the review'],
+ 'CC8.1':['One production change has no peer review.','Get it reviewed after the fact, record it as an emergency change, and turn on branch protection.','Open the change'],
+ 'CC9.2':['Your cloud host is a subservice organisation, but nobody reviewed its SOC 2 report.','Read their latest SOC 2, note any exceptions and the controls they expect from you, and set the review date.','Review the report'],
+ 'CC7.1':['The March vulnerability scan is missing, so one month of the period has no scan.','Upload the March scan. If it was never run, run it now and record the gap as an exception with a reason.','Upload the scan'],
+ 'CC1.4':['One new starter finished security training 41 days after joining. The policy says 30.','Record the late completion and remind managers to book training in week one.','See the training record'],
+ 'CC6.1':['Three admin accounts can sign in without MFA.','Turn on MFA for the three accounts, or remove admin rights they do not need.','Show the 3 accounts'],
+ 'CC7.3':['Two security alerts were closed with no note on how they were triaged.','Add a short triage note to each, and make the note required in your alerting tool.','Open the 2 alerts'],
+ 'CC5.3':['The Change Management Policy is still a draft.','Send it to the approver. It starts from the template in Policies.','Send for approval'],
+ 'A1.3':['No restore from backup was tested this quarter.','Restore one backup into a test environment and record the time it took.','Log a restore test'],
+ 'CC3.2':['The last risk assessment is 14 months old.','Review the risk register with the owners and record the review date.','Open Risks'],
+ 'CC2.2':['Four people have not signed the code of conduct.','Send them a reminder; signatures are recorded automatically.','Remind the 4 people'],
+ 'CC4.2':['Two exceptions are past their due date.','Fix them or agree new dates with the owners.','Open Exceptions'],
+ 'C1.2':['A customer contract ended with no proof their data was deleted.','Delete the data and upload the deletion log or confirmation.','Upload proof of deletion']};
+let openRow=null,manualFixed=new Set();
+function toggleRow(ref){openRow=openRow===ref?null:ref;renderExc()}
+function markFixed(ref){manualFixed.add(ref);openRow=null;renderExc();toast(ref+' marked fixed · '+document.getElementById('excCount').textContent+' likely exceptions left')}
+// ── the fix panel: each exception opens the place you fix it ──────────────
+const UPLOAD={'CC6.3':'Q3 access review export and sign-off','CC7.1':'March vulnerability scan report','C1.2':'Deletion log or customer confirmation','CC9.2':'Your review notes of the cloud host\'s SOC 2'};
+const LISTS={
+ 'CC6.2':{cols:['Leaver','Last day','Access still on','Days late'],rows:[['Tom Reid','2 Mar','GitHub, AWS','6'],['Ana Lopes','14 Mar','Okta','3']],act:'Remove access'},
+ 'CC6.1':{cols:['Account','System','Admin since'],rows:[['deploy-bot','AWS','Jan 2025'],['j.smith','Okta','Mar 2024'],['backup-admin','Azure','Aug 2025']],act:'Turn on MFA'},
+ 'CC7.3':{cols:['Alert','Closed by','Closed'],rows:[['Impossible travel: m.khan','Priya','4 Apr'],['Root login from new IP','Gurpreet','9 Apr']],act:'Add triage note'},
+ 'CC2.2':{cols:['Person','Team','Joined'],rows:[['Sam Patel','Sales','Jan'],['Lee Wong','Support','Feb'],['Ines Duarte','Finance','Feb'],['Max Hill','Engineering','Mar']],act:'Send reminder'},
+ 'CC4.2':{cols:['Exception','Owner','Was due'],rows:[['Firewall rule review late','Gurpreet','1 Apr'],['Pen test finding #3','Priya','5 Apr']],act:'Set new date'},
+ 'CC8.1':{cols:['Change','Author','Released'],rows:[['PR #482 Fix invoice rounding','dev-alex','12 Mar']],act:'Request review'}};
+const STEPS={
+ 'CC1.4':['Open the training record for the new starter','Record the completion date (41 days)','Add "book security training in week one" to the onboarding checklist'],
+ 'CC5.3':['Open the Change Management Policy draft','Check it says what you really do','Send it to the approver'],
+ 'A1.3':['Pick one recent backup','Restore it into a test environment','Record how long it took and whether it worked'],
+ 'CC3.2':['Open the risk register with the risk owners','Update scores and treatments','Record today as the review date']};
+let fixRef=null;
+function openFix(ref){
+  fixRef=ref;const e=EXC.find(x=>x[0]===ref);let body='';
+  if(LISTS[ref]){const L=LISTS[ref];
+    body='<table class="ft"><tr>'+L.cols.map(c=>'<th>'+c+'</th>').join('')+'<th></th></tr>'+
+      L.rows.map((r,i)=>'<tr id="fr'+i+'">'+r.map(c=>'<td>'+c+'</td>').join('')+'<td style="text-align:right"><button class="btn" onclick="rowDone('+i+',this)">'+L.act+'</button></td></tr>').join('')+'</table>'+
+      '<p class="muted" style="font-size:12.5px;margin:10px 0 0" id="fixHint">Do every row, then mark it fixed.</p>';
+  } else if(UPLOAD[ref]){
+    body='<label class="drop" id="drop"><input type="file" style="display:none" onchange="picked(this)"><b>Drop a file here or click to choose</b><br><span class="muted">'+UPLOAD[ref]+'</span></label>'+
+      '<div style="display:flex;gap:10px;margin-top:10px;align-items:center"><label style="font-size:13px">Date it was produced</label><input type="date" value="2026-03-31" style="font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:6px 8px"></div>';
+  } else {
+    body=(STEPS[ref]||['Do the fix','Attach the proof']).map((s,i)=>'<label class="stp"><input type="checkbox" onchange="stepsDone()"> '+s+'</label>').join('');
+  }
+  document.getElementById('fixTitle').innerHTML='<b>'+ref+'</b> · '+e[1];
+  document.getElementById('fixBody').innerHTML=body;
+  document.getElementById('fixGo').disabled=true;
+  document.getElementById('fixGo').textContent=UPLOAD[ref]?'Attach to '+ref:'Mark '+ref+' fixed';
+  document.getElementById('fixWrap').style.display='flex';
+}
+function closeFix(){document.getElementById('fixWrap').style.display='none'}
+function rowDone(i,b){const tr=document.getElementById('fr'+i);tr.classList.add('done');b.outerHTML='<span class="pill p-green">Done</span>';
+  const left=document.querySelectorAll('.ft tr[id]:not(.done)').length;
+  document.getElementById('fixHint').textContent=left?left+' to go.':'All done. Press Mark fixed.';document.getElementById('fixGo').disabled=left>0}
+function picked(inp){if(!inp.files.length)return;document.getElementById('drop').innerHTML='<b>'+inp.files[0].name+'</b><br><span class="muted">ready to attach</span>';document.getElementById('fixGo').disabled=false}
+function stepsDone(){const all=[...document.querySelectorAll('.stp input')];document.getElementById('fixGo').disabled=!all.every(c=>c.checked)}
+function finishFix(){const ref=fixRef;closeFix();markFixed(ref)}
+let showAll=false;
+function renderExc(note){
+  const open=EXC.filter(e=>(e[4]===0||e[4]>auditRun)&&!manualFixed.has(e[0]));
+  const fixed=EXC.filter(e=>manualFixed.has(e[0])||(auditRun&&e[4]!==0&&e[4]===auditRun));
+  const wrapOpen=showAll?'<div style="max-height:300px;overflow-y:auto;padding-right:6px">':'<div>';
+  const rows=(showAll?open:open.slice(0,4)).map(x=>{
+    const h=HOW[x[0]];const isOpen=openRow===x[0];
+    return '<div class="exc click'+(isOpen?' sel':'')+'" onclick="toggleRow(\''+x[0]+'\')"><span><span class="chev">'+(isOpen?'▾':'▸')+'</span><b>'+x[0]+'</b> · '+x[1]+'</span><span class="pill '+x[3]+'">'+x[2]+'</span></div>'+
+      (isOpen?'<div class="howto"><p><b>What the auditor will say:</b> '+h[0]+'</p><p><b>How to fix it:</b> '+h[1]+'</p>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="event.stopPropagation();openFix(\''+x[0]+'\')">'+h[2]+'</button>'+
+      '<button class="btn" onclick="event.stopPropagation();toast(\''+x[0]+' assigned to Priya Naik, due Friday\')">Assign</button>'+
+      '<button class="btn" onclick="event.stopPropagation();markFixed(\''+x[0]+'\')">Mark fixed</button></div></div>':'');
+  });
+  const fixedRows=fixed.map(x=>'<div class="exc" style="opacity:.75"><span><b>'+x[0]+'</b> · <s>'+x[1]+'</s></span><span class="pill p-green">Fixed</span></div>');
+  const more=open.length>4?'<button class="linkbtn" onclick="showAll=!showAll;renderExc()">'+(showAll?'Show fewer':'Show all '+open.length)+'</button>':'';
+  document.getElementById('excCount').textContent=open.length;
+  document.getElementById('excList').innerHTML=wrapOpen+rows.join('')+(showAll?fixedRows.join(''):'')+'</div>'+(!showAll&&fixedRows.length?'<p class="muted" style="font-size:12px;margin:8px 0 0"><span class="pill p-green">'+fixedRows.length+' fixed</span> since the last run</p>':'')+more+(note||document.getElementById('excNote')?.outerHTML||'');
+}
+const audits=[
+ {n:11,rows:[['CC6.2','2 leavers still had access after 1 day','Fail','p-red'],['CC6.3','Q3 access review has no evidence','Gap','p-red'],['CC7.1','March vulnerability scan missing','Gap','p-red'],['CC8.1','Fixed: every change in the sample was reviewed','Pass','p-green']],lens:[27,23,11]},
+ {n:8,rows:[['CC6.2','1 leaver still had access after 1 day','Fail','p-red'],['CC6.3','Fixed: Q3 access review found','Pass','p-green'],['CC7.1','March vulnerability scan missing','Gap','p-red'],['CC1.4','1 new starter trained late','Partial','p-amber']],lens:[31,22,8]},
+ {n:4,rows:[['CC7.1','March vulnerability scan missing','Gap','p-red'],['CC1.4','1 new starter trained late','Partial','p-amber'],['CC6.2','Fixed: every leaver removed within 1 day','Pass','p-green'],['CC9.2','Fixed: cloud host SOC 2 reviewed','Pass','p-green']],lens:[39,18,4]}];
+let auditRun=0;
+function mockAudit(b){
+  const stepsTxt=['Sampling 25 leavers…','Sampling 40 production changes…','Checking 4 access reviews…','Checking 12 vendor reviews…','Writing up exceptions…'];
+  b.disabled=true;let i=0;
+  const tick=setInterval(()=>{b.textContent=stepsTxt[i]+' ('+(i+1)+'/'+stepsTxt.length+')';i++;
+    if(i===stepsTxt.length){clearInterval(tick);setTimeout(finish,400)}},450);
+  function finish(){
+    const r=audits[Math.min(auditRun,audits.length-1)];
+    const before=document.getElementById('excCount').textContent;
+    if(auditRun<3)auditRun++;
+    renderExc('<p id="excNote" class="muted" style="font-size:12px;margin:8px 0 0">Last mock audit: just now · '+auditRun+' run'+(auditRun>1?'s':'')+' so far</p>');
+    r.n=document.getElementById('excCount').textContent;
+    const l=document.querySelectorAll('#lens .lcol b');r.lens.forEach((v,k)=>l[k].textContent=v);
+    b.textContent='Run it again';b.disabled=false;
+    toast('Mock audit done · '+r.n+' likely exceptions, down from '+before);
+  }
+}
+</script>
+<script>
+function go(v){document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+  document.querySelectorAll('.nav a[data-v]').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  history.replaceState(null,'','#'+v);window.scrollTo(0,0)}
+document.querySelectorAll('.nav a[data-v]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.dataset.v)}));
+document.addEventListener('DOMContentLoaded',()=>go(location.hash.slice(1)||'getready'));
+</script>
+</body>
+</html>

@@ -33,6 +33,8 @@ export interface ReportSpec {
   scoredDescription?: string;
   /** Pack feature required for this report to be offered. */
   requires?: string;
+  /** A pack feature whose own report says the same thing better, so this one is not offered with it. */
+  replacedBy?: string;
   landscape?: boolean;
   build: () => Promise<Content[]>;
   /**
@@ -802,6 +804,8 @@ const statementOfApplicability: ReportSpec = {
   description:
     "Every control, whether it applies, why, and its implementation status. The document a certification auditor asks for first.",
   requires: "statementOfApplicability",
+  // SOC uses the applicability screen for scope; the SOC 2 criteria matrix is its report.
+  replacedBy: "soc",
   landscape: true,
   async build() {
     const l = await labels();

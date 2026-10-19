@@ -105,7 +105,7 @@ export function Templates({ canEdit, onAdded }: { canEdit: boolean; onAdded?: ()
           </div>
           <div class="row-actions">
             <button type="button" class="btn primary" onClick=${() => setFilling("company")}>Fill in</button>
-            <a class="btn" href=${templates.allFilledUrl} download="ISMS_documents.zip">Download all filled (zip)</a>
+            <a class="btn" href=${templates.allFilledUrl} download="Policy_documents.zip">Download all filled (zip)</a>
           </div>
         </div>`
       : null}

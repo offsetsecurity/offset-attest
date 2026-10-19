@@ -54,10 +54,11 @@ export function ExampleData(): VNode {
   return html`<div class="card pad">
     <h2 class="section-h">Example data</h2>
     <p class="muted section-note">
-      A small software company with a customer portal, a payroll bureau and an office: assets,
-      risks, policies, suppliers, training, objectives, interested parties, an internal audit, a
-      management review, findings with a corrective action, tasks, incidents and evidence, all
-      joined up to the controls they belong to.
+      An invented software company with an issued SOC 2 Type I and a Type II under way: its scope,
+      with Privacy and SOC 1 left out and why, owners and statuses on the criteria, self-tests
+      including a failed one and the exception it raised, vendors with their SOC reports, risks,
+      evidence, training, an internal control review and more, all joined up to the criteria
+      they belong to.
     </p>
 
     ${note ? html`<div class="ok-note" role="status">${note}</div>` : null}

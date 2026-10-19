@@ -37,12 +37,34 @@ Every release is numbered x.y.z, for example 1.4.2:
 - **Get ready checks** for SOC: scope decided, every criterion tested, last
   tests passing, high-criticality vendors reviewed, internal review held, CPA
   firm booked, report issued.
+- **SOC policy templates** (`packs/attest/templates`, built by
+  `docs/dev/build-soc-templates.py`): the system description and 12 policies
+  and procedures, each a Word file with named blanks, on the Policies screen's
+  Templates tab. Answers are asked once; the system description takes its
+  text from Scope, and tables fill from Risks, Vendors, Training, Assets,
+  Internal audits, Exceptions and Policies.
+- **Board paper for SOC**: the executive summary rolls the 14 categories up
+  into report groups (`boardGroups` in `pack.json`: Security, Availability,
+  Processing integrity, Confidentiality, Privacy, SOC 1) and still fits on two
+  pages.
+- **Reports laid out by reader**: the board, management and customers (SOC 3)
+  first, then what the auditor asks for.
+- **SOC example data** (Settings, administrators): an invented SaaS company
+  with its scope and methodology written, Privacy and the SOC 1 objectives
+  out of scope with reasons, owners and statuses on every criterion,
+  self-tests including a failure and its open exception, vendors including a
+  high-criticality host with a SOC 2, an issued SOC 2 Type I and a Type II
+  under way. Removing it takes back the reports, tests and scope text too,
+  leaving anything you wrote or changed.
 - **Pack labels**: `pack.json` can rename screens (`labels`), so Attest says
   Scope, Vendors, Exceptions and Internal audits.
 
 ### Changed
 - Vendors are a register in their own right: shown when either `privacy` or
   `ismsRegisters` is on, with GDPR's processor fields only under `privacy`.
+- Policies sits under SOC readiness in the menu, beside Criteria and Evidence.
+- The Statement of Applicability report is not offered where the SOC 2
+  criteria matrix replaces it (`replacedBy` on a report).
 - Criteria are listed in the framework's own category order (CC1 to CC9, then
   Availability and the rest), not alphabetically.
 - A register's name keeps its acronyms mid-sentence: "Add SOC report".

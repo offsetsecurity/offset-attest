@@ -159,9 +159,14 @@ export async function loadKnown(docLocation: string): Promise<Known> {
   const sources: Record<string, string[][]> = {};
 
   await query("insert or ignore into programme (id) values (1)");
-  const prog = (await query<{ scope: string | null; attrs: string }>("select scope, attrs from programme where id = 1")).rows[0];
+  const prog = (await query<{ scope: string | null; methodology: string | null; attrs: string }>(
+    "select scope, methodology, attrs from programme where id = 1",
+  )).rows[0];
   const attrs = JSON.parse(prog?.attrs ?? "{}") as Record<string, unknown>;
   if (prog?.scope?.trim()) derived["01.scope"] = prog.scope.trim();
+  // A SOC system description takes both boxes from the Scope screen.
+  if (prog?.scope?.trim()) derived["sys.boundaries"] = prog.scope.trim();
+  if (prog?.methodology?.trim()) derived["sys.commitments"] = prog.methodology.trim();
 
   const context = Array.isArray(attrs["context"]) ? (attrs["context"] as Record<string, string>[]) : [];
   sources["issues"] = context.map((c) => [c["type"] ?? "", c["issue"] ?? "", c["impact"] ?? ""]);

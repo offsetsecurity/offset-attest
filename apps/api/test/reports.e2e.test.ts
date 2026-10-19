@@ -34,7 +34,8 @@ const ATTEST_PACK = packIfPresent("assure");
 const OWN_FEATURES = (JSON.parse(
   readFileSync(resolve(process.cwd(), "../../packs", config.PRODUCT, "pack.json"), "utf8"),
 ) as { features?: Record<string, boolean> }).features ?? {};
-const hasSoa = OWN_FEATURES["statementOfApplicability"] === true;
+// SOC keeps the applicability screen for scope but offers the SOC 2 criteria matrix as its report.
+const hasSoa = OWN_FEATURES["statementOfApplicability"] === true && OWN_FEATURES["soc"] !== true;
 const ASCEND_PACK = packIfPresent("ascend");
 
 maybe("reports", () => {
@@ -90,11 +91,12 @@ maybe("reports", () => {
     else expect(ids).not.toContain("baseline-tailoring");
   });
 
-  (ATTEST_PACK ? it : it.skip)("offers the Statement of Applicability when the pack declares it", async () => {
+  (ATTEST_PACK ? it : it.skip)("offers the SOC 2 criteria matrix in place of the Statement of Applicability", async () => {
     process.env["PACK_DIR"] = ATTEST_PACK!;
     const res = await app.inject({ url: "/api/v1/reports", headers: read() });
     const ids = res.json().reports.map((r: { id: string }) => r.id);
-    expect(ids).toContain("statement-of-applicability");
+    expect(ids).toContain("soc2-criteria-matrix");
+    expect(ids).not.toContain("statement-of-applicability");
     delete process.env["PACK_DIR"];
   });
 

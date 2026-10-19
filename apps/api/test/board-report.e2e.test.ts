@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { randomUUID } from "node:crypto";
 import type { FastifyInstance } from "fastify";
 import { config } from "../src/config.js";
 import { buildApp } from "../src/app.js";
@@ -90,7 +91,25 @@ maybe("board paper", () => {
   });
 
   it("still fits on two pages with a programme in it, a decision for the board and an earlier paper", async () => {
-    expect((await app.inject({ method: "POST", url: "/api/v1/demo", headers: write() })).statusCode).toBe(201);
+    // The example data where the product ships it; otherwise a programme of our own.
+    const demo = await app.inject({ method: "POST", url: "/api/v1/demo", headers: write() });
+    if (demo.statusCode !== 201) {
+      await query("update controls set status = 'implemented', owner = 'Priya' where rowid % 3 = 0");
+      await query("update controls set status = 'in_progress' where rowid % 3 = 1");
+      for (let i = 1; i <= 12; i++) {
+        await query(
+          `insert into risks (id, seq, title, owner, likelihood, impact, treatment, status)
+           values ($1, $2, $3, 'Priya', $4, $5, 'Mitigate', 'Open')`,
+          [randomUUID(), i, `Example risk ${i}`, 1 + (i % 5), 1 + ((i * 2) % 5)],
+        );
+      }
+      for (let i = 1; i <= 4; i++) {
+        await query(
+          "insert into findings (id, seq, title, status, owner, due_date) values ($1, $2, $3, 'Open', 'Priya', date('now', '+10 days'))",
+          [randomUUID(), i, `Example finding ${i}`],
+        );
+      }
+    }
     // A risk above appetite that nobody has accepted, and a finding past its date.
     await query(
       `update risks set treatment = 'Accept', accepted_by = null, likelihood = 4, impact = 5, res_likelihood = 4, res_impact = 4

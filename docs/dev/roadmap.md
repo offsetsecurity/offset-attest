@@ -10,12 +10,6 @@ matrices and SOC 3 draft. Nothing connects to or scans other systems.
 
 Next, not committed to:
 
-- **Board paper for SOC** — the executive summary assumes four themes and runs
-  to three pages with fourteen; `boardReport` is off until it fits
-- **Example data** — a SOC set to load and remove, as Assure has for ISO 27001
-  (`demoData` is off)
-- **Policy templates** — starter SOC 2 policies to fill in (`policyTemplates`
-  is off; the pack ships no templates yet)
 - **Complementary user entity controls** — a register of the controls
   customers must run, printed in the system description
 - **Population sampling** — draw a Type II sample from a population and record

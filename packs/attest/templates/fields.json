@@ -1,0 +1,786 @@
+{
+ "version": 1,
+ "ownerKey": "security_owner",
+ "approverKey": "approver",
+ "groups": [
+  {
+   "id": "company",
+   "title": "About your company",
+   "note": "Asked once and put into every document. Leave anything you do not know yet; it stays yellow."
+  },
+  {
+   "id": "choices",
+   "title": "Your choices",
+   "note": "The usual answers are already filled in. Change any that are not what you do: the policies must match what really happens, because the auditor tests what they say."
+  }
+ ],
+ "shared": [
+  {
+   "name": "company",
+   "group": "company",
+   "label": "Company name",
+   "hint": "As it appears on contracts."
+  },
+  {
+   "name": "system_name",
+   "group": "company",
+   "label": "The service your SOC report covers",
+   "hint": "As customers know it, for example Acme Payroll Cloud."
+  },
+  {
+   "name": "security_owner",
+   "group": "company",
+   "label": "Who owns security (job title)",
+   "hint": "For example Head of Security or CTO. Owns these documents unless Policies says otherwise."
+  },
+  {
+   "name": "approver",
+   "group": "company",
+   "label": "Who approves the policies (job title)",
+   "hint": "Usually the CEO, or the board."
+  },
+  {
+   "name": "security_contact",
+   "group": "company",
+   "label": "Where people report security problems",
+   "hint": "An email address or channel, for example security@acme.com."
+  },
+  {
+   "name": "hosting_provider",
+   "group": "company",
+   "label": "Where the system is hosted",
+   "hint": "For example AWS eu-west-1, or Microsoft Azure UK South."
+  },
+  {
+   "name": "doc_classification",
+   "group": "choices",
+   "label": "Classification printed on each document",
+   "default": "Internal"
+  },
+  {
+   "name": "review_cycle",
+   "group": "choices",
+   "label": "How often policies are reviewed",
+   "default": "at least once a year"
+  },
+  {
+   "name": "access_review",
+   "group": "choices",
+   "label": "How often user access is reviewed",
+   "default": "every quarter"
+  },
+  {
+   "name": "deprovision_time",
+   "group": "choices",
+   "label": "How soon a leaver's access is removed",
+   "default": "one business day"
+  },
+  {
+   "name": "patch_critical",
+   "group": "choices",
+   "label": "Time to fix a critical vulnerability",
+   "default": "14 days"
+  },
+  {
+   "name": "patch_high",
+   "group": "choices",
+   "label": "Time to fix a high vulnerability",
+   "default": "30 days"
+  },
+  {
+   "name": "backup_frequency",
+   "group": "choices",
+   "label": "How often production data is backed up",
+   "default": "daily"
+  },
+  {
+   "name": "rto",
+   "group": "choices",
+   "label": "Recovery time objective",
+   "hint": "How long the service may be down after a disaster.",
+   "default": "8 hours"
+  },
+  {
+   "name": "rpo",
+   "group": "choices",
+   "label": "Recovery point objective",
+   "hint": "How much data, in time, you can afford to lose.",
+   "default": "24 hours"
+  },
+  {
+   "name": "training_cycle",
+   "group": "choices",
+   "label": "How often everyone repeats security training",
+   "default": "every year"
+  },
+  {
+   "name": "vendor_review",
+   "group": "choices",
+   "label": "How often critical vendors are reviewed",
+   "default": "every year"
+  },
+  {
+   "name": "log_retention",
+   "group": "choices",
+   "label": "How long security logs are kept",
+   "default": "12 months"
+  },
+  {
+   "name": "customer_notice",
+   "group": "choices",
+   "label": "How soon affected customers are told of a breach",
+   "default": "72 hours"
+  },
+  {
+   "name": "data_after_contract",
+   "group": "choices",
+   "label": "How soon customer data is deleted after a contract ends",
+   "default": "90 days"
+  }
+ ],
+ "documents": [
+  {
+   "file": "00_System_Description.docx",
+   "no": "00",
+   "title": "System Description",
+   "id": "SOC 2 description criteria",
+   "items": [
+    {
+     "t": "field",
+     "section": "Company and services",
+     "name": "00.b1"
+    },
+    {
+     "t": "field",
+     "section": "The system and its boundaries",
+     "name": "sys.boundaries"
+    },
+    {
+     "t": "field",
+     "section": "Service commitments and system requirements",
+     "name": "sys.commitments"
+    },
+    {
+     "t": "source",
+     "section": "Components",
+     "source": "assets",
+     "header": [
+      "System",
+      "Type",
+      "Owner",
+      "Classification",
+      "Criticality",
+      "Location"
+     ]
+    },
+    {
+     "t": "field",
+     "section": "People",
+     "name": "00.b2"
+    },
+    {
+     "t": "source",
+     "section": "Subservice organisations",
+     "source": "vendors",
+     "header": [
+      "Service",
+      "Vendor",
+      "Assurance"
+     ]
+    }
+   ],
+   "fields": {
+    "00.b1": {
+     "label": "What does the service do, and for whom?",
+     "hint": "Two or three sentences a customer would recognise.",
+     "default": "",
+     "long": true,
+     "context": "<Company name> provides <name of the service>. ..."
+    },
+    "sys.boundaries": {
+     "label": "The system and its boundaries",
+     "hint": "Taken from Scope. Type here to use different wording.",
+     "default": "",
+     "long": true,
+     "context": "..."
+    },
+    "sys.commitments": {
+     "label": "Service commitments and system requirements",
+     "hint": "Taken from Scope. Type here to use different wording.",
+     "default": "",
+     "long": true,
+     "context": "..."
+    },
+    "00.b2": {
+     "label": "Which teams run the system?",
+     "hint": "For example engineering, operations, customer support.",
+     "default": "",
+     "long": true,
+     "context": "The <approver role> has overall responsibility. The <security owner role> runs the security programme. ..."
+    }
+   },
+   "shared": [
+    "approver",
+    "company",
+    "security_contact",
+    "security_owner",
+    "system_name"
+   ]
+  },
+  {
+   "file": "01_Information_Security_Policy.docx",
+   "no": "01",
+   "title": "Information Security Policy",
+   "id": "CC1, CC2, CC5",
+   "items": [
+    {
+     "t": "source",
+     "section": "The policies under this one",
+     "source": "policies",
+     "header": [
+      "Ref",
+      "Policy",
+      "Criteria",
+      "Owner",
+      "Version",
+      "Next review",
+      "Where it is kept"
+     ]
+    },
+    {
+     "t": "field",
+     "section": "Enforcement",
+     "name": "01.b1"
+    }
+   ],
+   "fields": {
+    "01.b1": {
+     "label": "Which process handles breaches of policy?",
+     "hint": "For example 'the disciplinary procedure in the Employee Handbook'.",
+     "default": "the disciplinary procedure in the Employee Handbook",
+     "long": false,
+     "context": "Breaking this policy may lead to disciplinary action, up to and including dismissal, under ...."
+    }
+   },
+   "shared": [
+    "approver",
+    "company",
+    "review_cycle",
+    "security_contact",
+    "security_owner",
+    "system_name"
+   ]
+  },
+  {
+   "file": "02_Code_of_Conduct_and_Acceptable_Use.docx",
+   "no": "02",
+   "title": "Code of Conduct and Acceptable Use Policy",
+   "id": "CC1.1, CC1.5, CC2.2",
+   "items": [
+    {
+     "t": "field",
+     "section": "Conduct",
+     "name": "02.b1"
+    },
+    {
+     "t": "field",
+     "section": "Conduct",
+     "name": "02.b2"
+    }
+   ],
+   "fields": {
+    "02.b1": {
+     "label": "Gift limit",
+     "hint": "The value above which a gift must be declined or declared.",
+     "default": "a nominal value",
+     "long": false,
+     "context": "Never offer or accept bribes, or gifts above ...."
+    },
+    "02.b2": {
+     "label": "Anonymous reporting channel",
+     "hint": "Where someone can raise a concern without giving their name.",
+     "default": "the anonymous reporting line",
+     "long": false,
+     "context": "Speak up about wrongdoing through <security contact> or ..., without fear of retaliation."
+    }
+   },
+   "shared": [
+    "company",
+    "security_contact",
+    "training_cycle"
+   ]
+  },
+  {
+   "file": "03_Access_Control_Policy.docx",
+   "no": "03",
+   "title": "Access Control Policy",
+   "id": "CC6.1, CC6.2, CC6.3",
+   "items": [
+    {
+     "t": "field",
+     "section": "Accounts and authentication",
+     "name": "03.b1"
+    },
+    {
+     "t": "field",
+     "section": "Accounts and authentication",
+     "name": "03.b2"
+    },
+    {
+     "t": "field",
+     "section": "Accounts and authentication",
+     "name": "03.b3"
+    }
+   ],
+   "fields": {
+    "03.b1": {
+     "label": "Which identity provider do people sign in with?",
+     "hint": "For example Okta, Google Workspace or Microsoft Entra ID.",
+     "default": "",
+     "long": false,
+     "context": "Sign-in to company systems goes through ... with multi-factor authentication."
+    },
+    "03.b2": {
+     "label": "Minimum password length",
+     "hint": "",
+     "default": "12",
+     "long": false,
+     "context": "Passwords are at least ... characters and are kept in the company password manager."
+    },
+    "03.b3": {
+     "label": "How do administrators reach production?",
+     "hint": "For example 'the VPN', 'AWS SSO' or 'the bastion host'.",
+     "default": "",
+     "long": false,
+     "context": "Production systems are reached only through ...."
+    }
+   },
+   "shared": [
+    "access_review",
+    "company",
+    "deprovision_time",
+    "hosting_provider",
+    "system_name"
+   ]
+  },
+  {
+   "file": "04_Change_Management_Policy.docx",
+   "no": "04",
+   "title": "Change Management Policy",
+   "id": "CC8.1",
+   "items": [
+    {
+     "t": "field",
+     "section": "Normal changes",
+     "name": "04.b1"
+    },
+    {
+     "t": "field",
+     "section": "Normal changes",
+     "name": "04.b2"
+    },
+    {
+     "t": "field",
+     "section": "Emergency changes",
+     "name": "04.b3"
+    }
+   ],
+   "fields": {
+    "04.b1": {
+     "label": "Where are changes tracked?",
+     "hint": "For example Jira, Linear or GitHub Issues.",
+     "default": "",
+     "long": false,
+     "context": "Every change is tracked in ... and linked to its code or configuration."
+    },
+    "04.b2": {
+     "label": "Where is code kept?",
+     "hint": "For example GitHub or GitLab.",
+     "default": "",
+     "long": false,
+     "context": "Code is kept in .... Changes reach the main branch only through a pull request reviewed by someone other than the author."
+    },
+    "04.b3": {
+     "label": "How soon is an emergency change reviewed?",
+     "hint": "",
+     "default": "one business day",
+     "long": false,
+     "context": "A change needed to restore service or fix a serious vulnerability may be released before review. It is reviewed and approved within ... and recorded as an emergency change."
+    }
+   },
+   "shared": [
+    "company",
+    "system_name"
+   ]
+  },
+  {
+   "file": "05_Operations_and_Vulnerability_Management.docx",
+   "no": "05",
+   "title": "Operations and Vulnerability Management Policy",
+   "id": "CC6.6, CC6.7, CC6.8, CC7.1, CC7.2",
+   "items": [
+    {
+     "t": "field",
+     "section": "Network and encryption",
+     "name": "05.b1"
+    },
+    {
+     "t": "field",
+     "section": "Vulnerability management",
+     "name": "05.b2"
+    },
+    {
+     "t": "field",
+     "section": "Logging and monitoring",
+     "name": "05.b3"
+    }
+   ],
+   "fields": {
+    "05.b1": {
+     "label": "Where are encryption keys kept?",
+     "hint": "For example AWS KMS or Azure Key Vault.",
+     "default": "",
+     "long": false,
+     "context": "Customer data is encrypted at rest. Keys are kept in ... and access to them is restricted."
+    },
+    "05.b2": {
+     "label": "How often are vulnerability scans run?",
+     "hint": "",
+     "default": "monthly",
+     "long": false,
+     "context": "Systems and code dependencies are scanned for vulnerabilities at least ...."
+    },
+    "05.b3": {
+     "label": "Where are logs collected?",
+     "hint": "For example Datadog, Splunk or CloudWatch.",
+     "default": "",
+     "long": false,
+     "context": "Security-relevant logs from in-scope systems are collected in ... and kept for <log retention>."
+    }
+   },
+   "shared": [
+    "company",
+    "log_retention",
+    "patch_critical",
+    "patch_high",
+    "review_cycle",
+    "security_owner"
+   ]
+  },
+  {
+   "file": "06_Incident_Response_Plan.docx",
+   "no": "06",
+   "title": "Incident Response Plan",
+   "id": "CC7.3, CC7.4, CC7.5, CC2.3",
+   "items": [
+    {
+     "t": "field",
+     "section": "Reporting",
+     "name": "06.b1"
+    },
+    {
+     "t": "field",
+     "section": "Severity",
+     "name": "06.b2"
+    },
+    {
+     "t": "source",
+     "section": "Incident log",
+     "source": "incidents",
+     "header": [
+      "Incident",
+      "Detected",
+      "Severity",
+      "Status",
+      "Owner"
+     ]
+    }
+   ],
+   "fields": {
+    "06.b1": {
+     "label": "How is someone reached out of hours?",
+     "hint": "For example 'the on-call rota in PagerDuty'.",
+     "default": "",
+     "long": false,
+     "context": "Anyone who suspects a security incident reports it to <security contact> immediately. Out of hours, page ...."
+    },
+    "06.b2": {
+     "label": "How soon must a critical incident get a response?",
+     "hint": "",
+     "default": "1 hour",
+     "long": false,
+     "context": "Critical | Customer data exposed, or the service down for all customers | ..."
+    }
+   },
+   "shared": [
+    "approver",
+    "company",
+    "customer_notice",
+    "security_contact",
+    "system_name"
+   ]
+  },
+  {
+   "file": "07_Business_Continuity_and_Disaster_Recovery_Plan.docx",
+   "no": "07",
+   "title": "Business Continuity and Disaster Recovery Plan",
+   "id": "CC9.1, A1.1, A1.2, A1.3",
+   "items": [
+    {
+     "t": "field",
+     "section": "Objectives",
+     "name": "07.b1"
+    },
+    {
+     "t": "field",
+     "section": "Recovery",
+     "name": "07.b2"
+    }
+   ],
+   "fields": {
+    "07.b1": {
+     "label": "What availability do you promise customers?",
+     "hint": "For example 99.9% monthly.",
+     "default": "",
+     "long": false,
+     "context": "Availability commitment | ..."
+    },
+    "07.b2": {
+     "label": "Where are the recovery runbooks?",
+     "hint": "Somewhere that still works when production is down.",
+     "default": "",
+     "long": false,
+     "context": "Recovery runbooks are kept in ..., where the on-call team can reach them during an outage."
+    }
+   },
+   "shared": [
+    "backup_frequency",
+    "company",
+    "hosting_provider",
+    "rpo",
+    "rto",
+    "security_owner",
+    "system_name"
+   ]
+  },
+  {
+   "file": "08_Risk_Assessment_Policy.docx",
+   "no": "08",
+   "title": "Risk Assessment Policy",
+   "id": "CC3.1, CC3.2, CC3.3, CC3.4",
+   "items": [
+    {
+     "t": "field",
+     "section": "Method",
+     "name": "08.b1"
+    },
+    {
+     "t": "source",
+     "section": "Risk register",
+     "source": "risks",
+     "header": [
+      "Ref",
+      "Risk",
+      "Score",
+      "Treatment",
+      "Owner",
+      "Status"
+     ]
+    }
+   ],
+   "fields": {
+    "08.b1": {
+     "label": "Which score must be treated?",
+     "hint": "Risks at or above this score need a decision.",
+     "default": "12",
+     "long": false,
+     "context": "Risks scoring ... or more are treated: reduced with controls, transferred, avoided, or formally accepted by the <approver role>."
+    }
+   },
+   "shared": [
+    "approver",
+    "company",
+    "security_owner"
+   ]
+  },
+  {
+   "file": "09_Vendor_Management_Policy.docx",
+   "no": "09",
+   "title": "Vendor Management Policy",
+   "id": "CC9.2, P6.4",
+   "items": [
+    {
+     "t": "field",
+     "section": "Before using a vendor",
+     "name": "09.b1"
+    },
+    {
+     "t": "source",
+     "section": "Vendors",
+     "source": "vendors",
+     "header": [
+      "Service",
+      "Vendor",
+      "Assurance"
+     ]
+    }
+   ],
+   "fields": {
+    "09.b1": {
+     "label": "How soon must vendors tell you about a breach?",
+     "hint": "",
+     "default": "72 hours",
+     "long": false,
+     "context": "Contracts with vendors that hold customer data include confidentiality, security, breach notification within ..., and deletion at the end of the contract."
+    }
+   },
+   "shared": [
+    "company",
+    "security_owner",
+    "system_name",
+    "vendor_review"
+   ]
+  },
+  {
+   "file": "10_Data_Classification_and_Retention_Policy.docx",
+   "no": "10",
+   "title": "Data Classification and Retention Policy",
+   "id": "C1.1, C1.2, CC6.5",
+   "items": [
+    {
+     "t": "field",
+     "section": "Retention",
+     "name": "10.b1"
+    }
+   ],
+   "fields": {
+    "10.b1": {
+     "label": "How long are other business records kept?",
+     "hint": "",
+     "default": "seven years",
+     "long": false,
+     "context": "Other records are kept for ... unless the law requires longer."
+    }
+   },
+   "shared": [
+    "company",
+    "data_after_contract",
+    "log_retention"
+   ]
+  },
+  {
+   "file": "11_Security_Awareness_and_Training_Policy.docx",
+   "no": "11",
+   "title": "Security Awareness and Training Policy",
+   "id": "CC1.4, CC2.2",
+   "items": [
+    {
+     "t": "field",
+     "section": "Training",
+     "name": "11.b1"
+    },
+    {
+     "t": "field",
+     "section": "Training",
+     "name": "11.b2"
+    },
+    {
+     "t": "source",
+     "section": "Record",
+     "source": "training",
+     "header": [
+      "Person",
+      "Course",
+      "Audience",
+      "Completed",
+      "Next due",
+      "Result"
+     ]
+    }
+   ],
+   "fields": {
+    "11.b1": {
+     "label": "How soon must new starters finish training?",
+     "hint": "",
+     "default": "30 days",
+     "long": false,
+     "context": "Everyone completes security awareness training within ... of joining and <training frequency> after that."
+    },
+    "11.b2": {
+     "label": "How often are phishing simulations run?",
+     "hint": "",
+     "default": "twice a year",
+     "long": false,
+     "context": "Phishing simulations are run at least ..., and people who click are offered extra training."
+    }
+   },
+   "shared": [
+    "company",
+    "training_cycle"
+   ]
+  },
+  {
+   "file": "12_Monitoring_and_Internal_Review_Procedure.docx",
+   "no": "12",
+   "title": "Monitoring and Internal Review Procedure",
+   "id": "CC4.1, CC4.2, CC5.1",
+   "items": [
+    {
+     "t": "field",
+     "section": "Ongoing monitoring",
+     "name": "12.b1"
+    },
+    {
+     "t": "field",
+     "section": "Internal reviews",
+     "name": "12.b2"
+    },
+    {
+     "t": "source",
+     "section": "Internal reviews",
+     "source": "audits",
+     "header": [
+      "Review",
+      "Scope",
+      "Led by",
+      "Date",
+      "Status"
+     ]
+    },
+    {
+     "t": "source",
+     "section": "Reporting and fixing weaknesses",
+     "source": "findings",
+     "header": [
+      "Ref",
+      "Raised",
+      "Finding",
+      "Owner",
+      "Status"
+     ]
+    }
+   ],
+   "fields": {
+    "12.b1": {
+     "label": "How often are controls sample-tested internally?",
+     "hint": "",
+     "default": "quarter",
+     "long": false,
+     "context": "The <security owner role> tests a sample of controls every ... and records each result in Offset Attest."
+    },
+    "12.b2": {
+     "label": "Who carries out the independent review?",
+     "hint": "For example an internal auditor, or an outside consultant.",
+     "default": "an outside consultant",
+     "long": false,
+     "context": "At least once a year, someone independent of the control owners reviews the programme: .... The review is planned in advance and its results reported to the <approver role>."
+    }
+   },
+   "shared": [
+    "approver",
+    "company",
+    "security_owner"
+   ]
+  }
+ ]
+}

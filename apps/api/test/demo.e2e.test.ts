@@ -46,7 +46,7 @@ maybe("example data", () => {
     process.env["PACK_DIR"] = ATTEST_PACK;
     await migrate();
     for (const t of [
-      "audit_log", "sessions", "users", "vendor_controls", "vendor_risks", "training_controls",
+      "audit_log", "sessions", "users", "engagement_controls", "engagements", "control_tests", "vendor_controls", "vendor_risks", "training_controls",
       "objective_controls", "objective_risks", "party_controls", "review_controls",
       "evidence_controls", "risk_controls", "asset_controls", "policy_controls", "finding_controls",
       "vendors", "training", "objectives", "parties", "reviews", "controls", "risks", "evidence",
@@ -55,6 +55,7 @@ maybe("example data", () => {
       await query(`delete from ${t}`);
     }
     await seedControls();
+    await query("update programme set scope = '', methodology = '' where id = 1");
 
     app = await buildApp();
     await app.ready();
@@ -86,7 +87,7 @@ maybe("example data", () => {
     expect(loaded.json().rows).toBeGreaterThan(30);
 
     // Every register a customer is asked to fill has something in it.
-    for (const table of ["assets", "risks", "policies", "vendors", "training", "objectives", "parties", "reviews", "findings", "tasks", "incidents", "evidence"]) {
+    for (const table of ["assets", "risks", "policies", "vendors", "training", "objectives", "parties", "reviews", "findings", "tasks", "incidents", "evidence", "engagements"]) {
       expect(await count(table), `${table} is empty`).toBeGreaterThan(0);
     }
 
@@ -98,6 +99,33 @@ maybe("example data", () => {
     // programme part way through rather than an empty one.
     const decided = await count("controls where status <> 'not_started'");
     expect(decided).toBeGreaterThan(25);
+
+    // A SOC example: an issued Type I and a Type II under way, each covering
+    // the criteria in scope.
+    const { rows: reports } = await query<{ report_type: string; status: string }>(
+      "select report_type, status from engagements order by report_type",
+    );
+    expect(reports).toEqual([
+      { report_type: "Type I", status: "Report issued" },
+      { report_type: "Type II", status: "Observation period" },
+    ]);
+    expect(await count("engagement_controls")).toBeGreaterThan(30);
+
+    // Privacy and the SOC 1 objectives are out, each with its reason.
+    const out = await count("controls where (theme = 'P' or theme = 'CO') and status = 'not_applicable' and trim(justification) <> ''");
+    expect(out).toBe(await count("controls where theme in ('P', 'CO')"));
+    expect(await count("controls where theme not in ('P', 'CO') and status = 'not_applicable'")).toBe(0);
+
+    // Self-tests, one of which failed and raised the open exception.
+    expect(await count("control_tests where result = 'Fail'")).toBe(1);
+    expect(await count("findings where status = 'Open'")).toBeGreaterThan(0);
+    expect(await count("vendors where criticality = 'High' and assurance like '%SOC 2%'")).toBeGreaterThan(0);
+    expect(await count("reviews where status = 'Completed' and kind = 'Internal audit'")).toBeGreaterThan(0);
+    expect(await count("evidence_controls")).toBeGreaterThan(5);
+
+    const { rows: programme } = await query<{ scope: string; methodology: string }>("select scope, methodology from programme");
+    expect(programme[0]?.scope).toContain("Privacy");
+    expect(programme[0]?.methodology.length).toBeGreaterThan(40);
 
     const again = await app.inject({ method: "POST", url: "/api/v1/demo", headers: write() });
     expect(again.statusCode).toBe(400);
@@ -123,6 +151,14 @@ maybe("example data", () => {
 
     const { rows } = await query<{ name: string }>("select name from assets");
     expect(rows[0]?.name).toBe("Our own asset, not an example");
+
+    // The SOC reports, tests and scope text go with them.
+    expect(await count("engagements")).toBe(0);
+    expect(await count("engagement_controls")).toBe(0);
+    expect(await count("control_tests")).toBe(0);
+    const { rows: programme } = await query<{ scope: string; methodology: string }>("select scope, methodology from programme");
+    expect(programme[0]?.scope).toBe("");
+    expect(programme[0]?.methodology).toBe("");
 
     // The controls go back to where they were, and none is left marked.
     expect(await count("controls where status <> 'not_started'")).toBe(0);
@@ -152,6 +188,24 @@ maybe("example data", () => {
     expect(after.rows[0]?.status).toBe("implemented");
     // No longer an example, so it is never touched again.
     expect(JSON.parse(after.rows[0]?.attrs ?? "{}").demo).toBeUndefined();
+  });
+
+  it("leaves scope text and tests of somebody's own alone", async () => {
+    await query("update programme set scope = 'Our own scope, written before the examples were loaded.' where id = 1");
+    await app.inject({ method: "POST", url: "/api/v1/demo", headers: write() });
+
+    const { rows: control } = await query<{ id: string }>("select id from controls where ref = 'CC6.1'");
+    const mine = await app.inject({
+      method: "POST", url: `/api/v1/controls/${control[0]!.id}/tests`, headers: write(),
+      payload: { testedOn: "2026-10-01", tester: "Somebody real", result: "Pass" },
+    });
+    expect(mine.statusCode).toBe(201);
+
+    await app.inject({ method: "DELETE", url: "/api/v1/demo", headers: write() });
+    const { rows } = await query<{ scope: string }>("select scope from programme");
+    expect(rows[0]?.scope).toBe("Our own scope, written before the examples were loaded.");
+    expect(await count("control_tests")).toBe(1);
+    expect(await count("engagements")).toBe(0);
   });
 
   it("is for administrators only", async () => {

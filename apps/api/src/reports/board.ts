@@ -147,11 +147,17 @@ async function gather() {
   const levels = counted.filter((c) => c.maturity !== null).map((c) => c.maturity as number);
   const average = levels.length ? Math.round((levels.reduce((a, b) => a + b, 0) / levels.length) * 10) / 10 : null;
 
-  const themes = order.filter((t) => counted.some((c) => c.theme === t)).map((t) => {
-    const mine = counted.filter((c) => c.theme === t);
+  // A pack can roll its themes up for the board: SOC's nine common-criteria
+  // groups are one thing to a director, Security, and fourteen rows do not fit
+  // on a two-page paper. Without a rollup each theme stands on its own.
+  const groupOf = (t: string): string => pack.boardGroups?.[t] ?? t;
+  const groups = [...new Set(order.map(groupOf))];
+  const themes = groups.filter((g) => counted.some((c) => groupOf(c.theme) === g)).map((g) => {
+    const mine = counted.filter((c) => groupOf(c.theme) === g);
     const den = scored ? mine.filter((c) => c.maturity !== null).length : mine.length;
     const num = (scored ? mine.filter((c) => c.maturity !== null) : mine).filter(isGood).length;
-    return { key: t, name: names.get(t) ?? t, count: mine.length, num, den, pct: den ? Math.round((num / den) * 100) : 0 };
+    const name = pack.boardGroups ? g : names.get(g) ?? g;
+    return { key: g, name, count: mine.length, num, den, pct: den ? Math.round((num / den) * 100) : 0 };
   });
 
   // Subdomains, for a scored framework: the average level of their children.
@@ -592,15 +598,20 @@ async function boardDocument(generatedBy: string, meta: Meta, tight: number): Pr
     : { table: { widths: ["*"], body: [[{ text: "Nothing needs the committee's decision this time: no risk is above appetite without a decision, and no finding is overdue.", fontSize: 9, color: TONE.up.fg, fillColor: TONE.up.bg, margin: [10, 8, 10, 8] }]] }, layout: "noBorders" } as unknown as Content;
 
   // ── domains ──
+  // Four domains (ISO 27001's themes) take two lines each. More than that, as
+  // SOC's six report groups, take one line each so page one still holds them.
+  const compact = f.themes.length > 4;
   const domains: Content = {
     stack: f.themes.map((t) => ({
       columns: [
-        { stack: [{ text: safe(t.name), bold: true, fontSize: 8.8, color: INK }, { text: safe(f.scored && t.den < t.count ? `${t.count} controls, ${t.den} assessed` : plural(t.count, "control")), fontSize: 7.2, color: MUTED }], width: 170 },
+        compact
+          ? { text: safe(t.name), bold: true, fontSize: 8.8, color: INK, width: 170 }
+          : { stack: [{ text: safe(t.name), bold: true, fontSize: 8.8, color: INK }, { text: safe(f.scored && t.den < t.count ? `${t.count} controls, ${t.den} assessed` : plural(t.count, "control")), fontSize: 7.2, color: MUTED }], width: 170 },
         { ...(ladder(t.pct) as object), width: 200 } as unknown as Content,
-        { text: [{ text: `${t.pct}%`, font: SERIF, bold: true, fontSize: 12, color: NAVY }, { text: `  ${t.num} of ${t.den}`, fontSize: 7.8, color: INK2 }], alignment: "right", width: "*", margin: [0, 1, 0, 0] },
+        { text: [{ text: `${t.pct}%`, font: SERIF, bold: true, fontSize: compact ? 10.5 : 12, color: NAVY }, { text: `  ${t.num} of ${t.den}`, fontSize: 7.8, color: INK2 }], alignment: "right", width: "*", margin: [0, compact ? 0 : 1, 0, 0] },
       ],
       columnGap: 10,
-      margin: [0, 0, 0, 7],
+      margin: [0, 0, 0, compact ? 3 : 7],
     } as unknown as Content)),
   } as unknown as Content;
 

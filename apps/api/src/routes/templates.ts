@@ -112,7 +112,7 @@ export async function templateRoutes(app: FastifyInstance): Promise<void> {
     await audit(request, { action: "Filled templates downloaded", entity: "settings", entityId: "templates" });
     return reply
       .header("content-type", "application/zip")
-      .header("content-disposition", attachment("ISMS_documents.zip"))
+      .header("content-disposition", attachment("Policy_documents.zip"))
       .header("x-content-type-options", "nosniff")
       .header("cache-control", "no-store")
       .send(zipOf(files));

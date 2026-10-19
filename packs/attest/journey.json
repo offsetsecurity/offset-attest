@@ -59,7 +59,8 @@
           "do": "Open Scope and fill in The system and its boundaries: the service customers buy, and the infrastructure, software, people, procedures and data behind it. Name what is out, such as internal tools that never touch customer data.",
           "why": "The auditor tests only what is inside the boundary. A tight, honest boundary is a smaller audit.",
           "check": "programme.scope",
-          "goto": "soa"
+          "goto": "soa",
+          "template": "00_System_Description.docx"
         },
         {
           "id": "scope.commitments",
@@ -98,7 +99,8 @@
           "do": "In Risks, record what could stop you meeting your commitments, including fraud. Score each one, decide how to treat it, and link the criteria that treat it.",
           "why": "The auditor will ask for the risk assessment for the period and check that it covers fraud (CC3.3) and changes (CC3.4).",
           "check": "risks.linked",
-          "goto": "risks"
+          "goto": "risks",
+          "template": "08_Risk_Assessment_Policy.docx"
         },
         {
           "id": "risk.vendors",
@@ -106,7 +108,8 @@
           "do": "In Vendors, add every supplier that touches the system or its data. Mark your hosting provider and anything else you rely on for controls as High. For each, write the assurance they gave you, usually their own SOC 2 report.",
           "why": "Vendors that run controls for you are subservice organisations. Your report either includes them or carves them out, and either way you must review them (CC9.2).",
           "check": "registers.vendors",
-          "goto": "vendors"
+          "goto": "vendors",
+          "template": "09_Vendor_Management_Policy.docx"
         }
       ]
     },
@@ -126,10 +129,11 @@
         {
           "id": "controls.policies",
           "title": "Write and approve your policies",
-          "do": "In Policies, record your information security policy and the policies under it: access control, change management, incident response, business continuity, vendor management, data classification and retention, acceptable use, and a code of conduct. Have management approve each one.",
+          "do": "In Policies, open the Templates tab: there is a starter for each policy a SOC 2 auditor expects (information security, acceptable use, access control, change management, operations, incident response, business continuity, risk, vendors, data retention, training) and the system description. Fill them in, add them to your policies, and have management approve each one.",
           "why": "CC5.3 asks for controls to be deployed through policies, and the auditor checks each policy was approved and reviewed in the period.",
           "check": "policies.approved",
-          "goto": "policies"
+          "goto": "policies",
+          "template": "01_Information_Security_Policy.docx"
         },
         {
           "id": "controls.reviewDates",
@@ -145,7 +149,8 @@
           "do": "Run security awareness training and record who completed it in Training. New starters do it in their first month, and everyone does it every year.",
           "why": "CC1.4 and CC2.2 are tested by sampling people and asking for their training record.",
           "check": "registers.training",
-          "goto": "training"
+          "goto": "training",
+          "template": "11_Security_Awareness_and_Training_Policy.docx"
         }
       ]
     },
