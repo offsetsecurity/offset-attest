@@ -18,6 +18,19 @@ Every release is numbered x.y.z, for example 1.4.2:
 ## [Unreleased]
 
 ### Added
+- **Get ready, redesigned for SOC.** One move at a time, done in the card
+  where it can be: write the system description and service commitments,
+  choose the report and the categories in scope, give whole categories an
+  owner, book the CPA firm, record the issued report and the next due date.
+  A progress panel shows every stage and step; "Not now" puts a step off
+  until tomorrow.
+- **If the auditor came today** (`GET /api/v1/soc/readiness`): the likely
+  exceptions worked out from the records (failed tests, criteria claimed in
+  place with no or old evidence, criteria not in place yet, overdue
+  exceptions, unreviewed critical vendors, unapproved or overdue policies),
+  each with what the auditor would say and how to fix it. A failed test can
+  be retested in place. Fix these first, quick wins and bulk changes by
+  category (`POST /api/v1/controls/bulk`) sit beside it.
 - **Offset Attest: SOC 1, SOC 2 and SOC 3.** A new product, copied from Offset
   Accord 0.1.0 with the GDPR pack replaced by a SOC pack.
 - **The SOC pack** (`packs/attest`): all 61 SOC 2 Trust Services Criteria and

@@ -986,6 +986,46 @@ export interface ControlTest {
   created_at: string;
 }
 
+// ── SOC readiness: the likely exceptions, what to fix first, quick wins ──────
+
+export interface LikelyException {
+  id: string;
+  ref: string;
+  title: string;
+  label: "Fail" | "Gap" | "Stale" | "Partial";
+  says: string;
+  fix: string;
+  action: { label: string; route: string };
+  weight: number;
+  controlId?: string;
+}
+
+export interface QuickWin {
+  id: string;
+  title: string;
+  count: number;
+  minutes: number;
+  route: string;
+}
+
+export interface SocReadiness {
+  ranAt: string;
+  engagement: {
+    title: string; report: string; reportType: string;
+    periodStart: string | null; periodEnd: string | null; daysToEnd: number | null;
+  } | null;
+  exceptions: LikelyException[];
+  fixFirst: LikelyException[];
+  quickWins: QuickWin[];
+}
+
+export const socReadiness = {
+  get: () => api.get<SocReadiness>("/api/v1/soc/readiness"),
+  /** One owner for a whole category, or the whole category out of scope with a reason. */
+  bulk: (body: { theme: string; owner?: string; outOfScope?: string }) =>
+    api.post<{ updated: number }>("/api/v1/controls/bulk", body),
+};
+
 export const controlTests = {
   list: (controlId: string) =>
     api.get<{ tests: ControlTest[] }>(`/api/v1/controls/${controlId}/tests`).then((r) => r.tests),

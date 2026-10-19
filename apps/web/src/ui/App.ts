@@ -623,7 +623,7 @@ export function App(): VNode {
                 This screen is not part of ${meta.pack.product}.
               </div>`
             : route === "getready"
-            ? html`<${Journey} canEdit=${canEdit} itemLabel=${itemLabel} />`
+            ? html`<${Journey} canEdit=${canEdit} itemLabel=${itemLabel} soc=${Boolean(features["soc"])} themes=${meta.themes} />`
             // Never reached from the address any more ("#/thread" opens Risks on its
             // Golden thread tab), but kept so a route of that name still renders.
             : route === "thread"

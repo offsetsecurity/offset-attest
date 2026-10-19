@@ -112,6 +112,7 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);bor
 .cov{text-align:center;font-size:11px;color:var(--muted)}.cov b{display:block;color:var(--ink);font-size:11px}
 .cov-b{height:90px;background:#f1f5f9;border-radius:6px;display:flex;align-items:flex-end;overflow:hidden;margin-bottom:4px}.cov-b i{display:block;width:100%;border-radius:6px 6px 0 0}
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.covs{grid-template-columns:repeat(7,1fr)}}
+.cols2{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin-top:16px;align-items:start}.cols2 .col{display:flex;flex-direction:column;gap:16px}.cols2 .col > section{margin:0}@media (max-width:1100px){.cols2{grid-template-columns:1fr}}
 .view{display:none}.view.on{display:block}
 .view > .card,.view > section{margin-top:16px}
 .strip{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:13px;margin-bottom:4px}
@@ -151,8 +152,9 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);bor
         </div>
         <div id="planList" style="display:none;margin-top:12px"></div>
       </section>
-      <div class="grid2" style="align-items:start">
-            <section class="card move" id="moveCard">
+      <div class="cols2">
+        <div class="col">
+      <section class="card move" id="moveCard">
         <div style="display:flex;justify-content:space-between;gap:8px;align-items:center">
           <p class="lbl" style="color:var(--brand);margin:0" id="moveLbl">Your next move · step 6 of 27</p>
           <span class="pill" id="moveKind"></span>
@@ -168,23 +170,24 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);bor
           <button class="btn" onclick="notNow()">Not now</button>
         </div>
       </section>
-            <section class="card">
-        <p class="lbl">If the auditor came today</p>
-        <p class="big" style="color:var(--red)" id="excCount">14</p>
-        <p class="muted" style="margin:0 0 6px;font-size:13px">likely exceptions across 61 criteria</p>
-        <div id="excList"></div>
-        <button class="btn" style="margin-top:12px" onclick="mockAudit(this)">Run a mock audit</button>
-      </section>
-      </div>
-      <div class="grid2" style="align-items:start">
-            <section class="card">
+      <section class="card">
         <p class="lbl"><span class="pill" style="background:#ede9fe;color:#3730a3">New</span> Fix these first · ranked by exceptions removed</p>
         <div class="fix"><span class="n">−5</span><span><b>Remove leavers' access within 1 day</b><br><span class="muted">CC6.2 · CC6.3 · 2 leavers late, 3 more due this quarter</span></span><button class="btn">Fix</button></div>
         <div class="fix"><span class="n">−3</span><span><b>Upload the Q3 access review</b><br><span class="muted">CC6.3 · one file closes 3 sampled gaps</span></span><button class="btn">Upload</button></div>
         <div class="fix"><span class="n">−2</span><span><b>Review your cloud host's SOC 2</b><br><span class="muted">CC9.2 · CO12 · 15 minutes</span></span><button class="btn">Review</button></div>
         <p class="muted" style="font-size:12px;margin:10px 0 0">Do these three and you go from 14 likely exceptions to 4.</p>
       </section>
-            <section class="card">
+      
+        </div>
+        <div class="col">
+      <section class="card">
+        <p class="lbl">If the auditor came today</p>
+        <p class="big" style="color:var(--red)" id="excCount">14</p>
+        <p class="muted" style="margin:0 0 6px;font-size:13px">likely exceptions across 61 criteria</p>
+        <div id="excList"></div>
+        <button class="btn" style="margin-top:12px" onclick="mockAudit(this)">Run a mock audit</button>
+      </section>
+      <section class="card">
         <p class="lbl"><span class="pill new">New</span> Got 15 minutes?</p>
         <p class="big" style="font-size:22px">8 quick wins queued</p>
         <div class="qw"><span class="tick" onclick="this.classList.toggle('on')"></span>Set an owner on CC7.1<span class="muted">1 min</span></div>
@@ -193,7 +196,11 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--line);bor
         <div class="qw"><span class="tick" onclick="this.classList.toggle('on')"></span>Date 4 undated evidence files<span class="muted">3 min</span></div>
         <button class="btn primary" style="margin-top:10px" onclick="toast('Focus mode · one card at a time · 8 to go')">Start a 15-minute session</button>
       </section>
+        </div>
       </div>
+      
+      
+      
       <div style="margin-top:16px">      <section class="card">
         <p class="lbl"><span class="pill new">New</span> Do it in bulk</p>
         <div class="blk"><span>Give every criterion in</span><select><option>CC6 Logical and physical access</option><option>CC7 System operations</option><option>CC8 Change management</option></select></div>
