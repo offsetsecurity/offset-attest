@@ -151,7 +151,42 @@ maybe("SOC readiness", () => {
     expect(d.team.some((m) => m.owner === "Priya")).toBe(true);
   });
 
+  it("lists what the auditor will ask for, checked against the records", async () => {
+    const res = await app.inject({ url: "/api/v1/soc/requests", headers: read() });
+    expect(res.statusCode).toBe(200);
+    const { requests } = res.json() as { requests: { id: string; ready: boolean; detail: string }[] };
+    expect(requests.length).toBeGreaterThanOrEqual(12);
+    expect(requests.find((r) => r.id === "leavers")!.ready).toBe(false);
+    expect(requests.find((r) => r.id === "policies")!.ready).toBe(false);
+    await query("update policies set status = 'Approved'");
+    const again = (await app.inject({ url: "/api/v1/soc/requests", headers: read() })).json() as { requests: { id: string; ready: boolean }[] };
+    expect(again.requests.find((r) => r.id === "policies")!.ready).toBe(true);
+
+    const csv = await app.inject({ url: "/api/v1/soc/requests.csv", headers: read() });
+    expect(csv.statusCode).toBe(200);
+    expect(csv.headers["content-type"]).toContain("text/csv");
+    expect(csv.body).toContain("Leavers in the period");
+  });
+
+  it("builds a trust page from issued reports only, with nothing unescaped", async () => {
+    await query("delete from engagements");
+    await query("insert into settings (key, value) values ('organisation', $1) on conflict(key) do update set value = excluded.value",
+      [JSON.stringify({ name: "Acme <script>" })]);
+    await app.inject({ method: "POST", url: "/api/v1/engagements", headers: write(),
+      payload: { title: "SOC 2 Type I", reportType: "Type I", periodEnd: "2026-06-30", status: "Report issued", reportDate: "2026-08-01", opinion: "Unmodified" } });
+    await app.inject({ method: "POST", url: "/api/v1/engagements", headers: write(),
+      payload: { title: "Draft one", report: "SOC 1", reportType: "Type II", periodStart: "2027-01-01", periodEnd: "2027-06-30" } });
+    const res = await app.inject({ url: "/api/v1/soc/trust-page?download=1", headers: read() });
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-disposition"]).toContain("attachment");
+    expect(res.body).toContain("Acme &lt;script&gt;");
+    expect(res.body).not.toContain("<script>");
+    expect(res.body).toContain("Clean opinion");
+    expect(res.body).not.toContain("SOC 1");
+  });
+
   it("knows the report being worked towards", async () => {
+    await query("delete from engagements");
     await app.inject({ method: "POST", url: "/api/v1/engagements", headers: write(),
       payload: { title: "SOC 2 Type II, 2027", reportType: "Type II", periodStart: "2027-01-01", periodEnd: "2027-06-30" } });
     const e = (await ready()).engagement!;

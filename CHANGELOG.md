@@ -18,6 +18,13 @@ Every release is numbered x.y.z, for example 1.4.2:
 ## [Unreleased]
 
 ### Added
+- **SOC reports screen, below the register**: a what-if planner for the
+  next period's start date and length (safe, tight or too soon, from the
+  readiness forecast); the request list a CPA firm sends, each line checked
+  against the records for the active period, with a CSV export
+  (`GET /api/v1/soc/requests`, `/requests.csv`); and a public trust page
+  built from the issued reports, previewed in place and downloaded as one
+  self-contained HTML file (`GET /api/v1/soc/trust-page`).
 - **Dashboard for SOC** (`GET /api/v1/soc/dashboard`): a flight path to the
   report (days to the end of the period, the projected ready date, the
   report date) and an auditor's-eye switch (ready to sample, will ask

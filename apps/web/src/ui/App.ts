@@ -26,6 +26,7 @@ import { Escalation } from "./Escalation.js";
 import { SampleLibrary } from "./SampleLibrary.js";
 import { RegisterSamples, REGISTER_SAMPLES } from "./RegisterSamples.js";
 import { Reports } from "./Reports.js";
+import { SocReportsExtras } from "./SocReports.js";
 import { Users } from "./Users.js";
 import { Settings } from "./Settings.js";
 import { Calendar } from "./Calendar.js";
@@ -701,6 +702,13 @@ export function App(): VNode {
                     ? html`<${Risks} key=${addedCount} canEdit=${canEdit} controls=${linkOptions["controls"] ?? []} itemLabel=${itemLabel.toLowerCase()} />`
                     : html`<${Register} csv=${Boolean(features["csv"])} key=${addedCount} spec=${REGISTERS[route]}
                              canEdit=${canEdit} links=${linkOptions} />`}
+              </>`
+            : route === "engagements" && features["soc"]
+            // The register, then when to start the next period, what the
+            // auditor will ask for, and the public trust page.
+            ? html`<>
+                <${Register} csv=${Boolean(features["csv"])} spec=${specFor("engagements")} canEdit=${canEdit} links=${linkOptions} />
+                <${SocReportsExtras} />
               </>`
             : route === "datamap"
             // Templates and the questionnaire are ways of filling in the data

@@ -1034,6 +1034,22 @@ export interface SocDashboard {
   weekChange: number;
 }
 
+export interface AuditorRequest {
+  id: string;
+  request: string;
+  criteria: string;
+  ready: boolean;
+  detail: string;
+  route: string;
+}
+
+export const socReports = {
+  requests: () =>
+    api.get<{ period: { start: string; end: string; label: string }; requests: AuditorRequest[] }>("/api/v1/soc/requests"),
+  requestsCsvUrl: "/api/v1/soc/requests.csv",
+  trustPageUrl: "/api/v1/soc/trust-page",
+};
+
 export const socReadiness = {
   get: () => api.get<SocReadiness>("/api/v1/soc/readiness"),
   dashboard: () => api.get<SocDashboard>("/api/v1/soc/dashboard"),
