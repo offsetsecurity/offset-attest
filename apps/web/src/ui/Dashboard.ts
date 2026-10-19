@@ -3,7 +3,8 @@ import type { VNode } from "preact";
 import { html } from "./html.js";
 import { donut, radar, themeGrid, bar } from "./charts.js";
 import { PrivacyOverview } from "./PrivacyOverview.js";
-import { controls, risks, evidence, type Risk, type Pack } from "../persistence/apiClient.js";
+import { controls, risks, evidence, socReadiness, type Risk, type Pack, type SocDashboard } from "../persistence/apiClient.js";
+import { FlightPath, LensSwitch, Forecast, EvidenceTimeline, Team } from "./SocDashboard.js";
 import {
   STATUS_ORDER, STATUS_LABEL, STATUS_COLOR, RISK_BAND_COLOR, MATURITY_LEVELS,
   themeColor, pct, plural,
@@ -51,6 +52,12 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
 }): VNode {
   const [data, setData] = useState<Data | null>(null);
   const [error, setError] = useState("");
+  /** SOC only: the flight path, the auditor's eye, the forecast and the evidence timeline. */
+  const soc = Boolean(pack.features?.["soc"]);
+  const [socData, setSocData] = useState<SocDashboard | null>(null);
+  useEffect(() => {
+    if (soc) socReadiness.dashboard().then(setSocData).catch(() => setSocData(null));
+  }, [soc]);
 
   useEffect(() => {
     let live = true;
@@ -111,6 +118,8 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
    * scribble. Past ten, list only the weakest and switch the profile to a grid.
    */
   const crowded = themeKeys.length > 10;
+  const inScopeKeys = themeKeys.filter((k) => applicableIn(k) > 0);
+  const radarKeys = soc && inScopeKeys.length >= 3 && inScopeKeys.length <= 14 ? inScopeKeys : null;
   const listed = crowded
     ? themeKeys
         // A family with nothing applicable is out of scope, not behind. For a
@@ -145,6 +154,9 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
 
   return html`<>
     ${pack.features?.["privacy"] ? html`<${PrivacyOverview} />` : null}
+    ${soc && socData
+      ? html`<div class="sd-top"><${FlightPath} d=${socData} /><${LensSwitch} d=${socData} /></div>`
+      : null}
     <div class="grid cards">
       ${scoresMaturity
         ? html`<>
@@ -223,11 +235,16 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
       <div class="card pad">
         <div class="section-title">
           <h2>Coverage profile</h2>
-          ${crowded
+          ${radarKeys
+            ? html`<span class="muted" style="font-size:12px">${radarKeys.length} ${plural(themeLabel).toLowerCase()} in scope</span>`
+            : crowded
             ? html`<span class="muted" style="font-size:12px">${themeKeys.length} ${plural(themeLabel).toLowerCase()}</span>`
             : null}
         </div>
-        ${crowded
+        ${radarKeys
+          ? html`<>${radar(radarKeys.map((k) => ({ key: k, label: themes[k] ?? k, pct: readinessOf(k) })))}
+              <p class="muted" style="font-size:12px;margin:4px 0 0;text-align:center">The blue shape is how much ground you cover. Out-of-scope categories are left off.</p></>`
+          : crowded
           ? themeGrid(
               themeKeys.map((k) => ({
                 key: k,
@@ -282,5 +299,16 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
             </table>`
           : html`<p class="muted">No risks recorded yet.</p>`}
       </div>
-    </div></>`;
+    </div>
+    ${soc && socData
+      ? html`<>
+          <div class="sd-heading">Where you are heading</div>
+          <div class="grid two sd-two">
+            <${Forecast} d=${socData} />
+            <${Team} d=${socData} />
+          </div>
+          <div style="margin-top:16px"><${EvidenceTimeline} d=${socData} /></div>
+          <p class="muted" style="font-size:12.5px;margin:12px 0 0">Every number here is improved on Get ready. <a href="#/getready">Go to Get ready →</a></p>
+        </>`
+      : null}</>`;
 }

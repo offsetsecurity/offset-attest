@@ -124,6 +124,33 @@ maybe("SOC readiness", () => {
     expect(r.exceptions.find((e) => e.id === "policy:1")?.label).toBe("Gap");
   });
 
+  it("gives the Dashboard its flight path, auditor's eye, forecast and timeline", async () => {
+    const id = await idOf("CC6.1");
+    await query("update controls set status = 'implemented', owner = 'Priya' where id = $1", [id]);
+    const ev = randomUUID();
+    await query("insert into evidence (id, name, collected_date) values ($1, 'MFA settings', date('now', '-3 days'))", [ev]);
+    await query("insert into evidence_controls (evidence_id, control_id) values ($1, $2)", [ev, id]);
+    await query("insert into control_tests (id, control_id, tested_on, tester, result) values ($1, $2, date('now'), 'Priya', 'Pass')", [randomUUID(), id]);
+    await query("delete from trend");
+    await query("insert into trend (day, pct) values (date('now', '-14 days'), 1), (date('now', '-7 days'), 2)");
+
+    const res = await app.inject({ url: "/api/v1/soc/dashboard", headers: read() });
+    expect(res.statusCode).toBe(200);
+    const d = res.json() as {
+      readyPct: number; lens: { ready: number; questions: number; exceptions: number; total: number };
+      trend: unknown[]; projectedReady: string | null;
+      timeline: { months: string[]; rows: { ref: string; counts: number[] }[] };
+      team: { owner: string }[];
+    };
+    expect(d.lens.ready + d.lens.questions + d.lens.exceptions).toBe(d.lens.total);
+    expect(d.lens.ready).toBeGreaterThanOrEqual(1);
+    expect(d.trend.length).toBe(3);
+    expect(d.projectedReady).not.toBeNull();
+    expect(d.timeline.months.length).toBeGreaterThan(0);
+    expect(d.timeline.rows.some((r) => r.ref === "CC6.1" && r.counts.some((n) => n > 0))).toBe(true);
+    expect(d.team.some((m) => m.owner === "Priya")).toBe(true);
+  });
+
   it("knows the report being worked towards", async () => {
     await app.inject({ method: "POST", url: "/api/v1/engagements", headers: write(),
       payload: { title: "SOC 2 Type II, 2027", reportType: "Type II", periodStart: "2027-01-01", periodEnd: "2027-06-30" } });

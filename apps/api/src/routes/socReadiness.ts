@@ -217,6 +217,132 @@ async function activeEngagement(): Promise<{ title: string; report: string; repo
   return { title: e.title, report: e.report, reportType: e.report_type, periodStart: e.period_start, periodEnd: e.period_end, daysToEnd };
 }
 
+// ── the Dashboard: where you stand, and where you are heading ────────────────
+
+export interface SocDashboard {
+  readyPct: number;
+  engagement: {
+    title: string; report: string; reportType: string;
+    periodStart: string | null; periodEnd: string | null; daysToEnd: number | null; daysToStart: number | null;
+  } | null;
+  /** Today's pace, as the date readiness reaches 100%. Null when there is no pace yet. */
+  projectedReady: string | null;
+  /** Readiness history, one point a day, oldest first. */
+  trend: { day: string; pct: number }[];
+  /** How a CPA firm would see each criterion in scope. */
+  lens: { ready: number; questions: number; exceptions: number; total: number };
+  timeline: { months: string[]; rows: { ref: string; title: string; counts: number[] }[]; currentMonth: number };
+  team: { owner: string; total: number; implemented: number }[];
+  weakest: { theme: string; name: string; pct: number; implemented: number; total: number } | null;
+  weekChange: number;
+}
+
+const iso = (d: Date): string => d.toISOString().slice(0, 10);
+const monthKey = (d: string): string => d.slice(0, 7);
+
+export async function socDashboard(): Promise<SocDashboard> {
+  const yearAgo = daysAgo(365);
+  const names = await themeNames();
+  const { rows: controls } = await query<ControlRow>(
+    `select c.id, c.ref, c.title, c.theme, c.status, c.owner,
+            (select count(*) from evidence_controls ec where ec.control_id = c.id) as evidence,
+            (select count(*) from evidence_controls ec join evidence e on e.id = ec.evidence_id
+              where ec.control_id = c.id and e.collected_date >= $1) as fresh,
+            (select t.result from control_tests t where t.control_id = c.id order by t.tested_on desc, t.created_at desc limit 1) as last_result,
+            (select t.tested_on from control_tests t where t.control_id = c.id order by t.tested_on desc, t.created_at desc limit 1) as last_test
+       from controls c where c.status <> 'not_applicable'`,
+    [yearAgo],
+  );
+  const implemented = controls.filter((c) => c.status === "implemented");
+  const readyPct = controls.length ? Math.round((implemented.length / controls.length) * 100) : 0;
+
+  // The auditor's eye: sampled cleanly, questioned, or written up.
+  const lens = { ready: 0, questions: 0, exceptions: 0, total: controls.length };
+  for (const c of controls) {
+    const failing = c.last_result === "Fail" || c.last_result === "Partial";
+    if (c.status !== "implemented" || failing || c.evidence === 0) lens.exceptions++;
+    else if (c.fresh === 0 || !c.last_test) lens.questions++;
+    else lens.ready++;
+  }
+
+  const eng = await activeEngagement();
+  const engagement = eng
+    ? { ...eng, daysToStart: eng.periodStart ? Math.ceil((Date.parse(`${eng.periodStart}T00:00:00Z`) - Date.now()) / DAY) : null }
+    : null;
+
+  // Pace: the line through the last four weeks of the daily snapshots, plus today.
+  const { rows: history } = await query<{ day: string; pct: number }>(
+    "select day, pct from trend where day >= $1 order by day", [daysAgo(120)],
+  );
+  const trend = history.filter((h) => h.day !== today()).concat([{ day: today(), pct: readyPct }]);
+  const recent = trend.filter((t) => t.day >= daysAgo(28));
+  let projectedReady: string | null = null;
+  if (readyPct >= 100) projectedReady = today();
+  else if (recent.length >= 2) {
+    const xs = recent.map((t) => Date.parse(`${t.day}T00:00:00Z`) / DAY);
+    const mx = xs.reduce((a, b) => a + b, 0) / xs.length;
+    const my = recent.reduce((a, t) => a + t.pct, 0) / recent.length;
+    const den = xs.reduce((a, x) => a + (x - mx) ** 2, 0);
+    const slope = den ? xs.reduce((a, x, i) => a + (x - mx) * (recent[i]!.pct - my), 0) / den : 0;
+    if (slope > 0.01) projectedReady = iso(new Date(Date.now() + ((100 - readyPct) / slope) * DAY));
+  }
+  const weekAgo = trend.find((t) => t.day >= daysAgo(7));
+  const weekChange = weekAgo ? readyPct - weekAgo.pct : 0;
+
+  // Evidence by month across the period (or the last six months without one).
+  const start = engagement?.periodStart ?? daysAgo(150);
+  const end = engagement?.periodEnd && engagement.periodEnd > start ? engagement.periodEnd : iso(new Date(Date.now() + 30 * DAY));
+  const months: string[] = [];
+  for (let d = new Date(`${monthKey(start)}-01T00:00:00Z`); monthKey(iso(d)) <= monthKey(end) && months.length < 12; d.setUTCMonth(d.getUTCMonth() + 1)) {
+    months.push(monthKey(iso(d)));
+  }
+  const { rows: ev } = await query<{ ref: string; title: string; month: string; n: number }>(
+    `select c.ref, c.title, substr(e.collected_date, 1, 7) as month, count(*) as n
+       from evidence_controls ec join evidence e on e.id = ec.evidence_id join controls c on c.id = ec.control_id
+      where c.status <> 'not_applicable' and e.collected_date is not null
+      group by c.ref, c.title, month`,
+  );
+  const byRef = new Map<string, { ref: string; title: string; counts: number[] }>();
+  for (const r of ev) {
+    const i = months.indexOf(r.month);
+    if (i < 0) continue;
+    const row = byRef.get(r.ref) ?? { ref: r.ref, title: r.title, counts: months.map(() => 0) };
+    row.counts[i] = (row.counts[i] ?? 0) + r.n;
+    byRef.set(r.ref, row);
+  }
+  const rows = [...byRef.values()]
+    .sort((a, b) => b.counts.filter(Boolean).length - a.counts.filter(Boolean).length || a.ref.localeCompare(b.ref))
+    .slice(0, 8);
+
+  // Who is carrying it, and the weakest category in scope.
+  const byOwner = new Map<string, { owner: string; total: number; implemented: number }>();
+  for (const c of controls) {
+    const key = c.owner.trim() || "Unassigned";
+    const o = byOwner.get(key) ?? { owner: key, total: 0, implemented: 0 };
+    o.total++;
+    if (c.status === "implemented") o.implemented++;
+    byOwner.set(key, o);
+  }
+  const team = [...byOwner.values()].sort((a, b) => b.total - a.total).slice(0, 5);
+  const byTheme = new Map<string, { total: number; implemented: number }>();
+  for (const c of controls) {
+    const t = byTheme.get(c.theme) ?? { total: 0, implemented: 0 };
+    t.total++;
+    if (c.status === "implemented") t.implemented++;
+    byTheme.set(c.theme, t);
+  }
+  const weakestEntry = [...byTheme.entries()].sort((a, b) => a[1].implemented / a[1].total - b[1].implemented / b[1].total)[0];
+  const weakest = weakestEntry
+    ? { theme: weakestEntry[0], name: names[weakestEntry[0]] ?? weakestEntry[0], pct: Math.round((weakestEntry[1].implemented / weakestEntry[1].total) * 100), ...weakestEntry[1] }
+    : null;
+
+  return {
+    readyPct, engagement, projectedReady, trend, lens,
+    timeline: { months, rows, currentMonth: months.indexOf(monthKey(today())) },
+    team, weakest, weekChange,
+  };
+}
+
 const bulkBody = z
   .object({
     theme: z.string().min(1).max(40),
@@ -231,6 +357,11 @@ export async function socReadinessRoutes(app: FastifyInstance): Promise<void> {
     const [exceptions, wins, engagement] = await Promise.all([likelyExceptions(), quickWins(), activeEngagement()]);
     const fixFirst = [...exceptions].sort((a, b) => b.weight - a.weight).slice(0, 3);
     return { ranAt: new Date().toISOString(), engagement, exceptions, fixFirst, quickWins: wins };
+  });
+
+  app.get("/api/v1/soc/dashboard", { preHandler: canRead }, async () => {
+    if (!(await hasFeature("soc"))) throw notFound("This product has no SOC dashboard.");
+    return socDashboard();
   });
 
   /**

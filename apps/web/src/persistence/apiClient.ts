@@ -1019,8 +1019,24 @@ export interface SocReadiness {
   quickWins: QuickWin[];
 }
 
+export interface SocDashboard {
+  readyPct: number;
+  engagement: {
+    title: string; report: string; reportType: string;
+    periodStart: string | null; periodEnd: string | null; daysToEnd: number | null; daysToStart: number | null;
+  } | null;
+  projectedReady: string | null;
+  trend: { day: string; pct: number }[];
+  lens: { ready: number; questions: number; exceptions: number; total: number };
+  timeline: { months: string[]; rows: { ref: string; title: string; counts: number[] }[]; currentMonth: number };
+  team: { owner: string; total: number; implemented: number }[];
+  weakest: { theme: string; name: string; pct: number; implemented: number; total: number } | null;
+  weekChange: number;
+}
+
 export const socReadiness = {
   get: () => api.get<SocReadiness>("/api/v1/soc/readiness"),
+  dashboard: () => api.get<SocDashboard>("/api/v1/soc/dashboard"),
   /** One owner for a whole category, or the whole category out of scope with a reason. */
   bulk: (body: { theme: string; owner?: string; outOfScope?: string }) =>
     api.post<{ updated: number }>("/api/v1/controls/bulk", body),

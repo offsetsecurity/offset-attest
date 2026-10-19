@@ -18,6 +18,13 @@ Every release is numbered x.y.z, for example 1.4.2:
 ## [Unreleased]
 
 ### Added
+- **Dashboard for SOC** (`GET /api/v1/soc/dashboard`): a flight path to the
+  report (days to the end of the period, the projected ready date, the
+  report date) and an auditor's-eye switch (ready to sample, will ask
+  questions, will write an exception) above the existing panels; below
+  them, a readiness forecast from the nightly snapshots, who is carrying
+  the work and the weakest category, and evidence month by month across
+  the period. Coverage profile is the radar over the categories in scope.
 - **Get ready, redesigned for SOC.** One move at a time, done in the card
   where it can be: write the system description and service commitments,
   choose the report and the categories in scope, give whole categories an
