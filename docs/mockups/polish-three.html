@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polish — Offset Attest</title>
+<style>
+:root{--bg:#f5f7fb;--ink:#0f172a;--muted:#64748b;--line:#e6eaf2;--brand:#2457D6;--green:#15803d;--violet:#5b4bd6;--amber:#d97706;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter','Segoe UI',Roboto,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+main{max-width:1180px;margin:0 auto;padding:28px 24px 60px}
+h1{font-size:20px;margin:0 0 4px}.sub{color:var(--muted);margin:0 0 22px}
+.tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#3730a3;background:#ede9fe;border-radius:99px;padding:3px 10px;margin:30px 0 10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:22px 24px}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+
+/* 1. Flight path */
+.fp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.fp-title{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:4px 0 2px}
+.fp-title em{font-style:normal;color:var(--green)}
+.fp-pill{display:inline-flex;align-items:center;gap:8px;background:#dcfce7;border:1px solid #86efac;color:#14532d;border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:600}
+.fp-pill.wait{background:#f8fafc;border-color:var(--line);color:var(--muted)}
+.fp-pill i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.track{position:relative;margin:34px 6px 8px;height:64px}
+.rail{position:absolute;left:0;right:0;top:24px;height:8px;border-radius:99px;background:#e9edf4}
+.band{position:absolute;top:18px;height:20px;border-radius:99px;background:repeating-linear-gradient(135deg,#bbf7d0 0 10px,#a7f3d0 10px 20px);border:1px solid #22c55e}
+.band span{position:absolute;top:-26px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11.5px;font-weight:700;color:#14532d;background:#fff;padding:0 6px}
+.fill{position:absolute;top:24px;height:8px;border-radius:99px;background:linear-gradient(90deg,#22c55e,#15803d)}
+.ms{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.ms .dot{margin-top:20px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #94a3b8}
+.ms .t{font-size:12px;color:var(--muted);white-space:nowrap}
+.ms.today .dot{width:22px;height:22px;margin-top:17px;border:4px solid #fff;background:var(--green);box-shadow:0 0 0 2px var(--green),0 0 0 8px rgba(21,128,61,.22)}
+.ms.today .t{color:var(--ink);font-weight:700}
+.ms.end .dot{border-color:#0f766e}
+.ms.report .dot{border-color:var(--violet);background:var(--violet)}
+.ms.report .t{color:#3730a3;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.stat{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:20px;margin-top:2px}.stat span{font-size:12px;color:var(--muted)}
+.ring{display:flex;align-items:center;gap:10px}
+.ring svg{flex:none}
+
+/* 2. Auditor toggle */
+.lensbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.seg{display:inline-flex;background:#eef2f7;border-radius:12px;padding:4px}
+.seg button{font:inherit;font-size:14px;font-weight:700;border:0;background:none;color:var(--muted);padding:10px 18px;border-radius:9px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(16,24,40,.12)}
+.seg button.on.aud{background:var(--violet);color:#fff}
+.lens-note{font-size:13px;color:var(--muted);max-width:520px}
+.lens-note b{color:var(--ink)}
+.lens{display:none;margin-top:12px}.lens.on{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lens a{border-radius:14px;padding:16px 18px;text-decoration:none;font-weight:700;font-size:14px}
+.lens a b{display:block;font-size:30px}.lens a span{display:block;font-size:12px;font-weight:400;margin-top:2px}
+
+/* 3. See the whole plan */
+.planfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.planbtn{display:inline-flex;align-items:center;gap:10px;font:inherit;font-size:14px;font-weight:700;color:var(--brand);background:#eef3ff;border:1px solid #c7d7fe;border-radius:10px;padding:10px 16px;cursor:pointer}
+.planbtn:hover{background:#e0e9ff}
+.planbtn .n{background:var(--brand);color:#fff;border-radius:99px;font-size:12px;padding:1px 8px}
+.planbtn .chev{transition:transform .2s}.planbtn.open .chev{transform:rotate(180deg)}
+.stepper{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.stp{text-align:center;font-size:11.5px;color:var(--muted)}
+.stp .d{width:30px;height:30px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;border:2px solid #cbd5e1;background:#fff}
+.stp.done .d{background:var(--green);border-color:var(--green);color:#fff}.stp.now{color:var(--ink);font-weight:600}.stp.now .d{border-color:var(--brand);color:var(--brand);box-shadow:0 0 0 4px #dbe5ff}
+.bar{height:5px;border-radius:99px;background:#e2e8f0;margin:6px 4px 0;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}
+.plist{display:none;margin-top:12px}.plist.on{display:block}
+.prow{display:flex;gap:10px;align-items:center;padding:7px 8px;font-size:13px;border-top:1px solid var(--line)}
+.ic{width:18px;height:18px;border-radius:50%;flex:none}.ic.d{background:var(--green)}.ic.t{border:2px solid #cbd5e1}
+.mv{border:2px solid var(--brand)}
+.mv-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.nav2{display:inline-flex;gap:6px}
+.nav2 button{font:inherit;font-size:13px;font-weight:700;border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+.nav2 button:hover{background:#f4f7ff}.nav2 button:disabled{opacity:.4;cursor:default}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brand)}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.lens.on{grid-template-columns:1fr}.stepper{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Three polished pieces</h1>
+  <p class="sub">Concept mockup · the numbers are examples</p>
+
+  <span class="tag">1 · Dashboard: flight path</span>
+  <section class="card">
+    <div class="fp-top">
+      <div>
+        <div class="lbl">Your flight path · SOC 2 Type II, Tidewell Dispatch</div>
+        <div class="fp-title"><em>60 days</em> to the end of your period</div>
+        <span class="fp-pill wait"><i></i>Not enough history yet to forecast your ready date</span>
+      </div>
+      <div class="ring">
+        <svg width="76" height="76" viewBox="0 0 76 76" style="transform:rotate(-90deg)">
+          <circle cx="38" cy="38" r="31" fill="none" stroke="#eef2f7" stroke-width="9"/>
+          <circle cx="38" cy="38" r="31" fill="none" stroke="#15803d" stroke-width="9" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="44.8"/>
+        </svg>
+        <div><b style="font-size:24px">77%</b><div class="muted" style="font-size:12px">criteria in place</div></div>
+      </div>
+    </div>
+    <div class="track">
+      <div class="rail"></div>
+      <div class="band" style="left:14%;width:46%"><span>Observation period · 6 months</span></div>
+      <div class="fill" style="left:0;width:43%"></div>
+      <div class="ms" style="left:14%"><div class="dot"></div><div class="t">21 Jun</div></div>
+      <div class="ms today" style="left:43%"><div class="dot"></div><div class="t">Today</div></div>
+      <div class="ms end" style="left:60%"><div class="dot"></div><div class="t">18 Dec</div></div>
+      <div class="ms report" style="left:93%"><div class="dot"></div><div class="t">Report ~16 Feb</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><span>Period</span><b>21 Jun – 18 Dec</b></div>
+      <div class="stat"><span>Days left in period</span><b>60</b></div>
+      <div class="stat"><span>Ready date</span><b style="color:var(--muted)">Forecast soon</b></div>
+      <div class="stat"><span>Report expected</span><b style="color:#3730a3">~16 Feb</b></div>
+    </div>
+  </section>
+
+  <span class="tag">2 · Dashboard: the auditor's view switch</span>
+  <div class="lensbar">
+    <div class="seg" role="tablist">
+      <button class="on" id="you" onclick="lens(false)">Your view</button>
+      <button class="aud" id="aud" onclick="lens(true)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg> Auditor's view</button>
+    </div>
+    <div class="lens-note"><b>See your controls the way your CPA firm will.</b> Switch to the auditor's view to see what they'd sample cleanly, question, or write up as an exception.</div>
+  </div>
+  <div class="lens" id="lens">
+    <a href="#" style="background:#bbf7d0;color:#14532d"><b>4</b>Ready to sample<span>in place, recent evidence, tested</span></a>
+    <a href="#" style="background:#fef3c7;color:#78350f"><b>4</b>Will ask questions<span>evidence old, or never tested</span></a>
+    <a href="#" style="background:#fee2e2;color:#7f1d1d"><b>35</b>Will write an exception<span>not in place, failed, or no evidence</span></a>
+  </div>
+
+  <span class="tag">3 · Get ready: see the whole plan</span>
+  <section class="card">
+    <div class="lbl" style="margin-bottom:12px">Getting SOC ready · 17 of 27 steps done</div>
+    <div class="stepper">
+      <div class="stp now"><div class="d">1</div>Set up<div class="bar"><i style="width:0"></i></div></div>
+      <div class="stp"><div class="d">2</div>Scope<div class="bar"><i style="width:75%"></i></div></div>
+      <div class="stp done"><div class="d">✓</div>Risks<div class="bar"><i style="width:100%"></i></div></div>
+      <div class="stp"><div class="d">4</div>Controls<div class="bar"><i style="width:75%"></i></div></div>
+      <div class="stp done"><div class="d">✓</div>Evidence<div class="bar"><i style="width:100%"></i></div></div>
+      <div class="stp"><div class="d">6</div>Test<div class="bar"><i style="width:50%"></i></div></div>
+      <div class="stp done"><div class="d">✓</div>Audit<div class="bar"><i style="width:100%"></i></div></div>
+      <div class="stp"><div class="d">8</div>Report<div class="bar"><i style="width:33%"></i></div></div>
+    </div>
+    <div class="planfoot">
+      <span class="muted">This stage: 0 of 4 done</span>
+      <button class="planbtn" id="pb" onclick="plan()">
+        <span>See the whole plan</span><span class="n">27 steps</span><span class="chev">▾</span>
+      </button>
+    </div>
+    <div class="plist" id="pl">
+      <div class="prow"><span class="ic t"></span>Add the people who own controls</div>
+      <div class="prow"><span class="ic t"></span>Turn on email</div>
+      <div class="prow"><span class="ic d"></span>Put your name and logo on reports</div>
+      <div class="prow muted">… and 24 more, grouped by stage</div>
+    </div>
+  </section>
+
+  <span class="tag">4 · Get ready: back and forward between steps</span>
+  <section class="card mv">
+    <div class="mv-top">
+      <span class="eyebrow" id="eb">Your next move · step 23 of 27</span>
+      <div class="nav2">
+        <button onclick="mv(-1)" id="pv">← Previous</button>
+        <button onclick="mv(1)" id="nx">Next →</button>
+      </div>
+    </div>
+    <div class="muted" style="font-size:12px;margin:4px 0 6px" id="st">Stage 7 of 8 · Go through the audit</div>
+    <div style="font-size:18px;font-weight:800" id="tt">Book a CPA firm and agree the period</div>
+    <p class="muted" style="margin:6px 0 0;font-size:13px">The arrows walk through the steps in plan order. "Back to your next move" appears when you have wandered away from it.</p>
+    <button class="planbtn" style="margin-top:10px;display:none" id="bk" onclick="mvTo(22)">↩ Back to your next move</button>
+  </section>
+</main>
+<script>
+function lens(on){document.getElementById('lens').classList.toggle('on',on);
+  document.getElementById('you').classList.toggle('on',!on);document.getElementById('aud').classList.toggle('on',on)}
+function plan(){const b=document.getElementById('pb'),l=document.getElementById('pl');const o=!l.classList.contains('on');
+  l.classList.toggle('on',o);b.classList.toggle('open',o);b.firstElementChild.textContent=o?'Hide the plan':'See the whole plan'}
+
+const STEPS=[["Set the product up",["Add the people who own controls","Turn on email","Put your name and logo on reports","Keep a copy of the backup somewhere else"]],["Decide what the report covers",["Decide which SOC report you need","Describe the system and its boundaries","Write your service commitments","Choose the Trust Services categories"]],["Assess your risks",["List the systems inside the boundary","Run your risk assessment","List your vendors"]],["Put the controls in place",["Give every criterion an owner","Write and approve your policies","Set a review date on every policy","Train everyone on security"]],["Collect the evidence",["Link evidence to the criteria it proves","Date your evidence","Review your critical vendors' SOC reports"]],["Test your own controls",["Test every criterion in scope","Fix what failed","Hold an internal review","Give every open exception an owner"]],["Go through the audit",["Book a CPA firm and agree the period","Send the auditor your control matrix"]],["Get the report and keep it current",["Record the issued report","Prepare your SOC 3","Set the date the next report is due"]]];
+const FLAT=STEPS.flatMap(([s,ts],si)=>ts.map(t=>[si,s,t]));let cur=22;
+function mvTo(i){cur=Math.max(0,Math.min(FLAT.length-1,i));const [si,s,t]=FLAT[cur];
+ document.getElementById('eb').textContent=(cur===22?'Your next move':'Looking at')+' · step '+(cur+1)+' of 27';
+ document.getElementById('st').textContent='Stage '+(si+1)+' of 8 · '+s;document.getElementById('tt').textContent=t;
+ document.getElementById('pv').disabled=cur===0;document.getElementById('nx').disabled=cur===FLAT.length-1;
+ document.getElementById('bk').style.display=cur===22?'none':'inline-flex'}
+function mv(d){mvTo(cur+d)}
+</script>
+</body>
+</html>

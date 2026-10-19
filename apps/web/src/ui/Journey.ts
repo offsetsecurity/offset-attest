@@ -381,8 +381,15 @@ function SocJourney({ canEdit, themes }: { canEdit: boolean; themes: Record<stri
 
   const all = plan.stages.flatMap((s) => s.tasks);
   const open = all.filter((t) => t.state === "outstanding");
-  const current = all.find((t) => t.id === picked) ?? open.find((t) => !snoozed.has(t.id)) ?? open[0];
+  /** The step the plan suggests; "current" is whatever is on the card, which the arrows can move. */
+  const suggested = open.find((t) => !snoozed.has(t.id)) ?? open[0];
+  const current = all.find((t) => t.id === picked) ?? suggested;
   const index = current ? all.indexOf(current) + 1 : 0;
+  const away = Boolean(current && suggested && current.id !== suggested.id);
+  const step = (by: number): void => {
+    const next = all[index - 1 + by];
+    if (next) { setPicked(next.id); setSaid(""); }
+  };
   const stage = plan.stages.find((s) => s.tasks.some((t) => t.id === current?.id));
 
   const after = async (line: string): Promise<void> => {
@@ -423,10 +430,19 @@ function SocJourney({ canEdit, themes }: { canEdit: boolean; themes: Record<stri
       ${current
         ? html`<div class="card pad next-step sr-move">
             <div class="sr-move-top">
-              <div class="next-eyebrow">Your next move · step ${index} of ${all.length}${snoozed.size ? ` · ${snoozed.size} put off` : ""}</div>
+              <div class="next-eyebrow">${away ? "Looking at" : "Your next move"} · step ${index} of ${all.length}${snoozed.size ? ` · ${snoozed.size} put off` : ""}</div>
+              <div class="sr-nav">
+                <button type="button" disabled=${index <= 1} onClick=${() => step(-1)} aria-label="Previous step">← Previous</button>
+                <button type="button" disabled=${index >= all.length} onClick=${() => step(1)} aria-label="Next step">Next →</button>
+              </div>
+            </div>
+            <div class="sr-move-sub">
+              ${stage ? html`<span class="muted">Stage ${plan.stages.indexOf(stage) + 1} of ${plan.stages.length} · ${stage.name}</span>` : html`<span></span>`}
               <span class=${`pill ${INLINE[current.id] ? "green" : "slate"}`}>${INLINE[current.id] ?? (current.goto ? "Opens another screen" : "Mark it here")}</span>
             </div>
-            ${stage ? html`<div class="muted" style="font-size:12px;margin-bottom:6px">Stage ${plan.stages.indexOf(stage) + 1} of ${plan.stages.length} · ${stage.name}</div>` : null}
+            ${away
+              ? html`<button type="button" class="sr-back" onClick=${() => { setPicked(null); setSaid(""); }}>↩ Back to your next move</button>`
+              : null}
             <${Task} key=${current.id} task=${current} canEdit=${canEdit} busy=${busy} featured
               tpl=${current.template ? tpls[current.template] : undefined}
               inline=${html`<${InlineAction} taskId=${current.id} canEdit=${canEdit} onDone=${(line: string) => void after(line)} />`}

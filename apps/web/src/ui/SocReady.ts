@@ -59,7 +59,7 @@ export function ProgressPanel({ plan, current, onPick, snoozed }: {
           ${" "}· you are on <b style="color:var(--brand)">stage ${si + 1} of ${plan.stages.length}, ${stageOf.name}</b></div>
       </div>
       <div style="text-align:right">
-        <div class="sr-big" style="color:var(--green)">${plan.pct}%</div>
+        <div class="sr-big" style="color:var(--soc-green)">${plan.pct}%</div>
         <div class="muted" style="font-size:12px">${left ? `${left} step${left === 1 ? "" : "s"} to go` : "all done"}</div>
       </div>
     </div>
@@ -77,7 +77,11 @@ export function ProgressPanel({ plan, current, onPick, snoozed }: {
     </div>
     <div class="sr-planfoot">
       <span class="muted">This stage: ${stageOf.done} of ${stageOf.applicable} done${snoozed.size ? ` · ${snoozed.size} put off until tomorrow` : ""}</span>
-      <button type="button" class="linkish" onClick=${() => setOpen((v) => !v)}>${open ? "Hide the plan ▴" : "See the whole plan ▾"}</button>
+      <button type="button" class=${`sr-planbtn${open ? " open" : ""}`} aria-expanded=${open} onClick=${() => setOpen((v) => !v)}>
+        <span>${open ? "Hide the plan" : "See the whole plan"}</span>
+        <span class="sr-planbtn-n">${plan.stages.reduce((n, s) => n + s.tasks.length, 0)} steps</span>
+        <span class="sr-chevron" aria-hidden="true">▾</span>
+      </button>
     </div>
     ${open
       ? html`<div class="sr-planlist">
@@ -327,7 +331,7 @@ export function AuditorToday({ ready, canEdit, onRerun }: {
 
   return html`<div class="card pad">
     <div class="sr-lbl">If the auditor came today</div>
-    <div class="sr-big" style=${`color:${ready.exceptions.length ? "var(--red)" : "var(--green)"}`}>${ready.exceptions.length}</div>
+    <div class="sr-big" style=${`color:${ready.exceptions.length ? "var(--red)" : "var(--soc-green)"}`}>${ready.exceptions.length}</div>
     <div class="muted" style="font-size:13px;margin-bottom:6px">likely exception${ready.exceptions.length === 1 ? "" : "s"}${before !== null && before !== ready.exceptions.length ? `, was ${before}` : ""}</div>
     ${ready.exceptions.length === 0
       ? html`<p class="muted">Nothing an auditor would obviously write up. Keep the evidence coming as each control runs.</p>`

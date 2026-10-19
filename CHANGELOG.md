@@ -87,6 +87,14 @@ Every release is numbered x.y.z, for example 1.4.2:
   Scope, Vendors, Exceptions and Internal audits.
 
 ### Changed
+- Dashboard flight path redrawn: a slim track with milestones, a row of
+  key dates (period, days left, ready date, report expected) and an Edit
+  dates link to the SOC report. "Your view / Auditor's view" is now a large
+  switch with a line saying what it does. Greens on the SOC screens are a
+  shade darker.
+- Get ready: "See the whole plan" is a button showing the step count, and
+  the next-move card has Previous and Next arrows plus "Back to your next
+  move".
 - Vendors are a register in their own right: shown when either `privacy` or
   `ismsRegisters` is on, with GDPR's processor fields only under `privacy`.
 - Policies sits under SOC readiness in the menu, beside Criteria and Evidence.
