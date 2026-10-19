@@ -5,8 +5,7 @@ import type { SocDashboard } from "../persistence/apiClient.js";
 
 /**
  * The SOC parts of the Dashboard: the flight path to the report, the
- * auditor's-eye view, the readiness forecast, evidence month by month across
- * the period, and who is carrying the work. Things to look at, not to do:
+ * auditor's-eye view, the readiness forecast and who is carrying the work. Things to look at, not to do:
  * every number links to the screen where it is improved.
  */
 
@@ -16,8 +15,6 @@ const longDay = (d: string): string =>
   new Date(t(d)).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const shortDay = (d: string): string =>
   new Date(t(d)).toLocaleDateString(undefined, { day: "numeric", month: "short", timeZone: "UTC" });
-const monthName = (m: string): string =>
-  new Date(`${m}-01T00:00:00Z`).toLocaleDateString(undefined, { month: "short", timeZone: "UTC" });
 
 export function FlightPath({ d }: { d: SocDashboard }): VNode {
   const e = d.engagement;
@@ -147,28 +144,6 @@ export function Forecast({ d }: { d: SocDashboard }): VNode {
       ${d.weekChange > 0 ? html`<b style="color:var(--green)">+${d.weekChange} points</b> this week. ` : d.weekChange < 0 ? html`<b style="color:var(--red)">${d.weekChange} points</b> this week. ` : "No change this week. "}
       ${d.projectedReady ? `At this pace: ready ${longDay(d.projectedReady)}.` : "No pace to forecast from yet."}
     </p>
-  </div>`;
-}
-
-export function EvidenceTimeline({ d }: { d: SocDashboard }): VNode {
-  const { months, rows, currentMonth } = d.timeline;
-  const cell = (n: number, i: number): VNode => {
-    const past = currentMonth < 0 ? true : i < currentMonth;
-    const cls = n > 0 ? "in" : i === currentMonth ? "now" : past ? "miss" : "due";
-    return html`<span class=${`sd-cell ${cls}`} title=${n ? `${n} piece${n === 1 ? "" : "s"} of evidence` : past ? "No evidence that month" : "Coming up"}>${n > 0 ? n : cls === "miss" ? "!" : ""}</span>`;
-  };
-  return html`<div class="card pad">
-    <div class="sd-tl-head">
-      <div class="sr-lbl" style="margin:0">Evidence month by month${d.engagement?.periodStart ? " · across your period" : " · last six months"}</div>
-      <span class="sd-legend"><span class="sd-cell in"></span>Evidence in <span class="sd-cell miss"></span>None that month <span class="sd-cell now"></span>This month <span class="sd-cell due"></span>Coming</span>
-    </div>
-    ${rows.length
-      ? html`<div class="sd-tl" style=${`grid-template-columns:minmax(160px,1.6fr) repeat(${months.length},1fr)`}>
-          <span></span>${months.map((m) => html`<span class="sd-m">${monthName(m)}</span>`)}
-          ${rows.map((r) => html`<span class="sd-ref" title=${r.title}><b>${r.ref}</b> ${r.title}</span>${r.counts.map(cell)}`)}
-        </div>
-        <p class="muted" style="font-size:12px;margin:10px 0 0">For a Type II, the auditor samples across the whole period. A month with nothing for a control that runs monthly is an exception waiting to happen.</p>`
-      : html`<p class="muted">No dated evidence linked to criteria yet. Add evidence with the date it was produced and link it to the criteria it proves.</p>`}
   </div>`;
 }
 

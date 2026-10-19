@@ -4,7 +4,7 @@ import { html } from "./html.js";
 import { donut, radar, themeGrid, bar } from "./charts.js";
 import { PrivacyOverview } from "./PrivacyOverview.js";
 import { controls, risks, evidence, socReadiness, type Risk, type Pack, type SocDashboard } from "../persistence/apiClient.js";
-import { FlightPath, LensSwitch, Forecast, EvidenceTimeline, Team } from "./SocDashboard.js";
+import { FlightPath, LensSwitch, Forecast, Team } from "./SocDashboard.js";
 import {
   STATUS_ORDER, STATUS_LABEL, STATUS_COLOR, RISK_BAND_COLOR, MATURITY_LEVELS,
   themeColor, pct, plural,
@@ -307,7 +307,6 @@ export function Dashboard({ themes, themeLabel, itemLabel, pack }: {
             <${Forecast} d=${socData} />
             <${Team} d=${socData} />
           </div>
-          <div style="margin-top:16px"><${EvidenceTimeline} d=${socData} /></div>
           <p class="muted" style="font-size:12.5px;margin:12px 0 0">Every number here is improved on Get ready. <a href="#/getready">Go to Get ready →</a></p>
         </>`
       : null}</>`;
