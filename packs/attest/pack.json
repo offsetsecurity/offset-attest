@@ -57,6 +57,12 @@
       "nav": "Report users",
       "h1": "Report users and interested parties",
       "sub": "Customers, prospects and others who rely on your SOC reports, and what they need"
+    },
+    "dashboard": {
+      "sub": "Where you stand for your SOC report, and where you're heading"
+    },
+    "reports": {
+      "sub": "PDFs for your board, your auditor and your customers"
     }
   },
   "boardGroups": {
